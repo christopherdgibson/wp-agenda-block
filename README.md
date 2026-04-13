@@ -2,7 +2,7 @@
 
 Gutenberg block built from scratch using React —  a structured content card block with expandable detail panels.
 
-### Agenda Block
+## Agenda Block
 A structured content card block for presenting items with expandable detail. Cards can be split into sub-items, each generating its own description button automatically. Detail panel opens to the right on desktop and overlays on mobile. All layout logic is custom.
 
 ## Tech stack
@@ -21,7 +21,7 @@ Plugin avoids WordPress block data APIs in favour of custom implementations — 
 1. Install [XAMPP](https://www.apachefriends.org)
 2. Clone into your WordPress plugins directory:
 ```bash
-git clone https://github.com/christopherdgibson/wp-agenda-block.git wp-content/plugins/gutenberg-blocks
+git clone https://github.com/christopherdgibson/wp-agenda-block.git wp-content/plugins/wp-agenda-block
 ```
 3. Activate the plugin in WordPress admin
 4. Add block via the Gutenberg editor
