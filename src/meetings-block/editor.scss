@@ -1,0 +1,266 @@
+/* Meetings */
+@import url("https://pro.fontawesome.com/releases/v6.0.0-beta1/css/all.css");
+
+.meetings {
+	//   float: none;
+	//   border: none !important;
+
+	/* :root { */
+	--meetings-max-width: 1200px;
+	--meetings-font-color: #0d3ca1;
+	--meetings-bg-color: #0d3ca1;
+	--meetings-hover-bg-color: #ade5f6;
+	--meetings-hover-font-color: var(--meetings-font-color);
+	// --card-max-width: 600px;
+	--card-min-width: 255px;
+	--grad-card: #e0e4e5, #f2f6f9;
+	--grad-selected: #e0e4e5, #82c1f2;
+	/* } */
+	max-width: var(--meetings-max-width);
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: 10px !important;
+	flex-direction: row;
+	align-items: start;
+	justify-content: space-evenly;
+	/* div {
+    div {
+      font-size: 14px;
+      align-items: center;
+      padding-top: 10px;
+    }
+  } */
+
+	div {
+		color: var(--meetings-font-color);
+	}
+
+	p {
+		padding: 0;
+	}
+
+	.meetings-column {
+		left: 0px;
+		top: 0px;
+		gap: 5px;
+		width: 100%;
+		padding: 0px;
+	}
+
+	button {
+		width: 100%;
+		display: inline;
+		margin-bottom: 10px;
+		border-width: 0;
+		border-radius: 10px;
+		background-color: var(--meetings-bg-color);
+		color: white;
+		&:hover {
+			background-color: var(--meetings-hover-bg-color);
+			cursor: pointer;
+		}
+	}
+
+	.meeting-description {
+		font-size: 16px;
+		width: 100%;
+		padding-right: 15px;
+		padding-left: 15px;
+
+		/* margin-bottom: 10px; */
+		border-width: 0;
+		border-radius: 10px;
+
+		color: var(--meetings-hover-font-color);
+	}
+
+	.container-two {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 10px;
+		margin-top: 5px;
+		margin-bottom: 5px;
+		width: 100%;
+		justify-self: start;
+		align-content: top;
+	}
+	.container-two button {
+		text-align: center;
+		display: inline;
+		/* height: 100%; */
+		padding-left: 5px;
+		padding-right: 5px;
+	}
+	.container-two div {
+		display: inline-block;
+		text-align: center;
+		/* height: 100%; */
+		padding-left: 0px;
+		padding-right: 0px;
+	}
+
+	.card {
+		--grad-color-left: blue;
+		--grad-color-right: orange;
+		--grad: blue, orange;
+		padding: 20px;
+
+		background-image: linear-gradient(to bottom left, var(--grad-card));
+		min-width: var(--card-min-width);
+		// max-width: var(--card-max-width);
+		min-height: 0;
+		border-radius: 10px;
+		display: none;
+		/* grid-template: "title icon" "bar bar" "content content"  / 1fr auto; */
+		font-family: system-ui, sans-serif;
+		color: var(--meetings-font-color);
+		box-shadow:
+			inset -2px 2px hsl(0 0 100% / 1),
+			-10px 10px 15px hsl(0 0 0 / 0.25);
+
+		.meeting-label {
+			/* font-size: 1.5rem; */
+			grid-area: title;
+			align-self: end;
+			text-transform: uppercase;
+			font-weight: 500;
+			word-break: break-word;
+		}
+
+		.meeting-icon {
+			grid-area: icon;
+			font-size: 3rem;
+
+			> i {
+				color: transparent;
+				background: linear-gradient(to bottom right, var(--grad));
+				background-clip: text;
+			}
+		}
+		.meeting-title {
+			grid-area: content;
+			& > *:first-child {
+				margin-top: 0rem;
+			}
+			& > *:last-child {
+				margin-bottom: 0rem;
+			}
+		}
+		&::after {
+			content: "";
+			grid-area: bar;
+			height: 2px;
+			background-image: linear-gradient(90deg, var(--grad));
+		}
+		.meeting-title-small {
+			grid-area: content;
+			& > *:first-child {
+				margin-top: 0rem;
+			}
+			& > *:last-child {
+				margin-bottom: 0rem;
+			}
+		}
+		&:hover {
+			background-image: none;
+		}
+	}
+
+	.card-button {
+		min-width: var(--card-min-width);
+		// max-width: var(--card-max-width);
+	}
+
+	.card-large {
+		gap: 1.5rem;
+		grid-template: "title icon" "content content" "bar bar" / 1fr auto;
+		.meeting-label {
+			font-size: 2rem;
+		}
+		.meeting-title {
+			font-size: 1.5rem;
+			padding-bottom: 10px;
+		}
+	}
+	.card-small {
+		display: grid;
+		grid-template: "title icon" "bar bar" "content content" / 1fr auto;
+		gap: 0.5rem;
+		padding-top: 10px;
+		padding-bottom: 10px;
+		.meeting-label {
+			font-size: 1rem;
+		}
+	}
+
+	.card-part {
+		display: grid;
+		grid-template: "title icon" "bar bar" "content content" / 1fr auto;
+
+		padding: 0;
+		gap: 0;
+		display: block;
+		height: 100%;
+		background-image: linear-gradient(to bottom left, var(--grad-card));
+		.meeting-label {
+			font-size: 1rem;
+		}
+	}
+
+	.meeting-select {
+		background-image: linear-gradient(to bottom left, var(--grad-selected));
+	}
+
+	.meeting-description-select {
+		background-image: linear-gradient(to bottom left, var(--grad-selected));
+		display: grid;
+	}
+
+	@media (max-width: 768px) {
+		.meetings {
+			grid-template-columns: repeat(1, 1fr);
+			flex-direction: column;
+		}
+
+		.meeting-descriptions .meeting-description {
+			/* display:grid; */
+			/* visibility: visible; */
+			position: fixed;
+			justify-self: center;
+			width: 75%;
+			top: 100px;
+		}
+
+		.meeting-descriptions {
+			display: none;
+			visibility: hidden;
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background: rgba(0, 0, 0, 0.5);
+			justify-content: center;
+			align-items: center;
+		}
+
+			.meeting-description-select {
+		background-image: linear-gradient(to bottom left, var(--grad-selected));
+		display: none;
+	}
+
+		.close-popup {
+			display: block;
+			height: 50px;
+			width: 50px;
+			justify-self: right;
+			position: absolute;
+			top: -75px;
+			font-size: 40px;
+		}
+
+		.meetings-column {
+			width: 100%;
+		}
+	}
+}

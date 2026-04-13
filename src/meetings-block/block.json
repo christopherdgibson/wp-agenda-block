@@ -1,0 +1,44 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "create-block/meetings-block",
+	"version": "0.1.0",
+	"title": "Meetings Block",
+	"category": "widgets",
+	"icon": "calendar",
+	"description": "Block for adding meetings and their descriptions.",
+	"attributes": {
+		"meetings": {
+			"type": "array",
+			"default": []
+		},
+		"meetingsBgColor": {
+			"type": "string",
+			"default": "#82c1f2"
+		},
+		"meetingsFontColor": {
+			"type": "string",
+			"default": "#0d3ca1"
+		},
+		"meetingsDividerColorLeft": {
+			"type": "string",
+			"default": "#0000FF"
+		},
+		"meetingsDividerColorRight": {
+			"type": "string",
+			"default": "#FFA500"
+		}
+	},
+	"example": {},
+	"supports": {
+		"align": ["wide", "full"],
+		"html": false
+	},
+	"usesContext": [],
+	"render": "file:./render.php",
+	"textdomain": "meetings-block",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"viewScript": "file:./view.js"
+}
