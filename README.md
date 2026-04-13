@@ -21,10 +21,10 @@ Plugin avoids WordPress block data APIs in favour of custom implementations — 
 1. Install [XAMPP](https://www.apachefriends.org)
 2. Clone into your WordPress plugins directory:
 ```bash
-git clone https://github.com/christopherdgibson/gutenberg-blocks.git wp-content/plugins/gutenberg-blocks
+git clone https://github.com/christopherdgibson/wp-agenda-block.git wp-content/plugins/gutenberg-blocks
 ```
 3. Activate the plugin in WordPress admin
 4. Add block via the Gutenberg editor
 
 ## Screenshots
-![Agenda Block screenshot](agenda-screenshot.png)# ReportDownloadHub
+![Agenda Block screenshot](docs/screenshots/agenda-screenshot.png)# wp-agenda-block
