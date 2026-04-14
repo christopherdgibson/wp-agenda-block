@@ -5,6 +5,8 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+drafts
+
 # Coverage directory used by tools like istanbul
 coverage
 

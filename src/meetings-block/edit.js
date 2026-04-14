@@ -79,9 +79,19 @@ export default function Edit({ attributes, setAttributes }) {
 			name: "Purple and yellow",
 			slug: "purple-yellow",
 		},
-		{ colors: ["#6e0edc", "#b7b7b7"], name: "Blue and light blue", slug: "blue-light-blue" },
-		{ colors: ["#000097", "#ff4747"], name: "Blue and red", slug: "blue-red" },
-		{ colors: ["#000097", "#82c1f2"], name: "Blue and light blue", slug: "blue-light-blue" },
+		{
+			colors: ["#6e0edc", "#b7b7b7"],
+			name: "Purple and grey",
+			slug: "purple-grey",
+		},
+		{ 	colors: ["#000097", "#ff4747"],
+			name: "Blue and red",
+			slug: "blue-red" },
+		{
+			colors: ["#000097", "#82c1f2"],
+			name: "Blue and light blue",
+			slug: "blue-light-blue",
+		},
 	];
 
 	const COLOR_PALETTE = [
@@ -166,7 +176,7 @@ export default function Edit({ attributes, setAttributes }) {
 		console.log("splitExistingMeeting", meeting);
 		addSubMeeting(meeting);
 		// const newSubMeeting = { header: "", title: "", description: "" };
-    	// updateField(i, "subMeetings", [...meeting.subMeetings, newSubMeeting]);
+		// updateField(i, "subMeetings", [...meeting.subMeetings, newSubMeeting]);
 		updateField(i, "supHeader", meeting.subMeetings[0].header);
 		console.log("meeting after title update:", meeting);
 	};
@@ -236,14 +246,13 @@ export default function Edit({ attributes, setAttributes }) {
 			// console.log("descriptionsRef:", descriptionsRef);
 			descriptionsRef.current.style.display = "grid";
 			descriptionsRef.current
-				.querySelectorAll(".meeting-description")
+				.querySelectorAll(".card-description")
 				.forEach(
-					(desc) => (desc.className = "card card-large meeting-description"),
+					(desc) => (desc.className = "card card-large card-description"),
 				);
 			descriptionsRef.current.querySelector(
-				'.meeting-description[data-index="' + row + '"]',
-			).className =
-				"card card-large meeting-description meeting-description-select";
+				'.card-description[data-index="' + row + '"]',
+			).className = "card card-large card-description card-description-select";
 			// window.addEventListener("click", (event) => {
 			// 	if (event.target === descriptionsRef.current) {
 			// 		descriptionsRef.current.style.display = "none";
@@ -258,23 +267,22 @@ export default function Edit({ attributes, setAttributes }) {
 			// console.log("descriptionsRef:", descriptionsRef);
 			descriptionsRef.current.style.display = "grid";
 			descriptionsRef.current
-				.querySelectorAll(".meeting-description")
+				.querySelectorAll(".card-description")
 				.forEach(
-					(desc) => (desc.className = "card card-large meeting-description"),
+					(desc) => (desc.className = "card card-large card-description"),
 				);
 			console.log("Before query selector:");
 			descriptionsRef.current.querySelector(
-				'.meeting-description[data-index="' +
+				'.card-description[data-index="' +
 					row +
 					'"][data-subindex="' +
 					subIndex +
 					'"]',
-			).className =
-				"card card-large meeting-description meeting-description-select";
+			).className = "card card-large card-description card-description-select";
 			console.log(
 				"after query selector",
 				descriptionsRef.current.querySelector(
-					'.meeting-description[data-index="' +
+					'.card-description[data-index="' +
 						row +
 						'"][data-subindex="' +
 						subIndex +
@@ -382,15 +390,23 @@ export default function Edit({ attributes, setAttributes }) {
 
 	function addDescriptionCard(meeting, i) {
 		return (
-			<div class="card card-large meeting-description" data-index={i}>
+			<div class="card card-large card-description" data-index={i}>
 				<button class="close-popup" onClick={handleClosePopup}>
 					X
 				</button>
 				<div class="meeting-header">{meeting.subMeetings[0].header}</div>
 				<div class="meeting-icon">
-					<i class="fa-thin fa-calendar"></i>
+					<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+						<g fill="url(#iconGrad)">
+							<path d="M24,29H8a5,5,0,0,1-5-5V10A5,5,0,0,1,8,5H24a5,5,0,0,1,5,5V24A5,5,0,0,1,24,29ZM8,7a3,3,0,0,0-3,3V24a3,3,0,0,0,3,3H24a3,3,0,0,0,3-3V10a3,3,0,0,0-3-3Z" />
+							<path d="M24,25H20a1,1,0,0,1-1-1V20a1,1,0,0,1,1-1h4a1,1,0,0,1,1,1v4A1,1,0,0,1,24,25Zm-3-2h2V21H21Z" />
+							<path d="M28,13H4a1,1,0,0,1,0-2H28a1,1,0,0,1,0,2Z" />
+							<path d="M11,9a1,1,0,0,1-1-1V4a1,1,0,0,1,2,0V8A1,1,0,0,1,11,9Z" />
+							<path d="M21,9a1,1,0,0,1-1-1V4a1,1,0,0,1,2,0V8A1,1,0,0,1,21,9Z" />
+						</g>
+					</svg>
 				</div>
-				<div class="content">
+				<div class="meeting-description">
 					<p>
 						<PlainText
 							value={meeting.subMeetings[0].description}
@@ -408,7 +424,7 @@ export default function Edit({ attributes, setAttributes }) {
 	function addSubDescriptionCards(meeting, i) {
 		return meeting.subMeetings.map((subMeeting, j) => (
 			<div
-				class="card card-large meeting-description"
+				class="card card-large card-description"
 				data-index={i}
 				data-subindex={j}
 			>
@@ -419,9 +435,17 @@ export default function Edit({ attributes, setAttributes }) {
 					{meeting.supHeader} - {subMeeting.header}
 				</div>
 				<div class="meeting-icon">
-					<i class="fa-thin fa-calendar"></i>
+					<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+						<g fill="url(#iconGrad)">
+							<path d="M24,29H8a5,5,0,0,1-5-5V10A5,5,0,0,1,8,5H24a5,5,0,0,1,5,5V24A5,5,0,0,1,24,29ZM8,7a3,3,0,0,0-3,3V24a3,3,0,0,0,3,3H24a3,3,0,0,0,3-3V10a3,3,0,0,0-3-3Z" />
+							<path d="M24,25H20a1,1,0,0,1-1-1V20a1,1,0,0,1,1-1h4a1,1,0,0,1,1,1v4A1,1,0,0,1,24,25Zm-3-2h2V21H21Z" />
+							<path d="M28,13H4a1,1,0,0,1,0-2H28a1,1,0,0,1,0,2Z" />
+							<path d="M11,9a1,1,0,0,1-1-1V4a1,1,0,0,1,2,0V8A1,1,0,0,1,11,9Z" />
+							<path d="M21,9a1,1,0,0,1-1-1V4a1,1,0,0,1,2,0V8A1,1,0,0,1,21,9Z" />
+						</g>
+					</svg>
 				</div>
-				<div class="content">
+				<div class="meeting-description">
 					<p>
 						<PlainText
 							value={subMeeting.description}
@@ -634,6 +658,14 @@ export default function Edit({ attributes, setAttributes }) {
 				{dividerColorsPanel()}
 			</InspectorControls>
 			<div {...blockProps}>
+				<svg width="0" height="0" style={{ position: "absolute" }}>
+					<defs>
+						<linearGradient id="iconGrad" x1="0" y1="0" x2="1" y2="1">
+							<stop offset="0%" stopColor={meetingsDividerColorLeft} />
+							<stop offset="100%" stopColor={meetingsDividerColorRight} />
+						</linearGradient>
+					</defs>
+				</svg>
 				<div
 					class="meetings"
 					style={{
