@@ -5,22 +5,42 @@
 	//   float: none;
 	//   border: none !important;
 
-	/* :root { */
-	--meetings-max-width: 1200px;
-	--meetings-bg-color: #0d3ca1;
-	--meetings-font-color: #0d3ca1;
-	--meetings-hover-bg-color: #ade5f6;
-	--meetings-hover-font-color: var(--meetings-font-color);
-	--card-max-width: 600px;
-	--card-min-width: 255px;
+
+	// --meetings-bg-color: #0d3ca1;
+	// --meetings-font-color: #0d3ca1;
+	// --meetings-hover-bg-color: #ade5f6;
+	// --meetings-hover-font-color: var(--meetings-font-color);
+	// --grad: var(--grad-color-left), var(--grad-color-right);
+
 	--grad-card: #e0e4e5, #f2f6f9;
 	--meetings_description_bl: #82c1f2;
 	--grad-selected: #e0e4e5, var(--meetings_description_bl);
-	/* } */
 
-	--accent-primary: #1a56d6;
-	--accent-secondary: #e07b20;
+
+	// --accent-primary: #1a56d6;
+	// --accent-secondary: #e07b20;
 	--base-bg: #c2ddf7;
+
+	--bg-container:    color-mix(in srgb, var(--base-bg) 80%, white);
+	--bg-card:         color-mix(in srgb, var(--base-bg) 85%, white);
+	--bg-card-hover:   color-mix(in srgb, var(--base-bg) 100%, white);
+	--bg-card-part:    color-mix(in srgb, var(--base-bg) 95%, black);
+	--bg-desc:         color-mix(in srgb, var(--base-bg) 88%, white);
+	--bg-selected:     color-mix(in srgb, var(--base-bg) 92%, black);
+	--font-color:      color-mix(in srgb, var(--accent-primary) 90%, black);
+	--font-subtle:     color-mix(in srgb, var(--accent-primary) 70%, black);
+
+	--grad:            var(--accent-primary), var(--accent-secondary);
+
+	--meetings-bg-color:         var(--accent-primary);
+	--meetings-font-color:       var(--font-color);
+	--meetings-hover-bg-color:   var(--bg-card-hover);
+	--meetings-hover-font-color: var(--font-color);
+// --grad: 
+
+	--meetings-max-width: 1200px;
+	--card-max-width: 600px;
+	--card-min-width: 255px;
 
 	#iconGrad stop:first-child {
 		stop-color: var(--accent-primary);
@@ -118,9 +138,6 @@
 	}
 
 	.card {
-		// --grad-color-left: #0000FF;
-		// --grad-color-right: #FFA500;
-		--grad: var(--grad-color-left), var(--grad-color-right);
 		padding: 20px;
 
 		background-image: linear-gradient(to bottom left, var(--grad-card));
@@ -151,11 +168,11 @@
 			height: 48px;
 			// font-size: 3rem;
 
-			> i {
-				color: transparent;
-				background: linear-gradient(to bottom right, var(--grad));
-				background-clip: text;
-			}
+			// > i {
+			// 	color: transparent;
+			// 	background: linear-gradient(to bottom right, var(--grad));
+			// 	background-clip: text;
+			// }
 		}
 		.meeting-title {
 			grid-area: content;
@@ -170,7 +187,7 @@
 			content: "";
 			grid-area: bar;
 			height: 2px;
-			background-image: linear-gradient(90deg, var(--grad));
+			background-image: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
 		}
 		.meeting-title-small {
 			grid-area: content;
@@ -297,7 +314,7 @@
 		background-image: linear-gradient(to bottom left, var(--grad-selected));
 	}
 
-	.card-description-select {
+	.meeting-description-container .card-description-select {
 		background-image: linear-gradient(to bottom left, var(--grad-selected));
 		display: grid;
 	}

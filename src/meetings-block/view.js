@@ -30,20 +30,20 @@ document.addEventListener("DOMContentLoaded", () => {
 	const meetingButtons = document.querySelectorAll(".card.card-small");
 	const meetingATags = document.querySelectorAll(".card.card-part")
 	const meetingDescriptionsContainer = document.querySelector(".meeting-description-container");
-	const meetingDescriptions = document.querySelectorAll(".meeting-description");
+	const meetingDescriptions = document.querySelectorAll(".card-description");
 	if (meetingButtons && meetingDescriptions) {
 		meetingButtons.forEach((btn) => {
 			btn.addEventListener("click", function () {
 				meetingDescriptions.forEach((desc) => {
-					desc.className = "card card-large meeting-description";
+					desc.className = "card card-large card-description";
 					meetingDescriptionsContainer.style.display = "grid";
 					desc.querySelector(".close-popup").addEventListener("click", function () {
 						meetingDescriptionsContainer.style.display = "none";
 					})
 				});
 				document.querySelector(
-					'.meeting-description[data-index="' + this.dataset.index + '"]',
-				).className = "card card-large meeting-description meeting-description-select";
+					'.card-description[data-index="' + this.dataset.index + '"]',
+				).className = "card card-large card-description card-description-select";
 			});
 				window.addEventListener("click", (event) => {
 					if (event.target === meetingDescriptionsContainer) {
@@ -55,12 +55,12 @@ document.addEventListener("DOMContentLoaded", () => {
 			aTag.addEventListener("click", function (e) {
 				e.stopPropagation(); // prevent the parent button click from firing too
 				meetingDescriptions.forEach((desc) => {
-					desc.className = "card card-large meeting-description";
+					desc.className = "card card-large card-description";
 					meetingDescriptionsContainer.style.display = "grid";
 				});
 				document.querySelector(
-					'.meeting-description[data-index="' + this.dataset.index + '"][data-sub-index="' + this.dataset.subIndex + '"]'
-				).className = "card card-large meeting-description meeting-description-select";
+					'.card-description[data-index="' + this.dataset.index + '"][data-sub-index="' + this.dataset.subIndex + '"]'
+				).className = "card card-large card-description card-description-select";
 			});
 		});
 	}

@@ -84,9 +84,7 @@ export default function Edit({ attributes, setAttributes }) {
 			name: "Purple and grey",
 			slug: "purple-grey",
 		},
-		{ 	colors: ["#000097", "#ff4747"],
-			name: "Blue and red",
-			slug: "blue-red" },
+		{ colors: ["#000097", "#ff4747"], name: "Blue and red", slug: "blue-red" },
 		{
 			colors: ["#000097", "#82c1f2"],
 			name: "Blue and light blue",
@@ -555,23 +553,22 @@ export default function Edit({ attributes, setAttributes }) {
 						duotonePalette={DUOTONE_PALETTE}
 						colorPalette={COLOR_PALETTE}
 						value={
-							Array.isArray(duotone) && duotone.length === 2
-								? duotone
+							Array.isArray([meetingsDividerColorLeft, meetingsDividerColorRight])
+								? [meetingsDividerColorLeft, meetingsDividerColorRight]
 								: DEFAULT_DUOTONE_COLORS
 						}
 						onChange={(newValue) => {
 							if (!Array.isArray(newValue) || newValue.length !== 2) {
 								setDuotone(DEFAULT_DUOTONE_COLORS);
 							} else {
-								setDuotone(newValue);
+								setAttributes({
+									meetingsDividerColorLeft: newValue[0],
+									meetingsDividerColorRight: newValue[1],
+								});
 							}
 						}}
-						onChangeComplete={setAttributes({
-							meetingsDividerColorLeft: duotone[0],
-							meetingsDividerColorRight: duotone[1],
-						})}
 					/>
-					<DuotoneSwatch values={duotone} />
+					<DuotoneSwatch values={[meetingsDividerColorLeft, meetingsDividerColorRight]} />
 				</>
 				{/* {activeTabDivider === "defaultDivider" && (
 					<div style={{ marginTop: "1em", textAlign: "center" }}>
@@ -658,23 +655,23 @@ export default function Edit({ attributes, setAttributes }) {
 				{dividerColorsPanel()}
 			</InspectorControls>
 			<div {...blockProps}>
-				<svg width="0" height="0" style={{ position: "absolute" }}>
-					<defs>
-						<linearGradient id="iconGrad" x1="0" y1="0" x2="1" y2="1">
-							<stop offset="0%" stopColor={meetingsDividerColorLeft} />
-							<stop offset="100%" stopColor={meetingsDividerColorRight} />
-						</linearGradient>
-					</defs>
-				</svg>
 				<div
 					class="meetings"
 					style={{
 						"--meetings_description_bl": meetingsBgColor,
 						"--meetings-font-color": meetingsFontColor,
-						"--grad-color-left": meetingsDividerColorLeft,
-						"--grad-color-right": meetingsDividerColorRight,
+						"--accent-primary": meetingsDividerColorLeft,
+						"--accent-secondary": meetingsDividerColorRight,
 					}}
 				>
+					<svg width="0" height="0" style={{ position: "absolute" }}>
+						<defs>
+							<linearGradient id="iconGrad" x1="0" y1="0" x2="1" y2="1">
+								<stop offset="0%" stopColor="var(--accent-primary)" />
+								<stop offset="100%" stopColor="var(--accent-secondary)" />
+							</linearGradient>
+						</defs>
+					</svg>
 					<div class="meeting-button-column" ref={meetingsRef}>
 						{meetings.map((meeting, i) =>
 							meeting?.subMeetings?.length > 1
