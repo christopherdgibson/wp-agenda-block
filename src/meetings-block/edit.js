@@ -56,6 +56,7 @@ export default function Edit({ attributes, setAttributes }) {
 	} = attributes;
 	const DEFAULT_FONT_COLOR = blockMetadata.attributes.meetingsFontColor.default;
 	const DEFAULT_BG_COLOR = blockMetadata.attributes.meetingsBgColor.default;
+	// meetingsBgColor "default": "#82c1f2"
 	const DEFAULT_LEFT_COLOR =
 		blockMetadata.attributes.meetingsDividerColorLeft.default;
 	const DEFAULT_RIGHT_COLOR =
@@ -75,6 +76,26 @@ export default function Edit({ attributes, setAttributes }) {
 			slug: "default-theme-colors",
 		},
 		{
+			colors: ["#1a56d6", "#e07b20"], // #c2ddf7;
+			name: "Blue and orange",
+			slug: "blue-orange",
+		},
+		{
+			colors: ["#1a6b3c", "#c4962a"], // #b8dfc8;
+			name: "Forest and gold",
+			slug: "forest-gold",
+		},
+		{
+			colors: ["#5b2d8e", "#c0392b"], // #d4bfee;
+			name: "Plum and red",
+			slug: "plum-red",
+		},
+		{
+			colors: ["#2c4a6e", "#e05c3a"], // #b8cfe0;
+			name: "Slate and salmon",
+			slug: "slate-salmon",
+		},
+		{
 			colors: ["#8c00b7", "#fcff41"],
 			name: "Purple and yellow",
 			slug: "purple-yellow",
@@ -84,7 +105,9 @@ export default function Edit({ attributes, setAttributes }) {
 			name: "Purple and grey",
 			slug: "purple-grey",
 		},
-		{ colors: ["#000097", "#ff4747"], name: "Blue and red", slug: "blue-red" },
+		{	colors: ["#000097", "#ff4747"],
+			name: "Blue and red",
+			slug: "blue-red" },
 		{
 			colors: ["#000097", "#82c1f2"],
 			name: "Blue and light blue",
@@ -99,7 +122,8 @@ export default function Edit({ attributes, setAttributes }) {
 		{ color: "#8c00b7", name: "Purple", slug: "purple" },
 	];
 
-	const [activeTab, setActiveTab] = useState("background");
+	const [activeTab, setActiveTab] = useState("presets");
+	const [activeSubTab, setActiveSubTab] = useState("background");
 	const [activeTabDivider, setActiveTabDivider] = useState("left");
 	const descriptionsRef = useRef();
 	const meetingsRef = useRef();
@@ -460,6 +484,53 @@ export default function Edit({ attributes, setAttributes }) {
 
 	// Panels and UI
 
+	function presetColorsPanel() {
+		return (
+			<div className="btn-grid" style={{ marginTop: "1em", textAlign: "center" }}>
+				<Button
+					className="btn-blue"
+					onClickCapture={() => 
+						setAttributes({ meetingsDividerColorLeft: "#1a56d6" ,
+										meetingsDividerColorRight: "#e07b20",
+										meetingsBgColor: "#c2ddf7" })
+					}
+				>
+					Blue theme
+				</Button>
+				<Button
+					className="btn-forest"
+					onClickCapture={() => 
+						setAttributes({ meetingsDividerColorLeft: "#1a6b3c" ,
+										meetingsDividerColorRight: "#c4962a",
+										meetingsBgColor: "#b8dfc8" })
+					}
+				>
+					Forest theme
+				</Button>
+				<Button
+					className="btn-plum"
+					onClickCapture={() => 
+						setAttributes({ meetingsDividerColorLeft: "#5b2d8e" ,
+										meetingsDividerColorRight: "#c0392b",
+										meetingsBgColor: "#d4bfee" })
+					}
+				>
+					Plum theme
+				</Button>
+				<Button
+					className="btn-slate"
+					onClickCapture={() => 
+						setAttributes({ meetingsDividerColorLeft: "#2c4a6e" ,
+										meetingsDividerColorRight: "#e05c3a",
+										meetingsBgColor: "#b8cfe0" })
+					}
+				>
+					Slate theme
+				</Button>
+			</div>
+		);
+	}
+
 	function meetingColorsPanel() {
 		return (
 			<PanelBody title="Meetings Colors">
@@ -472,11 +543,32 @@ export default function Edit({ attributes, setAttributes }) {
 								]}
 							/> */}
 				<ButtonGroup>
-					{addActiveTab("background", "Background")}
-					{addActiveTab("text", "Text")}
+					{addActiveTab("presets", "Presets")}
+					{addActiveTab("custom", "Custom")}
 					{addActiveTab("defaults", "Defaults")}
 				</ButtonGroup>
-				{activeTab === "background" && (
+				{activeTab === "presets" && (
+					presetColorsPanel()
+				)}
+				{activeTab === "custom" && (
+					customColorsPanel()
+				)}
+				{activeTab === "defaults" && (
+					restoreToDefaults()
+				)}
+			</PanelBody>
+		);
+	}
+
+	function customColorsPanel() {
+		return (
+			<>
+				<ButtonGroup>
+					{addActiveSubTab("background", "Background")}
+					{addActiveSubTab("text", "Text")}
+					{addActiveSubTab("divider", "Divider")}
+				</ButtonGroup>
+				{activeSubTab === "background" && (
 					// <ColorPalette
 					// 	colors={colors}
 					// 	value={color}
@@ -486,7 +578,6 @@ export default function Edit({ attributes, setAttributes }) {
 					// 	}}
 					// 	disableAlpha
 					// />
-
 					<ColorPicker
 						color={meetingsBgColor}
 						onChangeComplete={(value) =>
@@ -495,7 +586,7 @@ export default function Edit({ attributes, setAttributes }) {
 						disableAlpha
 					/>
 				)}
-				{activeTab === "text" && (
+				{activeSubTab === "text" && (
 					<ColorPicker
 						color={meetingsFontColor}
 						onChangeComplete={(value) =>
@@ -504,44 +595,52 @@ export default function Edit({ attributes, setAttributes }) {
 						disableAlpha
 					/>
 				)}
-				{activeTab === "defaults" && (
-					<div style={{ marginTop: "1em", textAlign: "center" }}>
+				{activeSubTab === "divider" && (
+					dividerColorsPanel()
+				)}
+			</>
+		);
+	}
+
+	function restoreToDefaults() {
+		return (
+			<div style={{ marginTop: "1em", textAlign: "center" }}>
+				<Button
+					variant="primary"
+					onClickCapture={() => setIsModalOpenDefault(true)}
+				>
+					Restore to defaults
+				</Button>
+				{isModalOpenDefault && (
+					<Modal
+						title="Restore Defaults"
+						onRequestClose={() => setIsModalOpenDefault(false)}
+					>
+						<p>Are you sure you want to restore the default colors?</p>
 						<Button
 							variant="primary"
-							onClickCapture={() => setIsModalOpenDefault(true)}
+							onClick={() => {
+								setAttributes({
+									meetingsDividerColorLeft: DEFAULT_LEFT_COLOR,
+									meetingsDividerColorRight: DEFAULT_RIGHT_COLOR,
+									meetingsBgColor: DEFAULT_BG_COLOR,
+									meetingsFontColor: DEFAULT_FONT_COLOR,
+								});
+								setIsModalOpenDefault(false);
+							}}
 						>
-							Restore to defaults
+							Yes, restore.
 						</Button>
-						{isModalOpenDefault && (
-							<Modal
-								title="Restore Defaults"
-								onRequestClose={() => setIsModalOpenDefault(false)}
-							>
-								<p>Are you sure you want to restore the default colors?</p>
-								<Button
-									variant="primary"
-									onClick={() => {
-										setAttributes({
-											meetingsBgColor: DEFAULT_BG_COLOR,
-											meetingsFontColor: DEFAULT_FONT_COLOR,
-										});
-										setIsModalOpenDefault(false);
-									}}
-								>
-									Yes, restore.
-								</Button>
-								<Button
-									variant="secondary"
-									onClick={() => setIsModalOpenDefault(false)}
-									style={{ marginLeft: "1em" }}
-								>
-									Cancel
-								</Button>
-							</Modal>
-						)}
-					</div>
+						<Button
+							variant="secondary"
+							onClick={() => setIsModalOpenDefault(false)}
+							style={{ marginLeft: "1em" }}
+						>
+							Cancel
+						</Button>
+					</Modal>
 				)}
-			</PanelBody>
+			</div>
 		);
 	}
 
@@ -648,17 +747,28 @@ export default function Edit({ attributes, setAttributes }) {
 		);
 	};
 
+	const addActiveSubTab = (tabName, tabText) => {
+		return (
+			<Button
+				variant={activeSubTab === tabName ? "primary" : "secondary"}
+				onClick={() => setActiveSubTab(tabName)}
+			>
+				{tabText}
+			</Button>
+		);
+	};
+
 	return (
 		<>
 			<InspectorControls>
 				{meetingColorsPanel()}
-				{dividerColorsPanel()}
 			</InspectorControls>
 			<div {...blockProps}>
 				<div
 					class="meetings"
 					style={{
-						"--meetings_description_bl": meetingsBgColor,
+						// "--meetings_description_bl": meetingsBgColor,
+						"--base-bg": meetingsBgColor,
 						"--meetings-font-color": meetingsFontColor,
 						"--accent-primary": meetingsDividerColorLeft,
 						"--accent-secondary": meetingsDividerColorRight,

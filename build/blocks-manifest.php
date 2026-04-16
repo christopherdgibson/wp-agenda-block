@@ -19,7 +19,7 @@ return array(
 			),
 			'meetingsBgColor' => array(
 				'type' => 'string',
-				'default' => '#82c1f2'
+				'default' => '#c2ddf7'
 			),
 			'meetingsFontColor' => array(
 				'type' => 'string',
