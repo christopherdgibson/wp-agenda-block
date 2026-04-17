@@ -5,7 +5,7 @@
  * Description: Block for adding agenda items and their descriptions.
  * Version: 0.1.0
  * Author: Christopher D Gibson
- * Author URI: Block for adding agenda items and their descriptions
+ * Author URI: https://christopherdgibson.github.io
  * License: GPL-2.0-or-later
  * Text Domain: agenda-block
  */

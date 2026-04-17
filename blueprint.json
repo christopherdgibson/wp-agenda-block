@@ -1,0 +1,24 @@
+{
+  "steps": [
+    {
+      "step": "installPlugin",
+      "pluginZipFile": {
+        "resource": "url",
+        "url": "https://raw.githubusercontent.com/christopherdgibson/wp-agenda-block/main/docs/agenda-block.zip"
+      }
+    },
+    {
+      "step": "activatePlugin",
+      "pluginPath": "agenda-block/agenda-block.php"
+    },
+    {
+      "step": "login",
+      "username": "admin",
+      "password": "password"
+    },
+    {
+      "step": "goTo",
+      "path": "/wp-admin/post-new.php"
+    }
+  ]
+}

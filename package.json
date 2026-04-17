@@ -5,7 +5,7 @@
 	"authorURI": "https://christopherdgibson.github.io",
 	"license": "GPL-2.0-or-later",
 	"licenseURI": "https://www.gnu.org/licenses/gpl-2.0.html",
-	"description": "Example block scaffolded with Create Block tool.",
+	"description": "Block for adding agenda items and their descriptions.",
 	"main": "build/index.js",
 	"scripts": {
 		"build": "wp-scripts build --blocks-manifest",
