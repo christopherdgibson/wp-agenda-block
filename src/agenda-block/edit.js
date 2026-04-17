@@ -375,7 +375,7 @@ export default function Edit({ attributes, setAttributes }) {
 				</div>
 				<div class="meeting-title container-two">
 					{meeting.subMeetings.map((subMeeting, j) => (
-						<div>
+						<>
 							<a
 								class="card card-part"
 								href
@@ -403,7 +403,7 @@ export default function Edit({ attributes, setAttributes }) {
 									/>
 								</div>
 							</a>
-						</div>
+						</>
 					))}
 				</div>
 			</button>

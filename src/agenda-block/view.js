@@ -22,7 +22,7 @@
 
 /* eslint-disable no-console */
 // console.log(
-// 	"Hello World! (from create-block-meetings-block block view.js file)",
+// 	"Hello World! (from create-block-agenda-block block view.js file)",
 // );
 /* eslint-enable no-console */
 

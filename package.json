@@ -1,9 +1,11 @@
 {
-	"name": "meetings-block",
+	"name": "agenda-block",
 	"version": "0.1.0",
-	"description": "Example block scaffolded with Create Block tool.",
-	"author": "The WordPress Contributors",
+	"author": "Christopher D Gibson",
+	"authorURI": "https://christopherdgibson.github.io",
 	"license": "GPL-2.0-or-later",
+	"licenseURI": "https://www.gnu.org/licenses/gpl-2.0.html",
+	"description": "Example block scaffolded with Create Block tool.",
 	"main": "build/index.js",
 	"scripts": {
 		"build": "wp-scripts build --blocks-manifest",

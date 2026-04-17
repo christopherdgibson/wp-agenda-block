@@ -1,15 +1,19 @@
 <?php
 // This file is generated. Do not modify it manually.
 return array(
-	'meetings-block' => array(
+	'agenda-block' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
-		'name' => 'create-block/meetings-block',
+		'name' => 'create-block/agenda-block',
 		'version' => '0.1.0',
-		'title' => 'Meetings Block',
+		'author' => 'Your Name',
+		'authorURI' => 'https://christopherdgibson.github.io',
+		'license' => 'GPL-2.0-or-later',
+		'licenseURI' => 'https://www.gnu.org/licenses/gpl-2.0.html',
+		'title' => 'Agenda Block',
 		'category' => 'widgets',
 		'icon' => 'calendar',
-		'description' => 'Block for adding meetings and their descriptions.',
+		'description' => 'Block for adding agenda items and their descriptions.',
 		'attributes' => array(
 			'meetings' => array(
 				'type' => 'array',
@@ -48,7 +52,7 @@ return array(
 			
 		),
 		'render' => 'file:./render.php',
-		'textdomain' => 'meetings-block',
+		'textdomain' => 'agenda-block',
 		'editorScript' => 'file:./index.js',
 		'editorStyle' => 'file:./index.css',
 		'style' => 'file:./style-index.css',

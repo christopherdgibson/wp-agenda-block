@@ -159,13 +159,20 @@
 
 	.container-two {
 		display: grid;
-		grid-template-columns: 1fr 1fr;
-		gap: 10px;
-		height: 100%;
-		justify-self: start;
-		align-content: center;
-		align-items: flex-end;
-		width: 100%;
+		grid-template-columns: 1fr 1fr;  /* your existing column setup */
+		grid-template-rows: subgrid;     /* inherit row sizing from children */
+		/* OR define rows explicitly: */
+		grid-template-rows: auto auto auto; /* title / bar / content */
+		align-items: stretch;
+		gap: 8px;
+		// display: grid;
+		// grid-template-columns: 1fr 1fr;
+		// gap: 10px;
+		// height: 100%;
+		// justify-self: start;
+		// align-content: center;
+		// align-items: flex-end;
+		// width: 100%;
 	}
 	.container-two a {
 		text-align: center;
@@ -300,9 +307,16 @@
 
 			.card-part {
 				display: grid;
-				grid-template: "title title" "bar bar" "content content" / 1fr auto;
+				grid-row: span 3;
+				grid-template-rows: subgrid; /* inherit the 3 shared row tracks */
+				grid-template-areas:
+					"title"
+					"bar"
+					"content";
+				// display: grid;
+				// grid-template: "title title" "bar bar" "content content" / 1fr auto;
 				align-items: center;
-				align-content: start;
+				align-content: space-evenly;
 				padding: 8px 10px;
 				gap: 4px;
 				height: 100%;
