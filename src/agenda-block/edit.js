@@ -56,7 +56,6 @@ export default function Edit({ attributes, setAttributes }) {
 	} = attributes;
 	const DEFAULT_FONT_COLOR = blockMetadata.attributes.meetingsFontColor.default;
 	const DEFAULT_BG_COLOR = blockMetadata.attributes.meetingsBgColor.default;
-	// meetingsBgColor "default": "#82c1f2"
 	const DEFAULT_LEFT_COLOR =
 		blockMetadata.attributes.meetingsDividerColorLeft.default;
 	const DEFAULT_RIGHT_COLOR =
@@ -135,8 +134,18 @@ export default function Edit({ attributes, setAttributes }) {
 	const [isModalOpenDefault, setIsModalOpenDefault] = useState(false);
 	const [isModalOpenDivider, setIsModalOpenDivider] = useState(false);
 	const [selectedMeeting, setSelectedMeeting] = useState(null);
-	// console.log("useState ran");
-	// console.log("meetings:", meetings);
+const duotoneRef = useRef(null);
+
+useEffect(() => {
+    if (!duotoneRef.current) return;
+    duotoneRef.current.querySelectorAll('.components-color-list-picker__swatch-button').forEach(btn => {
+        btn.innerHTML = btn.innerHTML
+            .replace('Shadows', 'Left')
+            .replace('Highlights', 'Right');
+    });
+	//duotoneRef.current.querySelector('button.components-circular-option-picker__option[aria-label="Unset"]')?.remove();
+	duotoneRef.current.querySelector('button.components-circular-option-picker__clear')?.remove();
+});
 
 	// Update block attributes whenever meetings change
 	let updateMeetings = (newMeetings, callback) => {
@@ -263,9 +272,7 @@ export default function Edit({ attributes, setAttributes }) {
 	// Display description card events
 
 	let displayDescriptionCard = (row) => {
-		// console.log("Handle btn click:");
 		if (descriptionsRef) {
-			// console.log("descriptionsRef:", descriptionsRef);
 			descriptionsRef.current.style.display = "grid";
 			descriptionsRef.current
 				.querySelectorAll(".card-description")
@@ -284,7 +291,6 @@ export default function Edit({ attributes, setAttributes }) {
 	};
 
 	let displaySubDescriptionCard = (row, subIndex) => {
-		console.log("Handle subMeeting btn click:");
 		if (descriptionsRef) {
 			// console.log("descriptionsRef:", descriptionsRef);
 			descriptionsRef.current.style.display = "grid";
@@ -293,7 +299,6 @@ export default function Edit({ attributes, setAttributes }) {
 				.forEach(
 					(desc) => (desc.className = "card card-large card-description"),
 				);
-			console.log("Before query selector:");
 			descriptionsRef.current.querySelector(
 				'.card-description[data-index="' +
 					row +
@@ -301,16 +306,16 @@ export default function Edit({ attributes, setAttributes }) {
 					subIndex +
 					'"]',
 			).className = "card card-large card-description card-description-select";
-			console.log(
-				"after query selector",
-				descriptionsRef.current.querySelector(
-					'.card-description[data-index="' +
-						row +
-						'"][data-subindex="' +
-						subIndex +
-						'"]',
-				),
-			);
+			// console.log(
+			// 	"after query selector",
+			// 	descriptionsRef.current.querySelector(
+			// 		'.card-description[data-index="' +
+			// 			row +
+			// 			'"][data-subindex="' +
+			// 			subIndex +
+			// 			'"]',
+			// 	),
+			// );
 			// window.addEventListener("click", (event) => {
 			// 	if (event.target === descriptionsRef.current) {
 			// 		descriptionsRef.current.style.display = "none";
@@ -490,8 +495,9 @@ export default function Edit({ attributes, setAttributes }) {
 				<Button
 					className="btn-blue"
 					onClickCapture={() => 
-						setAttributes({ meetingsDividerColorLeft: "#1a56d6" ,
+						setAttributes({ meetingsDividerColorLeft: "#1a56d6",
 										meetingsDividerColorRight: "#e07b20",
+										meetingsFontColor: "#1a56d6",
 										meetingsBgColor: "#c2ddf7" })
 					}
 				>
@@ -500,8 +506,9 @@ export default function Edit({ attributes, setAttributes }) {
 				<Button
 					className="btn-forest"
 					onClickCapture={() => 
-						setAttributes({ meetingsDividerColorLeft: "#1a6b3c" ,
+						setAttributes({ meetingsDividerColorLeft: "#1a6b3c",
 										meetingsDividerColorRight: "#c4962a",
+										meetingsFontColor: "#1a6b3c",
 										meetingsBgColor: "#b8dfc8" })
 					}
 				>
@@ -510,8 +517,9 @@ export default function Edit({ attributes, setAttributes }) {
 				<Button
 					className="btn-plum"
 					onClickCapture={() => 
-						setAttributes({ meetingsDividerColorLeft: "#5b2d8e" ,
+						setAttributes({ meetingsDividerColorLeft: "#5b2d8e",
 										meetingsDividerColorRight: "#c0392b",
+										meetingsFontColor: "#5b2d8e",
 										meetingsBgColor: "#d4bfee" })
 					}
 				>
@@ -520,8 +528,9 @@ export default function Edit({ attributes, setAttributes }) {
 				<Button
 					className="btn-slate"
 					onClickCapture={() => 
-						setAttributes({ meetingsDividerColorLeft: "#2c4a6e" ,
+						setAttributes({ meetingsDividerColorLeft: "#2c4a6e",
 										meetingsDividerColorRight: "#e05c3a",
+										meetingsFontColor: "#2c4a6e",
 										meetingsBgColor: "#b8cfe0" })
 					}
 				>
@@ -569,15 +578,6 @@ export default function Edit({ attributes, setAttributes }) {
 					{addActiveSubTab("divider", "Divider")}
 				</ButtonGroup>
 				{activeSubTab === "background" && (
-					// <ColorPalette
-					// 	colors={colors}
-					// 	value={color}
-					// 	onChange={(color) => {
-					// 		//setColor( color );
-					// 		setAttributes({ meetingsBgColor: color });
-					// 	}}
-					// 	disableAlpha
-					// />
 					<ColorPicker
 						color={meetingsBgColor}
 						onChangeComplete={(value) =>
@@ -646,18 +646,22 @@ export default function Edit({ attributes, setAttributes }) {
 
 	function dividerColorsPanel() {
 		return (
-			<PanelBody title="Divider Colors">
+			<PanelBody ref={duotoneRef} title="Divider Colors">
 				<>
 					<DuotonePicker
 						duotonePalette={DUOTONE_PALETTE}
-						colorPalette={COLOR_PALETTE}
 						value={
-							Array.isArray([meetingsDividerColorLeft, meetingsDividerColorRight])
+							meetingsDividerColorLeft && meetingsDividerColorRight
 								? [meetingsDividerColorLeft, meetingsDividerColorRight]
 								: DEFAULT_DUOTONE_COLORS
 						}
 						onChange={(newValue) => {
-							if (!Array.isArray(newValue) || newValue.length !== 2) {
+							if (newValue === undefined || newValue === 'unset') {
+								setAttributes({
+									meetingsDividerColorLeft: 'transparent',
+									meetingsDividerColorRight: 'transparent',
+								});
+							} else if (!Array.isArray(newValue) || newValue.length !== 2) {
 								setDuotone(DEFAULT_DUOTONE_COLORS);
 							} else {
 								setAttributes({
@@ -667,45 +671,8 @@ export default function Edit({ attributes, setAttributes }) {
 							}
 						}}
 					/>
-					<DuotoneSwatch values={[meetingsDividerColorLeft, meetingsDividerColorRight]} />
+					{/* <DuotoneSwatch values={[meetingsDividerColorLeft, meetingsDividerColorRight]} /> */}
 				</>
-				{/* {activeTabDivider === "defaultDivider" && (
-					<div style={{ marginTop: "1em", textAlign: "center" }}>
-						<Button
-							variant="primary"
-							onClickCapture={() => setIsModalOpenDivider(true)}
-						>
-							Restore to defaults
-						</Button>
-						{isModalOpenDivider && (
-							<Modal
-								title="Restore Defaults"
-								onRequestClose={() => setIsModalOpenDivider(false)}
-							>
-								<p>Are you sure you want to restore the default colors?</p>
-								<Button
-									variant="primary"
-									onClick={() => {
-										setAttributes({
-											meetingsDividerColorLeft: DEFAULT_LEFT_COLOR,
-											meetingsDividerColorRight: DEFAULT_RIGHT_COLOR,
-										});
-										setIsModalOpenDivider(false);
-									}}
-								>
-									Yes, restore.
-								</Button>
-								<Button
-									variant="secondary"
-									onClick={() => setIsModalOpenDivider(false)}
-									style={{ marginLeft: "1em" }}
-								>
-									Cancel
-								</Button>
-							</Modal>
-						)}
-					</div>
-				)} */}
 			</PanelBody>
 		);
 	}
@@ -767,9 +734,8 @@ export default function Edit({ attributes, setAttributes }) {
 				<div
 					class="meetings"
 					style={{
-						// "--meetings_description_bl": meetingsBgColor,
 						"--base-bg": meetingsBgColor,
-						"--meetings-font-color": meetingsFontColor,
+						"--font-selected": meetingsFontColor,
 						"--accent-primary": meetingsDividerColorLeft,
 						"--accent-secondary": meetingsDividerColorRight,
 					}}
@@ -789,13 +755,11 @@ export default function Edit({ attributes, setAttributes }) {
 								: addMeetingCard(meeting, i),
 						)}
 						{isModalOpen && showDeleteMeetingModal()}
-						{/* <div style={{ display: "grid" }}> */}
 						<div class="card-button">
 							<Button variant="primary" onClick={addMeeting}>
 								Add Meeting
 							</Button>
 						</div>
-						{/* </div> */}
 					</div>
 					<div
 						id="meeting-description-container"

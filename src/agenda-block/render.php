@@ -1,16 +1,16 @@
 <?php
 $meetings = $attributes['meetings'] ?? [];
-$bg_color = $attributes['meetingsBgColor'] ?? '#ffffff';
-$font_color = $attributes['meetingsFontColor'] ?? '#000000';
-$divider_left = $attributes['meetingsDividerColorLeft'] ?? '#000000';
-$divider_right = $attributes['meetingsDividerColorRight'] ?? '#000000';
+$bg_color = $attributes['meetingsBgColor'] ?? '#e3e3e3';
+$font_color = $attributes['meetingsFontColor'] ?? '#0d3ca1';
+$divider_left = $attributes['meetingsDividerColorLeft'] ?? '#0000FF';
+$divider_right = $attributes['meetingsDividerColorRight'] ?? '#FFA500';
 ?>
 
 <div <?php echo get_block_wrapper_attributes(); ?>>
 
     <div class="meetings" style="
-        --meetings_description_bl: <?php echo esc_attr($bg_color); ?>;
-        --meetings-font-color: <?php echo esc_attr($font_color); ?>;
+        --base-bg: <?php echo esc_attr($bg_color); ?>;
+        --font-selected: <?php echo esc_attr($font_color); ?>;
         --accent-primary: <?php echo esc_attr($divider_left); ?>;
         --accent-secondary: <?php echo esc_attr($divider_right); ?>;
     ">

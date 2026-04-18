@@ -6,7 +6,7 @@ return array(
 		'apiVersion' => 3,
 		'name' => 'create-block/agenda-block',
 		'version' => '0.1.0',
-		'author' => 'Your Name',
+		'author' => 'Christopher D Gibson',
 		'authorURI' => 'https://christopherdgibson.github.io',
 		'license' => 'GPL-2.0-or-later',
 		'licenseURI' => 'https://www.gnu.org/licenses/gpl-2.0.html',
@@ -23,7 +23,7 @@ return array(
 			),
 			'meetingsBgColor' => array(
 				'type' => 'string',
-				'default' => '#c2ddf7'
+				'default' => '#e3e3e3'
 			),
 			'meetingsFontColor' => array(
 				'type' => 'string',
