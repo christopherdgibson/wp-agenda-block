@@ -60,6 +60,13 @@ export default function Edit({ attributes, setAttributes }) {
 		blockMetadata.attributes.meetingsDividerColorLeft.default;
 	const DEFAULT_RIGHT_COLOR =
 		blockMetadata.attributes.meetingsDividerColorRight.default;
+	const THEME_ATTRIBUTES = {
+		blue:   { meetingsDividerColorLeft: '#1a56d6', meetingsDividerColorRight: '#e07b20', meetingsFontColor: '#1a56d6', meetingsBgColor: '#c2ddf7' },
+		forest: { meetingsDividerColorLeft: '#1a6b3c', meetingsDividerColorRight: '#c4962a', meetingsFontColor: '#1a6b3c', meetingsBgColor: '#b8dfc8' },
+		plum:   { meetingsDividerColorLeft: '#5b2d8e', meetingsDividerColorRight: '#c0392b', meetingsFontColor: '#5b2d8e', meetingsBgColor: '#d4bfee' },
+		slate:  { meetingsDividerColorLeft: '#2c4a6e', meetingsDividerColorRight: '#e05c3a', meetingsFontColor: '#2c4a6e', meetingsBgColor: '#b8cfe0' }
+	};
+	
 	const DEFAULT_DUOTONE_COLORS = [DEFAULT_LEFT_COLOR, DEFAULT_RIGHT_COLOR];
 	// const [color, setColor] = useState("#f00");
 	// const colors = [
@@ -114,18 +121,13 @@ export default function Edit({ attributes, setAttributes }) {
 		},
 	];
 
-	const COLOR_PALETTE = [
-		{ color: "#ff4747", name: "Red", slug: "red" },
-		{ color: "#fcff41", name: "Yellow", slug: "yellow" },
-		{ color: "#000097", name: "Blue", slug: "blue" },
-		{ color: "#8c00b7", name: "Purple", slug: "purple" },
-	];
-
 	const [activeTab, setActiveTab] = useState("presets");
 	const [activeSubTab, setActiveSubTab] = useState("background");
+	const [activeTheme, setActiveTheme] = useState("default-colors");
 	const [activeTabDivider, setActiveTabDivider] = useState("left");
 	const descriptionsRef = useRef();
 	const meetingsRef = useRef();
+	const duotoneRef = useRef(null);
 	const blockProps = useBlockProps({ className: "meetings-container" });
 
 	// Initialize state from attributes or as an empty array
@@ -134,18 +136,16 @@ export default function Edit({ attributes, setAttributes }) {
 	const [isModalOpenDefault, setIsModalOpenDefault] = useState(false);
 	const [isModalOpenDivider, setIsModalOpenDivider] = useState(false);
 	const [selectedMeeting, setSelectedMeeting] = useState(null);
-const duotoneRef = useRef(null);
 
-useEffect(() => {
-    if (!duotoneRef.current) return;
-    duotoneRef.current.querySelectorAll('.components-color-list-picker__swatch-button').forEach(btn => {
-        btn.innerHTML = btn.innerHTML
-            .replace('Shadows', 'Left')
-            .replace('Highlights', 'Right');
-    });
-	//duotoneRef.current.querySelector('button.components-circular-option-picker__option[aria-label="Unset"]')?.remove();
-	duotoneRef.current.querySelector('button.components-circular-option-picker__clear')?.remove();
-});
+	// Remove unused Duotone items
+
+	useEffect(() => {
+		if (!duotoneRef.current) return;
+		duotoneRef.current.querySelectorAll('.components-color-list-picker__swatch-button').forEach(btn => {
+			btn.remove();
+		});
+		duotoneRef.current.querySelector('button.components-circular-option-picker__clear')?.remove();
+	});
 
 	// Update block attributes whenever meetings change
 	let updateMeetings = (newMeetings, callback) => {
@@ -292,7 +292,6 @@ useEffect(() => {
 
 	let displaySubDescriptionCard = (row, subIndex) => {
 		if (descriptionsRef) {
-			// console.log("descriptionsRef:", descriptionsRef);
 			descriptionsRef.current.style.display = "grid";
 			descriptionsRef.current
 				.querySelectorAll(".card-description")
@@ -491,52 +490,12 @@ useEffect(() => {
 
 	function presetColorsPanel() {
 		return (
-			<div className="btn-grid" style={{ marginTop: "1em", textAlign: "center" }}>
-				<Button
-					className="btn-blue"
-					onClickCapture={() => 
-						setAttributes({ meetingsDividerColorLeft: "#1a56d6",
-										meetingsDividerColorRight: "#e07b20",
-										meetingsFontColor: "#1a56d6",
-										meetingsBgColor: "#c2ddf7" })
-					}
-				>
-					Blue theme
-				</Button>
-				<Button
-					className="btn-forest"
-					onClickCapture={() => 
-						setAttributes({ meetingsDividerColorLeft: "#1a6b3c",
-										meetingsDividerColorRight: "#c4962a",
-										meetingsFontColor: "#1a6b3c",
-										meetingsBgColor: "#b8dfc8" })
-					}
-				>
-					Forest theme
-				</Button>
-				<Button
-					className="btn-plum"
-					onClickCapture={() => 
-						setAttributes({ meetingsDividerColorLeft: "#5b2d8e",
-										meetingsDividerColorRight: "#c0392b",
-										meetingsFontColor: "#5b2d8e",
-										meetingsBgColor: "#d4bfee" })
-					}
-				>
-					Plum theme
-				</Button>
-				<Button
-					className="btn-slate"
-					onClickCapture={() => 
-						setAttributes({ meetingsDividerColorLeft: "#2c4a6e",
-										meetingsDividerColorRight: "#e05c3a",
-										meetingsFontColor: "#2c4a6e",
-										meetingsBgColor: "#b8cfe0" })
-					}
-				>
-					Slate theme
-				</Button>
-			</div>
+			<ButtonGroup className="btn-grid">
+				{addActiveTheme("blue", "Blue theme")}
+				{addActiveTheme("forest", "Forest theme")}
+				{addActiveTheme("plum", "Plum theme")}
+				{addActiveTheme("slate", "Slate theme")}
+			</ButtonGroup>
 		);
 	}
 
@@ -722,6 +681,20 @@ useEffect(() => {
 			>
 				{tabText}
 			</Button>
+		);
+	};
+
+	const addActiveTheme = (themeName, themeText) => {
+		return (
+			<button
+				className={`btn-theme-color btn-${themeName}${activeTheme === themeName ? ' selected' : ''}`}
+				onClick={() => {
+					setActiveTheme(themeName);
+					setAttributes({ ...THEME_ATTRIBUTES[themeName] });
+				}}
+			>
+				{themeText}
+			</button>
 		);
 	};
 
