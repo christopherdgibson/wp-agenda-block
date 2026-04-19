@@ -71,8 +71,8 @@
 	//   border: none !important;
 
 	--bg-container:    color-mix(in srgb, var(--base-bg) 80%, white);
-	--bg-card:         color-mix(in srgb, var(--base-bg) 85%, white);
-	--bg-card-hover:   color-mix(in srgb, var(--base-bg) 100%, white);
+	--bg-card:         color-mix(in srgb, var(--base-bg) 100%, white);
+	--bg-card-hover:   color-mix(in srgb, var(--base-bg) 85%, white);
 	--bg-card-part:    color-mix(in srgb, var(--base-bg) 95%, black);
 	--bg-desc:         color-mix(in srgb, var(--base-bg) 88%, white);
 	--bg-selected:     color-mix(in srgb, var(--base-bg) 92%, black);
@@ -86,16 +86,19 @@
 	--meetings-font-color:       var(--font-color);
 	--meetings-hover-bg-color:   var(--bg-card-hover);
 	--meetings-hover-font-color: var(--font-color);
+
+	--bg-meetings-radial: radial-gradient(ellipse at 60% 30%,
+		color-mix(in srgb, var(--base-bg) 100%, black) 0%,
+		color-mix(in srgb, var(--base-bg) 85%, white) 45%,
+		color-mix(in srgb, var(--base-bg) 65%, white) 100%);
 	--bg-btn-hover-grad: 		linear-gradient(145deg, var(--bg-card-hover), color-mix(in srgb, var(--bg-card-hover) 90%, white));
 	--bg-card-grad: 			linear-gradient(145deg, var(--bg-card), color-mix(in srgb, var(--bg-card) 90%, white));
 	--bg-card-hover-grad: 		linear-gradient(145deg, var(--bg-card-hover), color-mix(in srgb, var(--bg-card-hover) 90%, white));
-	--bg-desc-grad: 			linear-gradient(145deg, var(--bg-desc), color-mix(in srgb, var(--bg-desc) 80%, white));
-	--bg-part-select-grad: 		linear-gradient(145deg, var(--bg-card-hover), color-mix(in srgb, var(--bg-card-hover) 85%, white));
+	--bg-meeting-select-grad: 	linear-gradient(145deg, color-mix(in srgb, var(--bg-card) 95%, white), color-mix(in srgb, var(--accent-secondary) 10%, white));
 	--bg-part-grad: 			linear-gradient(145deg, var(--bg-card-part), color-mix(in srgb, var(--bg-card-part) 85%, white));
 	--bg-part-hover-grad: 		linear-gradient(145deg, var(--bg-card-hover), color-mix(in srgb, var(--bg-card-hover) 85%, white));
-	--bg-meeting-select-grad: 	linear-gradient(145deg, var(--bg-selected), color-mix(in srgb, var(--bg-selected) 80%, white));
-	--bg-desc-select-grad: 		linear-gradient(145deg, var(--bg-desc), color-mix(in srgb, var(--bg-desc) 80%, white));
-		
+	--bg-part-select-grad: 		var(--bg-meeting-select-grad);
+	
 	--meetings-max-width: 1200px;
 	--card-max-width: 600px;
 	--card-min-width: 255px;
@@ -117,12 +120,7 @@
 	justify-content: space-evenly;
 	margin: auto;
 
-	background: radial-gradient(
-		ellipse at 60% 30%,
-		color-mix(in srgb, var(--base-bg) 100%, black) 0%,
-		color-mix(in srgb, var(--base-bg) 85%, white) 45%,
-		color-mix(in srgb, var(--base-bg) 65%, white) 100%
-	);
+	background: var(--bg-meetings-radial);
 	border-radius: 18px;
 	padding: 1.5rem;
 
@@ -169,7 +167,7 @@
 
 	.container-two {
 		display: grid;
-		grid-template-columns: 1fr 1fr;  /* your existing column setup */
+		grid-template-columns: 1fr 1fr;
 		grid-template-rows: auto auto auto; /* title / bar / content */
 		align-items: stretch;
 		gap: 8px;
@@ -261,7 +259,7 @@
 	.card-large {
 		gap: 1.5rem;
 		grid-template: "title icon" "content content" "bar bar" / 1fr auto;
-		background-image: var(--bg-desc-grad);
+		background-image: var(--bg-card-grad);
 		box-shadow: inset -2px 2px 0 rgba(255,255,255,0.6), 0 6px 20px color-mix(in srgb, var(--accent-primary) 18%, transparent);
 
 		.meeting-header {
@@ -387,7 +385,6 @@
 	}
 
 	.card-description-select {
-		background-image: var(--bg-desc-select-grad);
 		display: grid;
 	}
 }
@@ -404,7 +401,6 @@
 			justify-content: center;
 			justify-self: center;
 			justify-items: center;
-			gap: 0;
 			grid-template-columns: 1fr;
 			margin: auto;
 
@@ -439,7 +435,6 @@
 			}
 
 			.card-description-select {
-				background-image: var(--bg-desc-select-grad);
 				display: grid;
 				position: fixed;
 				z-index: 10;
