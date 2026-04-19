@@ -32,8 +32,8 @@ document.addEventListener("DOMContentLoaded", () => {
 	const meetingDescriptionsContainer = document.querySelector(".meeting-description-container");
 	const meetingDescriptions = document.querySelectorAll(".card-description");
 	if (meetingButtons && meetingDescriptions) {
-		meetingButtons.forEach((btn) => {
-			btn.addEventListener("click", function () {
+		meetingButtons.forEach((button) => {
+			button.addEventListener("click", function () {
 				meetingDescriptions.forEach((desc) => {
 					desc.className = "card card-large card-description";
 					meetingDescriptionsContainer.style.display = "grid";
@@ -41,6 +41,15 @@ document.addEventListener("DOMContentLoaded", () => {
 						meetingDescriptionsContainer.style.display = "none";
 					})
 				});
+				// meetingButtons.forEach((btn) => {
+				// 	btn.className = "card card-small";
+				// });
+				document.querySelectorAll('.meeting-select').forEach(btn => {
+					btn.classList.remove('meeting-select');
+				})
+				document.querySelector(
+					'.card-small[data-index="' + this.dataset.index + '"]'
+				).classList.add("meeting-select");
 				document.querySelector(
 					'.card-description[data-index="' + this.dataset.index + '"]',
 				).classList.add("card-description-select");

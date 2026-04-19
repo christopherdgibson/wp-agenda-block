@@ -346,7 +346,7 @@ export default function Edit({ attributes, setAttributes }) {
 								<div class="meeting-header">
 									<PlainText
 										value={subMeeting.header}
-										placeholder="Subheader 1"
+										placeholder={`Subheader ${j+1}`}
 										onChange={(val) =>
 											updateSubField(meeting, i, j, "header", val)
 										}
@@ -355,7 +355,7 @@ export default function Edit({ attributes, setAttributes }) {
 								<div class="meeting-title">
 									<PlainText
 										value={subMeeting.title}
-										placeholder="Subtitle 1"
+										placeholder={`Subtitle ${j+1}`}
 										onChange={(val) =>
 											updateSubField(meeting, i, j, "title", val)
 										}
