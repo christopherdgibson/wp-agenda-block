@@ -189,27 +189,24 @@ export default function Edit({ attributes, setAttributes }) {
 		console.log("addMeeting", meetings);
 	};
 
-	let addSubMeeting = (meeting) => {
-		const subMeetings = meeting.subMeetings;
-		console.log("subMeetings:", subMeetings);
-		const j = subMeetings.length;
-		console.log("subMeetings length:", j);
-		let newSubMeetings = [
-			...subMeetings,
+	let addSubMeeting = (meeting, i) => {
+		const newSubMeetings = [
+			...meeting.subMeetings,
 			{ header: "", title: "", description: "" },
 		];
-		console.log("newSubMeetings j defined:", subMeetings);
-		meeting.subMeetings = newSubMeetings; // todo: update here?
-		console.log("addSubMeeting final meeting:", meeting);
+		updateField(i, "subMeetings", newSubMeetings);
 	};
 
 	let splitExistingMeeting = (meeting, i) => {
-		console.log("splitExistingMeeting", meeting);
-		addSubMeeting(meeting);
-		// const newSubMeeting = { header: "", title: "", description: "" };
-		// updateField(i, "subMeetings", [...meeting.subMeetings, newSubMeeting]);
-		updateField(i, "supHeader", meeting.subMeetings[0].header);
-		console.log("meeting after title update:", meeting);
+		const newMeeting = { 
+			...meeting, 
+			supHeader: meeting.subMeetings[0].header, 
+			subMeetings: [...meeting.subMeetings] 
+		};
+		const newMeetings = meetings.map((m, idx) =>
+			idx === i ? { ...newMeeting, subMeetings: [...newMeeting.subMeetings, { header: "", title: "", description: "" }] } : m
+		);
+		updateMeetings(newMeetings);
 	};
 
 	function handleDeleteClick(index) {
@@ -319,7 +316,20 @@ export default function Edit({ attributes, setAttributes }) {
 						}
 					}}
 			>
-				<div class="edit-button-container">{addDeleteMeetingButton(i)}</div>
+				<div class="edit-button-container">{
+					addDeleteMeetingButton(i)}
+					<div class="remove-button">
+						<Button
+							variant="primary"
+							onClick={(e) => {
+								addSubMeeting(meeting, i);
+								e.stopPropagation();
+							}}
+						>
+							Add sub-meeting
+						</Button>
+					</div>
+				</div>
 				<div class="meeting-header">
 					<PlainText
 						value={meeting.supHeader}

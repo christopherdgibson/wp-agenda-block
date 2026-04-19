@@ -27,4 +27,4 @@ git clone https://github.com/christopherdgibson/wp-agenda-block.git wp-content/p
 4. Add block via the Gutenberg editor
 
 ## Screenshots
-![Agenda Block screenshot](docs/screenshots/agenda-screenshot.png)# wp-agenda-block
+![Agenda Block screenshot](docs/screenshots/wp-agenda-screenshot1.png)# wp-agenda-block
