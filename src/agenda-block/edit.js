@@ -134,8 +134,8 @@ export default function Edit({ attributes, setAttributes }) {
 	let [meetings, setMeetings] = useState(attributes.meetings || []);
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [isModalOpenDefault, setIsModalOpenDefault] = useState(false);
-	const [isModalOpenDivider, setIsModalOpenDivider] = useState(false);
 	const [selectedMeeting, setSelectedMeeting] = useState(null);
+	const [selectedCard, setSelectedCard] = useState({ index: null, subIndex: null });
 
 	// Remove unused Duotone items
 
@@ -224,16 +224,6 @@ export default function Edit({ attributes, setAttributes }) {
 		setSelectedMeeting(null);
 	}
 
-	const handleClosePopup = () => {
-		console.log("Handle close popup:");
-		if (descriptionsRef) {
-			const btnClosePopup =
-				descriptionsRef.current.querySelector(".close-popup");
-			console.log("closePopup:", btnClosePopup);
-			descriptionsRef.current.style.display = "none";
-		}
-	};
-
 	// Card modification buttons
 
 	function addDeleteMeetingButton(i) {
@@ -269,60 +259,6 @@ export default function Edit({ attributes, setAttributes }) {
 		);
 	}
 
-	// Display description card events
-
-	let displayDescriptionCard = (row) => {
-		if (descriptionsRef) {
-			descriptionsRef.current.style.display = "grid";
-			descriptionsRef.current
-				.querySelectorAll(".card-description")
-				.forEach(
-					(desc) => (desc.className = "card card-large card-description"),
-				);
-			descriptionsRef.current.querySelector(
-				'.card-description[data-index="' + row + '"]',
-			).className = "card card-large card-description card-description-select";
-			// window.addEventListener("click", (event) => {
-			// 	if (event.target === descriptionsRef.current) {
-			// 		descriptionsRef.current.style.display = "none";
-			// 	}
-			// });
-		}
-	};
-
-	let displaySubDescriptionCard = (row, subIndex) => {
-		if (descriptionsRef) {
-			descriptionsRef.current.style.display = "grid";
-			descriptionsRef.current
-				.querySelectorAll(".card-description")
-				.forEach(
-					(desc) => (desc.className = "card card-large card-description"),
-				);
-			descriptionsRef.current.querySelector(
-				'.card-description[data-index="' +
-					row +
-					'"][data-subindex="' +
-					subIndex +
-					'"]',
-			).className = "card card-large card-description card-description-select";
-			// console.log(
-			// 	"after query selector",
-			// 	descriptionsRef.current.querySelector(
-			// 		'.card-description[data-index="' +
-			// 			row +
-			// 			'"][data-subindex="' +
-			// 			subIndex +
-			// 			'"]',
-			// 	),
-			// );
-			// window.addEventListener("click", (event) => {
-			// 	if (event.target === descriptionsRef.current) {
-			// 		descriptionsRef.current.style.display = "none";
-			// 	}
-			// });
-		}
-	};
-
 	// Add cards for display
 
 	function addMeetingCard(meeting, i) {
@@ -330,10 +266,17 @@ export default function Edit({ attributes, setAttributes }) {
 			<>
 				<button
 					key={i}
-					class="card card-small"
+					className={`card card-small${
+					selectedCard.index === i && selectedCard.subIndex === null
+						? ' meeting-select'
+						: ''
+				}`}
 					data-index={i}
-					style={{ position: "relative" }}
-					onClick={() => displayDescriptionCard(i)}
+					onClick={(e) => {
+						if (e.target === e.currentTarget || window.innerWidth > 768) {
+								setSelectedCard({ index: i, subIndex: null });
+						}
+					}}
 				>
 					<div class="edit-button-container">
 						{addDeleteMeetingButton(i)}
@@ -364,10 +307,17 @@ export default function Edit({ attributes, setAttributes }) {
 		return (
 			<button
 				key={i}
-				class="card card-small"
+				className={`card card-small${
+					selectedCard.index === i && selectedCard.subIndex === null
+						? ' meeting-select'
+						: ''
+					}`}
 				data-index={i}
-				style={{ position: "relative" }}
-				onClick={() => displayDescriptionCard(i)}
+				onClick={(e) => {
+						if (e.target === e.currentTarget || window.innerWidth > 768) {
+								setSelectedCard({ index: i, subIndex: 0 });
+						}
+					}}
 			>
 				<div class="edit-button-container">{addDeleteMeetingButton(i)}</div>
 				<div class="meeting-header">
@@ -381,11 +331,16 @@ export default function Edit({ attributes, setAttributes }) {
 					{meeting.subMeetings.map((subMeeting, j) => (
 						<>
 							<a
-								class="card card-part"
-								href
+								className={`card card-part${
+									selectedCard.index === i && selectedCard.subIndex === j
+										? ' meeting-select'	: ''
+									}`}
+								// href
 								onClick={(e) => {
-									displaySubDescriptionCard(i, j);
-									e.stopPropagation();
+									if (e.target === e.currentTarget || window.innerWidth > 768) {
+										setSelectedCard({ index: i, subIndex: j });
+										e.stopPropagation();
+									}
 								}}
 							>
 								<div class="meeting-header">
@@ -416,8 +371,13 @@ export default function Edit({ attributes, setAttributes }) {
 
 	function addDescriptionCard(meeting, i) {
 		return (
-			<div class="card card-large card-description" data-index={i}>
-				<button class="close-popup" onClick={handleClosePopup}>
+			<div className={`card card-large card-description${
+					selectedCard.index === i && selectedCard.subIndex === null
+						? ' card-description-select'
+						: ''
+				}`}
+				data-index={i}>
+				<button class="close-popup" onClick={() => setSelectedCard({ index: null, subIndex: null })}>
 					X
 				</button>
 				<div class="meeting-header">{meeting.subMeetings[0].header}</div>
@@ -450,11 +410,15 @@ export default function Edit({ attributes, setAttributes }) {
 	function addSubDescriptionCards(meeting, i) {
 		return meeting.subMeetings.map((subMeeting, j) => (
 			<div
-				class="card card-large card-description"
+				className={`card card-large card-description${
+					selectedCard.index === i && selectedCard.subIndex === j
+						? ' card-description-select'
+						: ''
+				}`}
 				data-index={i}
 				data-subindex={j}
 			>
-				<button class="close-popup" onClick={handleClosePopup}>
+				<button class="close-popup" onClick={() => setSelectedCard({ index: null, subIndex: null })}>
 					X
 				</button>
 				<div class="meeting-header">
@@ -738,6 +702,11 @@ export default function Edit({ attributes, setAttributes }) {
 						id="meeting-description-container"
 						class="meeting-description-container"
 						ref={descriptionsRef}
+						style={{ display: selectedCard.index !== null ? 'grid' : 'none' }}
+						onClick={(e) => {
+							if (e.target === descriptionsRef.current)
+								setSelectedCard({ index: null, subIndex: null });
+							}}
 					>
 						{meetings.map((meeting, i) =>
 							meeting?.subMeetings?.length > 1

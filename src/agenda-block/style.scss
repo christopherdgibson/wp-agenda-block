@@ -165,19 +165,9 @@
 	.container-two {
 		display: grid;
 		grid-template-columns: 1fr 1fr;  /* your existing column setup */
-		grid-template-rows: subgrid;     /* inherit row sizing from children */
-		/* OR define rows explicitly: */
 		grid-template-rows: auto auto auto; /* title / bar / content */
 		align-items: stretch;
 		gap: 8px;
-		// display: grid;
-		// grid-template-columns: 1fr 1fr;
-		// gap: 10px;
-		// height: 100%;
-		// justify-self: start;
-		// align-content: center;
-		// align-items: flex-end;
-		// width: 100%;
 	}
 	.container-two a {
 		text-align: center;
@@ -297,6 +287,7 @@
 
 	.card-small {
 		display: grid;
+		position: relative;
 		grid-template: "title title" "bar bar" "content content" / 1fr auto;
 		gap: 0.5rem;
 		padding-top: 10px;
@@ -310,16 +301,15 @@
 		.meeting-title {
 			grid-area: content;
 
+			.card-part.meeting-select {
+				background-image: linear-gradient(145deg, var(--bg-card-hover), color-mix(in srgb, var(--bg-card-hover) 85%, white));
+			}
+
 			.card-part {
 				display: grid;
 				grid-row: span 3;
 				grid-template-rows: subgrid; /* inherit the 3 shared row tracks */
-				grid-template-areas:
-					"title"
-					"bar"
-					"content";
-				// display: grid;
-				// grid-template: "title title" "bar bar" "content content" / 1fr auto;
+				grid-template-areas: "title" "bar" "content";
 				align-items: center;
 				align-content: space-evenly;
 				padding: 8px 10px;
@@ -355,30 +345,40 @@
 		}
 
 		.edit-button-container {
-			display: none;
-			height: 100%;
-			width: 30px;
+			display: grid;
+			opacity: 0;
+			visibility: hidden;
+			width: max-content;
 			position: absolute;
-			justify-self: right;
+			padding-left: 10px;
+			justify-items: left;
+			gap: 10px;
 			top: 0;
 			font-size: 10px;
 			z-index: 1;
 			left: 100%;
+			transform: translateY(0);
+			transition: opacity 0.2s ease, transform 0.2s ease;
 
 			.remove-button {
 				display: grid;
-				height: 20px;
-				width: 20px;
-				justify-self: center;
+				height: max-content;
+				width: max-content;
+
+				button {
+					margin-bottom: 0;
+				}
 			}
 
 			&:hover {
-				display: grid;
+				opacity: 1;
+				visibility: visible;
 			}
 		}
 
 		&:hover .edit-button-container {
-			display: grid;
+			opacity: 1;
+			visibility: visible;
 		}
 	}
 
@@ -408,6 +408,16 @@
 			gap: 0;
 			grid-template-columns: 1fr;
 			margin: auto;
+
+			.edit-button-container {
+				top: 0;
+				left: auto;
+				right: 0;
+				padding-left: 0;
+				padding-bottom: 10px;
+				transform: translateY(-100%);
+				justify-items: right;
+			}
 		}
 
 		.meeting-description-container {
@@ -443,7 +453,11 @@
 				justify-self: right;
 				position: absolute;
 				top: -75px;
-				font-size: 40px;
+				font-size: 24px;
+				background: var(--wp-components-color-accent, #cc1818);
+				border: none;
+				color: var(--wp-components-color-accent-inverted, #fff);
+				cursor: pointer;
 			}
 		}
 	}

@@ -43,13 +43,13 @@ document.addEventListener("DOMContentLoaded", () => {
 				});
 				document.querySelector(
 					'.card-description[data-index="' + this.dataset.index + '"]',
-				).className = "card card-large card-description card-description-select";
+				).classList.add("card-description-select");
 			});
-				window.addEventListener("click", (event) => {
-					if (event.target === meetingDescriptionsContainer) {
-					meetingDescriptionsContainer.style.display = "none";
-					}
-				});
+			window.addEventListener("click", (event) => {
+				if (event.target === meetingDescriptionsContainer) {
+				meetingDescriptionsContainer.style.display = "none";
+				}
+			});
 		});
 		meetingATags.forEach((aTag) => {
 			aTag.addEventListener("click", function (e) {
@@ -60,7 +60,13 @@ document.addEventListener("DOMContentLoaded", () => {
 				});
 				document.querySelector(
 					'.card-description[data-index="' + this.dataset.index + '"][data-sub-index="' + this.dataset.subIndex + '"]'
-				).className = "card card-large card-description card-description-select";
+				).classList.add("card-description-select");
+				meetingATags.forEach((tag) => {
+					tag.className = "card card-part";
+				});
+				document.querySelector(
+					'.card-part[data-index="' + this.dataset.index + '"][data-sub-index="' + this.dataset.subIndex + '"]'
+				).classList.add("meeting-select");
 			});
 		});
 	}

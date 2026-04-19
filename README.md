@@ -12,7 +12,7 @@ A structured content card block for presenting items with expandable detail. Car
 - XAMPP / Apache (local development)
 
 ## Demo
-[View on WordPress Playground](https://playground.wordpress.net) ← coming soon
+[View on WordPress Playground](https://playground.wordpress.net/?blueprint-url=https://raw.githubusercontent.com/christopherdgibson/wp-agenda-block/main/blueprint.json)
 
 ## Architecture
 Plugin avoids WordPress block data APIs in favour of custom implementations — the editor (`edit.js`) and frontend (`save.js`) interfaces are written directly for full control over both the authoring experience and rendered output.
