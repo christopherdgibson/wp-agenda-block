@@ -347,9 +347,28 @@
 				}
 			}
 		}
-
-		.edit-button-container,
 		.card-part .edit-sub-button-container {
+			display: flex;
+			opacity: 0;
+			visibility: hidden;
+			position: absolute;
+			top: 0;
+			left: auto;
+			right: 0;
+			padding-left: 0;
+			padding-bottom: 10px;
+			gap: 10px;
+			transform: translateY(-100%);
+			width: 100%;
+			justify-content: space-between;
+			flex-wrap: wrap-reverse;
+			.edit-button {
+				flex: 0 1 auto;
+			}
+		}
+
+		.edit-button-container
+		 {
 			display: grid;
 			opacity: 0;
 			visibility: hidden;

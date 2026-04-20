@@ -364,8 +364,7 @@ export default function Edit({ attributes, setAttributes }) {
 									}
 								}}
 							>
-								<div class="edit-sub-button-container">{
-									addDeleteMeetingButton(i, j)}
+								<div class="edit-sub-button-container">
 									<div class="edit-button">
 										<Button
 											variant="primary"
@@ -374,9 +373,10 @@ export default function Edit({ attributes, setAttributes }) {
 												e.stopPropagation();
 											}}
 										>
-											Insert sub-meeting
+											&larr; Add meeting before
 										</Button>
 									</div>
+									{addDeleteMeetingButton(i, j)}
 								</div>
 								<div class="meeting-header">
 									<PlainText
