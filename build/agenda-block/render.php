@@ -32,16 +32,14 @@ $divider_right = $attributes['meetingsDividerColorRight'] ?? '#FFA500';
                         <div class="meeting-title container-two">
                             <?php foreach ($meeting['subMeetings'] as $j => $sub) : ?>
                                 <?php if (isset($sub['title'])) : ?>
-                                    <div>
-                                        <a class="card card-part" href="#" data-index="<?php echo $i; ?>" data-sub-index="<?php echo $j; ?>">
-                                            <div class="meeting-header">
-                                                <?php echo esc_html($sub['header'] ?? ''); ?>
-                                            </div>
-                                            <div class="meeting-title">
-                                                <?php echo esc_html($sub['title'] ?? ''); ?>
-                                            </div>
-                                        </a>
-                                    </div>
+                                    <a class="card card-part" href="#" data-index="<?php echo $i; ?>" data-sub-index="<?php echo $j; ?>">
+                                        <div class="meeting-header">
+                                            <?php echo esc_html($sub['header'] ?? ''); ?>
+                                        </div>
+                                        <div class="meeting-title">
+                                            <?php echo esc_html($sub['title'] ?? ''); ?>
+                                        </div>
+                                    </a>
                                 <?php endif; ?>
                             <?php endforeach; ?>
                         </div>
