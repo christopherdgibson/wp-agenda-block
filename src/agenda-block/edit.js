@@ -132,9 +132,9 @@ export default function Edit({ attributes, setAttributes }) {
 
 	// Initialize state from attributes or as an empty array
 	let [meetings, setMeetings] = useState(attributes.meetings || []);
-	const [isModalOpen, setIsModalOpen] = useState(false);
+	const [isModalOpenDelete, setIsModalOpenDelete] = useState(false);
 	const [isModalOpenDefault, setIsModalOpenDefault] = useState(false);
-	const [selectedMeeting, setSelectedMeeting] = useState(null);
+	const [selectedMeeting, setSelectedMeeting] = useState({ index: null, subIndex: null });
 	const [selectedCard, setSelectedCard] = useState({ index: null, subIndex: null });
 
 	// Remove unused Duotone items
@@ -209,28 +209,34 @@ export default function Edit({ attributes, setAttributes }) {
 		updateMeetings(newMeetings);
 	};
 
-	function handleDeleteClick(index) {
-		setSelectedMeeting(index);
-		setIsModalOpen(true);
+	function handleDeleteClick(index, subIndex) {
+		setSelectedMeeting( {index: index, subIndex: subIndex} );
+		setIsModalOpenDelete(true);
 	}
 
 	function confirmDelete() {
-		const newMeetings = meetings.filter((_, i) => i != selectedMeeting);
-		updateMeetings(newMeetings);
-		setIsModalOpen(false);
-		setSelectedMeeting(null);
+		if (selectedMeeting.subIndex === null) {
+			const newMeetings = meetings.filter((_, i) => i !== selectedMeeting.index);
+			updateMeetings(newMeetings);
+		} else {
+			const meeting = meetings[selectedMeeting.index];
+			const newSubMeetings = meeting.subMeetings.filter((_, j) => j !== selectedMeeting.subIndex);
+			updateField(selectedMeeting.index, "subMeetings", newSubMeetings);
+		}
+		setIsModalOpenDelete(false);
+		setSelectedMeeting({ index: null, subIndex: null });
 	}
 
 	// Card modification buttons
 
-	function addDeleteMeetingButton(i) {
+	function addDeleteMeetingButton(i, j) {
 		return (
-			<div class="remove-button">
+			<div class="edit-button">
 				<Button
 					variant="primary"
 					isDestructive
 					onClick={(e) => {
-						handleDeleteClick(i);
+						handleDeleteClick(i, j);
 						e.stopPropagation();
 					}}
 				>
@@ -242,7 +248,7 @@ export default function Edit({ attributes, setAttributes }) {
 
 	function addSplitExistingMeetingButton(meeting, i) {
 		return (
-			<div class="remove-button">
+			<div class="edit-button">
 				<Button
 					variant="primary"
 					onClick={(e) => {
@@ -276,7 +282,7 @@ export default function Edit({ attributes, setAttributes }) {
 					}}
 				>
 					<div class="edit-button-container">
-						{addDeleteMeetingButton(i)}
+						{addDeleteMeetingButton(i, null)}
 						{addSplitExistingMeetingButton(meeting, i)}
 					</div>
 					<div class="meeting-header">
@@ -313,8 +319,8 @@ export default function Edit({ attributes, setAttributes }) {
 					}}
 			>
 				<div class="edit-button-container">{
-					addDeleteMeetingButton(i)}
-					<div class="remove-button">
+					addDeleteMeetingButton(i, null)}
+					<div class="edit-button">
 						<Button
 							variant="primary"
 							onClick={(e) => {
@@ -349,6 +355,20 @@ export default function Edit({ attributes, setAttributes }) {
 									}
 								}}
 							>
+								<div class="edit-sub-button-container">{
+									addDeleteMeetingButton(i, j)}
+									<div class="edit-button">
+										<Button
+											variant="primary"
+											onClick={(e) => {
+												addSubMeeting(meeting, i);
+												e.stopPropagation();
+											}}
+										>
+											Insert sub-meeting
+										</Button>
+									</div>
+								</div>
 								<div class="meeting-header">
 									<PlainText
 										value={subMeeting.header}
@@ -610,7 +630,7 @@ export default function Edit({ attributes, setAttributes }) {
 		return (
 			<Modal
 				title="Delete Meeting"
-				onRequestClose={() => setIsModalOpen(false)}
+				onRequestClose={() => setIsModalOpenDelete(false)}
 			>
 				<p>Are you sure you want to delete this meeting?</p>
 				<Button
@@ -623,7 +643,7 @@ export default function Edit({ attributes, setAttributes }) {
 				</Button>
 				<Button
 					variant="secondary"
-					onClick={() => setIsModalOpen(false)}
+					onClick={() => setIsModalOpenDelete(false)}
 					style={{ marginLeft: "1em" }}
 				>
 					Cancel
@@ -697,7 +717,7 @@ export default function Edit({ attributes, setAttributes }) {
 								? addSplitMeetingCard(meeting, i)
 								: addMeetingCard(meeting, i),
 						)}
-						{isModalOpen && showDeleteMeetingModal()}
+						{isModalOpenDelete && showDeleteMeetingModal()}
 						<div class="card-button">
 							<Button variant="primary" onClick={addMeeting}>
 								Add Meeting

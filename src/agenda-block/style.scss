@@ -305,6 +305,7 @@
 
 			.card-part {
 				display: grid;
+				position: relative;
 				grid-row: span 3;
 				grid-template-rows: subgrid; /* inherit the 3 shared row tracks */
 				grid-template-areas: "title" "bar" "content";
@@ -322,6 +323,11 @@
 
 				&:hover {
 					background-image: var(--bg-part-hover-grad);
+
+					.edit-sub-button-container {
+						opacity: 1;
+						visibility: visible;
+					}
 				}
 
 				.meeting-header-small {
@@ -342,7 +348,8 @@
 			}
 		}
 
-		.edit-button-container {
+		.edit-button-container,
+		.card-part .edit-sub-button-container {
 			display: grid;
 			opacity: 0;
 			visibility: hidden;
@@ -358,7 +365,7 @@
 			transform: translateY(0);
 			transition: opacity 0.2s ease, transform 0.2s ease;
 
-			.remove-button {
+			.edit-button {
 				display: grid;
 				height: max-content;
 				width: max-content;
@@ -367,16 +374,16 @@
 					margin-bottom: 0;
 				}
 			}
-
-			&:hover {
-				opacity: 1;
-				visibility: visible;
-			}
 		}
 
-		&:hover .edit-button-container {
+		&:hover .edit-button-container{
 			opacity: 1;
 			visibility: visible;
+		}
+
+		&:has(.card-part:hover) .edit-button-container {
+			opacity: 0;
+			visibility: hidden;
 		}
 	}
 
