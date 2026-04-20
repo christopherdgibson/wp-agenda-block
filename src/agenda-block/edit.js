@@ -197,6 +197,15 @@ export default function Edit({ attributes, setAttributes }) {
 		updateField(i, "subMeetings", newSubMeetings);
 	};
 
+	let insertSubMeeting = (meeting, i, j) => {
+    const newSubMeetings = [
+        ...meeting.subMeetings.slice(0, j),
+        { header: "", title: "", description: "" },
+        ...meeting.subMeetings.slice(j),
+    ];
+    updateField(i, "subMeetings", newSubMeetings);
+};
+
 	let splitExistingMeeting = (meeting, i) => {
 		const newMeeting = { 
 			...meeting, 
@@ -361,7 +370,7 @@ export default function Edit({ attributes, setAttributes }) {
 										<Button
 											variant="primary"
 											onClick={(e) => {
-												addSubMeeting(meeting, i);
+												insertSubMeeting(meeting, i, j);
 												e.stopPropagation();
 											}}
 										>
