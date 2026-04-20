@@ -152,7 +152,7 @@ export default function Edit({ attributes, setAttributes }) {
 		setMeetings(newMeetings);
 		setAttributes({ meetings: newMeetings });
 		if (callback) {
-			callback;
+			callback();
 		}
 	};
 
@@ -304,11 +304,7 @@ export default function Edit({ attributes, setAttributes }) {
 		return (
 			<button
 				key={i}
-				className={`card card-small${
-					selectedCard.index === i && selectedCard.subIndex === null
-						? ' meeting-select'
-						: ''
-					}`}
+				className={'card card-small'}
 				data-index={i}
 				onClick={(e) => {
 						if (e.target === e.currentTarget || window.innerWidth > 768) {

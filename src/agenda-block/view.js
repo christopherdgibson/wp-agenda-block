@@ -35,21 +35,24 @@ document.addEventListener("DOMContentLoaded", () => {
 		meetingButtons.forEach((button) => {
 			button.addEventListener("click", function () {
 				meetingDescriptions.forEach((desc) => {
-					desc.className = "card card-large card-description";
 					meetingDescriptionsContainer.style.display = "grid";
 					desc.querySelector(".close-popup").addEventListener("click", function () {
 						meetingDescriptionsContainer.style.display = "none";
 					})
 				});
-				// meetingButtons.forEach((btn) => {
-				// 	btn.className = "card card-small";
-				// });
-				document.querySelectorAll('.meeting-select').forEach(btn => {
-					btn.classList.remove('meeting-select');
-				})
-				document.querySelector(
-					'.card-small[data-index="' + this.dataset.index + '"]'
-				).classList.add("meeting-select");
+				// Clear all select classes
+				document.querySelectorAll('.meeting-select, .card-description-select').forEach(card => {
+					card.classList.remove('meeting-select');
+					card.classList.remove('card-description-select');
+				});
+				// Highlight first subMeeting card if it exists, else entire card
+				const subCard = button.querySelector('.card-part');
+				if (subCard) {
+					subCard.classList.add('meeting-select');
+				} else {
+					button.classList.add('meeting-select')
+				}
+				// Show description
 				document.querySelector(
 					'.card-description[data-index="' + this.dataset.index + '"]',
 				).classList.add("card-description-select");
@@ -64,18 +67,21 @@ document.addEventListener("DOMContentLoaded", () => {
 			aTag.addEventListener("click", function (e) {
 				e.stopPropagation(); // prevent the parent button click from firing too
 				meetingDescriptions.forEach((desc) => {
-					desc.className = "card card-large card-description";
 					meetingDescriptionsContainer.style.display = "grid";
 				});
-				document.querySelector(
-					'.card-description[data-index="' + this.dataset.index + '"][data-sub-index="' + this.dataset.subIndex + '"]'
-				).classList.add("card-description-select");
-				meetingATags.forEach((tag) => {
-					tag.className = "card card-part";
+				// Clear all select classes
+				document.querySelectorAll('.meeting-select, .card-description-select').forEach(card => {
+					card.classList.remove('meeting-select');
+					card.classList.remove('card-description-select');
 				});
+				// Highlight selected meeting
 				document.querySelector(
 					'.card-part[data-index="' + this.dataset.index + '"][data-sub-index="' + this.dataset.subIndex + '"]'
 				).classList.add("meeting-select");
+				// Show description
+				document.querySelector(
+					'.card-description[data-index="' + this.dataset.index + '"][data-sub-index="' + this.dataset.subIndex + '"]'
+				).classList.add("card-description-select");
 			});
 		});
 	}
