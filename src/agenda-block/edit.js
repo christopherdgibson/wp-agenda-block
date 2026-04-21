@@ -416,7 +416,9 @@ export default function Edit({ attributes, setAttributes }) {
 									</div>
 								}
 								</div>
-								{addDeleteMeetingButton(i, j)}
+								<div className="edit-sub-button-container">
+									{addDeleteMeetingButton(i, j)}
+								</div>
 								<div class="meeting-header">
 									<PlainText
 										value={subMeeting.header}
