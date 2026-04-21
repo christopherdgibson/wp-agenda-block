@@ -252,17 +252,16 @@ export default function Edit({ attributes, setAttributes }) {
 	function insertMeetingBefore(i) {
 		return(
 			<div class="add-button-container">
-				<div class="add-button-right">
+				<div class="btn-ui add-button-right">
 					<span className="tool-tip">Insert meeting before</span>
-					<Button
-						variant="primary"
+					<button
 						onClick={(e) => {
 							insertMeeting(i);
 							e.stopPropagation();
 						}}
 					>
 						&#9626;
-					</Button>
+					</button>
 				</div>
 			</div>
 		);
@@ -271,35 +270,32 @@ export default function Edit({ attributes, setAttributes }) {
 	function addDeleteMeetingButton(i, j) {
 		const toolTip = j === null ? "Delete meeting" : "Delete sub-meeting";
 		return (
-			<div class="delete-button">
+			<div class="btn-ui delete-button">
 				<span className="tool-tip">{toolTip}</span>
-				<Button
-					variant="primary"
-					isDestructive
+				<button
 					onClick={(e) => {
 						handleDeleteClick(i, j);
 						e.stopPropagation();
 					}}
 				>
 					&#x2716;
-				</Button>
+				</button>
 			</div>
 		);
 	}
 
 	function addSplitExistingMeetingButton(meeting, i) {
 		return (
-			<div class="split-button">
+			<div class="btn-ui split-button">
 				<span className="tool-tip">Split into sub-meetings</span>
-				<Button
-					variant="primary"
+				<button
 					onClick={(e) => {
 						splitExistingMeeting(meeting, i);
 						e.stopPropagation();
 					}}
 				>
 					&#9870;
-				</Button>
+				</button>
 			</div>
 		);
 	}
@@ -389,30 +385,28 @@ export default function Edit({ attributes, setAttributes }) {
 								}}
 							>
 								<div class="add-sub-button-container">
-									<div class="add-button-left">
+									<div class="btn-ui add-button-left">
 										<span className="tool-tip">Insert sub-meeting before</span>
-										<Button
-											variant="primary"
+										<button
 											onClick={(e) => {
 												insertSubMeeting(meeting, i, j);
 												e.stopPropagation();
 											}}
 										>
 											&#9630;
-										</Button>
+										</button>
 									</div>
 									{j===meeting.subMeetings.length - 1 &&
-									<div class="add-button-right">
+									<div class="btn-ui add-button-right">
 										<span className="tool-tip">Insert sub-meeting after</span>
-										<Button
-											variant="primary"
+										<button
 											onClick={(e) => {
 												insertSubMeeting(meeting, i, j + 1);
 												e.stopPropagation();
 											}}
 										>
 											&#9626;
-										</Button>
+										</button>
 									</div>
 								}
 								</div>

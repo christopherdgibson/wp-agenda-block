@@ -163,6 +163,24 @@
 		}
 	}
 
+	.btn-ui {
+		button {
+			display: grid;
+			height: 35px;
+			width: 35px;
+			justify-content: center;
+			// align-content: center;
+			font-size: 24px;
+			background: var(--wp-admin-theme-color, #007cba);
+			color: var(--wp-components-color-accent-inverted, #fff);
+			border: none;
+
+			&:hover {
+				background-color: var(--wp-admin-theme-color-darker-10, #006ba1);
+			}
+		}
+	}
+
 	.card-description {
 		font-size: 16px;
 		// width: 100%;
@@ -369,6 +387,32 @@
 			}
 		}
 
+		.add-button-left, .add-button-right {
+			display: flex;
+			flex-direction: column;
+			flex: 0 1 auto;
+			position: relative;
+
+			&.btn-ui button {
+				font-size: 20px;
+			}
+
+			&:hover .tool-tip {
+				opacity: 1;
+				visibility: visible;
+				transition: var(--transition-out-btn-ui);
+			}
+		}
+
+		.add-button-left {
+			right: 0;
+		}
+
+		.add-button-right .tool-tip {
+			left: auto;
+			right: 0;
+		}
+
 		.card-part {
 			.add-sub-button-container {
 				display: flex;
@@ -384,28 +428,6 @@
 				justify-content: space-between;
 				flex-wrap: wrap-reverse;
 				transition: var(--transition-btn-ui);
-
-				.add-button-left, .add-button-right {
-					display: flex;
-					flex-direction: column;
-					flex: 0 1 auto;
-					position: relative;
-
-					&:hover .tool-tip {
-						opacity: 1;
-						visibility: visible;
-						transition: var(--transition-out-btn-ui);
-					}
-				}
-				
-				.add-button-left {
-					right: 0;
-				}
-
-				.add-button-right .tool-tip {
-					left: auto;
-					right: 0;
-				}
 			}
 		}
 
@@ -423,27 +445,6 @@
 			justify-content: right;
 			flex-wrap: wrap-reverse;
 			transition: var(--transition-btn-ui);
-			.add-button-left, .add-button-right {
-				display: flex;
-				flex-direction: column;
-				flex: 0 1 auto;
-				position: relative;
-
-				&:hover .tool-tip {
-					opacity: 1;
-					visibility: visible;
-					transition: var(--transition-out-btn-ui);
-				}
-			}
-			
-			.add-button-left {
-				right: 0;
-			}
-
-			.add-button-right .tool-tip {
-				left: auto;
-				right: 0;
-			}
 		}
 
 		.delete-button {
@@ -453,10 +454,21 @@
 			align-items: center;
 			gap: 10px;
 			top: 0;
-			font-size: 10px;
 			z-index: 1;
 			transform: translateY(0);
 			transition: var(--transition-btn-ui);
+
+			button {
+				font-size: 20px;
+				align-content: center;
+				background: var(--wp-components-color-accent, #cc1818);
+				border: none;
+				color: var(--wp-components-color-accent-inverted, #fff);
+
+				&:hover {
+					background-color: var(--wp-components-color-accent-darker-10, #9e1313);
+				}
+			}
 			
 			.tool-tip {
 				bottom: unset;
@@ -492,10 +504,6 @@
 				height: max-content;
 				width: max-content;
 				align-items: center;
-
-				button {
-					margin-bottom: 0;
-				}
 
 				.tool-tip {
 					bottom: unset;
