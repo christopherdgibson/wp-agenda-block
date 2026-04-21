@@ -186,7 +186,18 @@ export default function Edit({ attributes, setAttributes }) {
 				subMeetings: [{ header: "", title: "", description: "" }],
 			},
 		]);
-		console.log("addMeeting", meetings);
+	};
+
+	let insertMeeting = (i) => {
+		const newMeetings = [
+			...meetings.slice(0, i),
+			{
+				supHeader: "",
+				subMeetings: [{ header: "", title: "", description: "" }],
+			},
+			...meetings.slice(i)
+		];
+		updateMeetings(newMeetings);
 	};
 
 	let addSubMeeting = (meeting, i) => {
@@ -198,13 +209,13 @@ export default function Edit({ attributes, setAttributes }) {
 	};
 
 	let insertSubMeeting = (meeting, i, j) => {
-    const newSubMeetings = [
-        ...meeting.subMeetings.slice(0, j),
-        { header: "", title: "", description: "" },
-        ...meeting.subMeetings.slice(j),
-    ];
-    updateField(i, "subMeetings", newSubMeetings);
-};
+		const newSubMeetings = [
+			...meeting.subMeetings.slice(0, j),
+			{ header: "", title: "", description: "" },
+			...meeting.subMeetings.slice(j),
+		];
+		updateField(i, "subMeetings", newSubMeetings);
+	};
 
 	let splitExistingMeeting = (meeting, i) => {
 		const newMeeting = { 
@@ -238,6 +249,25 @@ export default function Edit({ attributes, setAttributes }) {
 
 	// Card modification buttons
 
+	function insertMeetingBefore(i) {
+		return(
+			<div class="add-button-container">
+				<div class="add-button-right">
+					<span className="tool-tip">Insert meeting before</span>
+					<Button
+						variant="primary"
+						onClick={(e) => {
+							insertMeeting(i);
+							e.stopPropagation();
+						}}
+					>
+						&#9626;
+					</Button>
+				</div>
+			</div>
+		);
+	}
+
 	function addDeleteMeetingButton(i, j) {
 		const toolTip = j === null ? "Delete meeting" : "Delete sub-meeting";
 		return (
@@ -259,7 +289,7 @@ export default function Edit({ attributes, setAttributes }) {
 
 	function addSplitExistingMeetingButton(meeting, i) {
 		return (
-			<div class="edit-button">
+			<div class="split-button">
 				<span className="tool-tip">Split into sub-meetings</span>
 				<Button
 					variant="primary"
@@ -293,6 +323,7 @@ export default function Edit({ attributes, setAttributes }) {
 						}
 					}}
 				>
+					{insertMeetingBefore(i)}
 					<div class="edit-button-container">
 						{addDeleteMeetingButton(i, null)}
 						{addSplitExistingMeetingButton(meeting, i)}
@@ -330,8 +361,9 @@ export default function Edit({ attributes, setAttributes }) {
 						}
 					}}
 			>
-				<div class="edit-button-container">{
-					addDeleteMeetingButton(i, null)}
+				{insertMeetingBefore(i)}
+				<div class="edit-button-container">
+					{addDeleteMeetingButton(i, null)}
 				</div>
 				<div class="meeting-header">
 					<PlainText
@@ -356,8 +388,8 @@ export default function Edit({ attributes, setAttributes }) {
 									}
 								}}
 							>
-								<div class="edit-sub-button-container">
-									<div class="edit-button-left">
+								<div class="add-sub-button-container">
+									<div class="add-button-left">
 										<span className="tool-tip">Insert sub-meeting before</span>
 										<Button
 											variant="primary"
@@ -370,7 +402,7 @@ export default function Edit({ attributes, setAttributes }) {
 										</Button>
 									</div>
 									{j===meeting.subMeetings.length - 1 &&
-									<div class="edit-button-right">
+									<div class="add-button-right">
 										<span className="tool-tip">Insert sub-meeting after</span>
 										<Button
 											variant="primary"

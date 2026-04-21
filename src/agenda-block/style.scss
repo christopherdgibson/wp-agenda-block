@@ -103,6 +103,13 @@
 	--card-max-width: 600px;
 	--card-min-width: 255px;
 
+	--radius-btn-ui: 4px;
+	--transition-btn-ui-time: 0.2s;
+	--transition-btn-ui: opacity var(--transition-btn-ui-time) ease,
+		transform var(--transition-btn-ui-time) ease, visibility var(--transition-btn-ui-time);
+	--transition-out-btn-ui: opacity var(--transition-btn-ui-time) ease,
+		transform var(--transition-btn-ui-time) ease, visibility 0s linear 0s;
+
 	#iconGrad stop:first-child {
 		stop-color: var(--accent-primary);
 	}
@@ -146,7 +153,7 @@
 		border-width: 0;
 		border-radius: 10px;
 		color: var(--font-color);
-		transition: transform 0.15s ease, box-shadow 0.15s ease;
+		transition: var(--transition-btn-ui);
 		&:hover {
 			background-image: var(--bg-btn-hover-grad);
 			cursor: pointer;
@@ -280,6 +287,15 @@
 
 		.close-popup {
 			display: none;
+			height: 50px;
+			width: 50px;
+			justify-self: right;
+			position: absolute;
+			top: -75px;
+			font-size: 24px;
+			background: var(--wp-components-color-accent, #cc1818);
+			border: none;
+			color: var(--wp-components-color-accent-inverted, #fff);
 		}
 	}
 
@@ -287,6 +303,8 @@
 		display: grid;
 		position: relative;
 		grid-template: "title title" "bar bar" "content content" / 1fr auto;
+		isolation: auto; /* remove any isolation */
+    	overflow: visible;
 		gap: 0.5rem;
 		padding-top: 10px;
 		padding-bottom: 10px;
@@ -324,9 +342,10 @@
 				&:hover {
 					background-image: var(--bg-part-hover-grad);
 
-					.edit-sub-button-container, .delete-button {
+					.add-sub-button-container, .delete-button {
 						opacity: 1;
 						visibility: visible;
+						transition: var(--transition-out-btn-ui)
 					}
 				}
 
@@ -347,8 +366,9 @@
 				}
 			}
 		}
+
 		.card-part {
-			.edit-sub-button-container {
+			.add-sub-button-container {
 				display: flex;
 				opacity: 0;
 				visibility: hidden;
@@ -361,7 +381,9 @@
 				width: 110%;
 				justify-content: space-between;
 				flex-wrap: wrap-reverse;
-				.edit-button-left, .edit-button-right {
+				transition: var(--transition-btn-ui);
+
+				.add-button-left, .add-button-right {
 					display: flex;
 					flex-direction: column;
 					flex: 0 1 auto;
@@ -370,14 +392,15 @@
 					&:hover .tool-tip {
 						opacity: 1;
 						visibility: visible;
+						transition: var(--transition-out-btn-ui);
 					}
 				}
 				
-				.edit-button-left {
+				.add-button-left {
 					right: 0;
 				}
 
-				.edit-button-right .tool-tip {
+				.add-button-right .tool-tip {
 					left: auto;
 					right: 0;
 				}
@@ -388,7 +411,44 @@
 				opacity: 0;
 				visibility: hidden;
 				left: 100%;
-				padding-left: 10px;
+				//padding-left: 10px;
+			}
+		}
+
+		.add-button-container {
+			display: flex;
+			opacity: 0;
+			visibility: hidden;
+			position: absolute;
+			top: 0;
+			padding-left: 0;
+			padding-bottom: 5px;
+			gap: 10px;
+			transform: translate(-5%, -100%);
+			width: 110%;
+			justify-content: right;
+			flex-wrap: wrap-reverse;
+			transition: var(--transition-btn-ui);
+			.add-button-left, .add-button-right {
+				display: flex;
+				flex-direction: column;
+				flex: 0 1 auto;
+				position: relative;
+
+				&:hover .tool-tip {
+					opacity: 1;
+					visibility: visible;
+					transition: var(--transition-out-btn-ui);
+				}
+			}
+			
+			.add-button-left {
+				right: 0;
+			}
+
+			.add-button-right .tool-tip {
+				left: auto;
+				right: 0;
 			}
 		}
 
@@ -396,21 +456,23 @@
 			display: grid;
 			width: max-content;
 			justify-items: left;
+			align-items: center;
 			gap: 10px;
 			top: 0;
 			font-size: 10px;
 			z-index: 1;
 			transform: translateY(0);
-			transition: opacity 0.2s ease, transform 0.2s ease;
+			transition: var(--transition-btn-ui);
 			
 			.tool-tip {
-				left: auto;
-				right: 0;
+				bottom: unset;
+				transform: translateX(calc(-100% - 6px))
 			}
 			
 			&:hover .tool-tip {
 				opacity: 1;
 				visibility: visible;
+				transition: var(--transition-out-btn-ui);
 			}
 		 }
 
@@ -425,15 +487,16 @@
 			gap: 10px;
 			top: 0;
 			font-size: 10px;
-			z-index: 1;
+			z-index: 999;
 			left: 100%;
 			transform: translateY(0);
-			transition: opacity 0.2s ease, transform 0.2s ease;
+			transition: var(--transition-btn-ui);
 
-			.edit-button {
+			.split-button {
 				display: grid;
 				height: max-content;
 				width: max-content;
+				align-items: center;
 
 				button {
 					margin-bottom: 0;
@@ -441,26 +504,29 @@
 
 				.tool-tip {
 					bottom: unset;
-					top: calc(100% + 6px);
-					left: auto;
-					right: 0;
+					transform: translateX(calc(-100% - 6px))
 				}
 
 				&:hover .tool-tip {
 					opacity: 1;
 					visibility: visible;
+					transition: var(--transition-out-btn-ui);
 				}
 			}
 		}
 
-		&:hover .edit-button-container{
+		&:hover .edit-button-container,
+		&:hover .add-button-container{
 			opacity: 1;
 			visibility: visible;
+			transition: var(--transition-out-btn-ui);
 		}
 
-		&:has(.card-part:hover) .edit-button-container {
+		&:has(.card-part:hover) .edit-button-container,
+		&:has(.card-part:hover) .add-button-container {
 			opacity: 0;
 			visibility: hidden;
+			transition: var(--transition-out-btn-ui);
 		}
 
 		.tool-tip
@@ -472,16 +538,14 @@
 			position: absolute;
 			padding: 5px;
 			background-color: white;
-			outline: solie 1px currentColor;
+			outline: solid 1px currentColor;
 			border-radius: 6px;
 			justify-items: left;
 			gap: 10px;
 			bottom: calc(100% + 6px);
-			left: 0;
 			font-size: 16px;
 			z-index: 1;
-			transform: translateY(0);
-			transition: opacity 0.2s ease, transform 0.2s ease;
+			transition: var(--transition-btn-ui);
 		 }
 	}
 
@@ -547,15 +611,6 @@
 
 			.close-popup {
 				display: block;
-				height: 50px;
-				width: 50px;
-				justify-self: right;
-				position: absolute;
-				top: -75px;
-				font-size: 24px;
-				background: var(--wp-components-color-accent, #cc1818);
-				border: none;
-				color: var(--wp-components-color-accent-inverted, #fff);
 				cursor: pointer;
 			}
 		}
