@@ -324,7 +324,7 @@
 				&:hover {
 					background-image: var(--bg-part-hover-grad);
 
-					.edit-sub-button-container {
+					.edit-sub-button-container, .delete-button {
 						opacity: 1;
 						visibility: visible;
 					}
@@ -347,28 +347,74 @@
 				}
 			}
 		}
-		.card-part .edit-sub-button-container {
-			display: flex;
-			opacity: 0;
-			visibility: hidden;
-			position: absolute;
-			top: 0;
-			left: auto;
-			right: 0;
-			padding-left: 0;
-			padding-bottom: 10px;
-			gap: 10px;
-			transform: translateY(-100%);
-			width: 100%;
-			justify-content: space-between;
-			flex-wrap: wrap-reverse;
-			.edit-button {
-				flex: 0 1 auto;
+		.card-part {
+			.edit-sub-button-container {
+				display: flex;
+				opacity: 0;
+				visibility: hidden;
+				position: absolute;
+				top: 0;
+				padding-left: 0;
+				padding-bottom: 5px;
+				gap: 10px;
+				transform: translate(-5%, -100%);
+				width: 110%;
+				justify-content: space-between;
+				flex-wrap: wrap-reverse;
+				.edit-button-left, .edit-button-right {
+					display: flex;
+					flex-direction: column;
+					flex: 0 1 auto;
+					position: relative;
+
+					&:hover .tool-tip {
+						opacity: 1;
+						visibility: visible;
+					}
+				}
+				
+				.edit-button-left {
+					right: 0;
+				}
+
+				.edit-button-right .tool-tip {
+					left: auto;
+					right: 0;
+				}
+			}
+
+			.delete-button {
+				position: absolute;
+				opacity: 0;
+				visibility: hidden;
+				left: 100%;
+				padding-left: 10px;
 			}
 		}
 
-		.edit-button-container
-		 {
+		.delete-button {
+			display: grid;
+			width: max-content;
+			justify-items: left;
+			gap: 10px;
+			top: 0;
+			font-size: 10px;
+			z-index: 1;
+			transform: translateY(0);
+			transition: opacity 0.2s ease, transform 0.2s ease;
+			
+			.tool-tip {
+				left: auto;
+				right: 0;
+			}
+			
+			&:hover .tool-tip {
+				opacity: 1;
+				visibility: visible;
+			}
+		 }
+
+		.edit-button-container {
 			display: grid;
 			opacity: 0;
 			visibility: hidden;
@@ -392,6 +438,18 @@
 				button {
 					margin-bottom: 0;
 				}
+
+				.tool-tip {
+					bottom: unset;
+					top: calc(100% + 6px);
+					left: auto;
+					right: 0;
+				}
+
+				&:hover .tool-tip {
+					opacity: 1;
+					visibility: visible;
+				}
 			}
 		}
 
@@ -404,6 +462,27 @@
 			opacity: 0;
 			visibility: hidden;
 		}
+
+		.tool-tip
+		 {
+			display: grid;
+			opacity: 0;
+			visibility: hidden;
+			width: max-content;
+			position: absolute;
+			padding: 5px;
+			background-color: white;
+			outline: solie 1px currentColor;
+			border-radius: 6px;
+			justify-items: left;
+			gap: 10px;
+			bottom: calc(100% + 6px);
+			left: 0;
+			font-size: 16px;
+			z-index: 1;
+			transform: translateY(0);
+			transition: opacity 0.2s ease, transform 0.2s ease;
+		 }
 	}
 
 	.meeting-select {

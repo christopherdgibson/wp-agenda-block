@@ -239,8 +239,10 @@ export default function Edit({ attributes, setAttributes }) {
 	// Card modification buttons
 
 	function addDeleteMeetingButton(i, j) {
+		const toolTip = j === null ? "Delete meeting" : "Delete sub-meeting";
 		return (
-			<div class="edit-button">
+			<div class="delete-button">
+				<span className="tool-tip">{toolTip}</span>
 				<Button
 					variant="primary"
 					isDestructive
@@ -249,7 +251,7 @@ export default function Edit({ attributes, setAttributes }) {
 						e.stopPropagation();
 					}}
 				>
-					X
+					&#x2716;
 				</Button>
 			</div>
 		);
@@ -258,6 +260,7 @@ export default function Edit({ attributes, setAttributes }) {
 	function addSplitExistingMeetingButton(meeting, i) {
 		return (
 			<div class="edit-button">
+				<span className="tool-tip">Split into sub-meetings</span>
 				<Button
 					variant="primary"
 					onClick={(e) => {
@@ -265,7 +268,7 @@ export default function Edit({ attributes, setAttributes }) {
 						e.stopPropagation();
 					}}
 				>
-					Split this meeting
+					&#9870;
 				</Button>
 			</div>
 		);
@@ -329,17 +332,6 @@ export default function Edit({ attributes, setAttributes }) {
 			>
 				<div class="edit-button-container">{
 					addDeleteMeetingButton(i, null)}
-					<div class="edit-button">
-						<Button
-							variant="primary"
-							onClick={(e) => {
-								addSubMeeting(meeting, i);
-								e.stopPropagation();
-							}}
-						>
-							Add sub-meeting
-						</Button>
-					</div>
 				</div>
 				<div class="meeting-header">
 					<PlainText
@@ -365,7 +357,8 @@ export default function Edit({ attributes, setAttributes }) {
 								}}
 							>
 								<div class="edit-sub-button-container">
-									<div class="edit-button">
+									<div class="edit-button-left">
+										<span className="tool-tip">Insert sub-meeting before</span>
 										<Button
 											variant="primary"
 											onClick={(e) => {
@@ -373,11 +366,25 @@ export default function Edit({ attributes, setAttributes }) {
 												e.stopPropagation();
 											}}
 										>
-											&larr; Add meeting before
+											&#9630;
 										</Button>
 									</div>
-									{addDeleteMeetingButton(i, j)}
+									{j===meeting.subMeetings.length - 1 &&
+									<div class="edit-button-right">
+										<span className="tool-tip">Insert sub-meeting after</span>
+										<Button
+											variant="primary"
+											onClick={(e) => {
+												insertSubMeeting(meeting, i, j + 1);
+												e.stopPropagation();
+											}}
+										>
+											&#9626;
+										</Button>
+									</div>
+								}
 								</div>
+								{addDeleteMeetingButton(i, j)}
 								<div class="meeting-header">
 									<PlainText
 										value={subMeeting.header}
