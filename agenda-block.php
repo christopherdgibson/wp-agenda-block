@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Agenda Block
- * Plugin URI: https://christopherdgibson.github.io/agenda-block
+ * Plugin URI: https://christopherdgibson.github.io/wordpress-plugins
  * Description: Block for adding agenda items and their descriptions.
  * Version: 0.1.0
  * Author: Christopher D Gibson
