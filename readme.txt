@@ -1,6 +1,6 @@
-=== Daily Api Block ===
-Contributors: christopherdgibson
-Author: Your Name
+=== Agenda Block ===
+Contributors: Christopher D Gibson
+Author: Christopher D Gibson
 Author URI: https://christopherdgibson.github.io
 Tags:              block
 Tested up to:      6.7

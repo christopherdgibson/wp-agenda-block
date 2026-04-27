@@ -138,7 +138,6 @@ export default function Edit({ attributes, setAttributes }) {
 	const [selectedCard, setSelectedCard] = useState({ index: null, subIndex: null });
 
 	// Remove unused Duotone items
-
 	useEffect(() => {
 		if (!duotoneRef.current) return;
 		duotoneRef.current.querySelectorAll('.components-color-list-picker__swatch-button').forEach(btn => {

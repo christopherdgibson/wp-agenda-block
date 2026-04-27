@@ -12,6 +12,10 @@
 	"icon": "calendar",
 	"description": "Block for adding agenda items and their descriptions.",
 	"attributes": {
+		"align": {
+			"type": "string",
+			"default": "wide"
+    	},
 		"meetings": {
 			"type": "array",
 			"default": []

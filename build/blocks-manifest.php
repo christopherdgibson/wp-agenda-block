@@ -15,6 +15,10 @@ return array(
 		'icon' => 'calendar',
 		'description' => 'Block for adding agenda items and their descriptions.',
 		'attributes' => array(
+			'align' => array(
+				'type' => 'string',
+				'default' => 'wide'
+			),
 			'meetings' => array(
 				'type' => 'array',
 				'default' => array(

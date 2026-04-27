@@ -1,4 +1,4 @@
-/* Meetings */
+/* UI styles */
 
 .components-color-picker {
 	width: 100% !important;
@@ -63,6 +63,8 @@
 	color: #e05c3a;
 }
 
+/* Meetings */
+
 .meetings {
 	--bg-container:    color-mix(in srgb, var(--base-bg) 80%, white);
 	--bg-card:         color-mix(in srgb, var(--base-bg) 100%, white);
@@ -112,7 +114,6 @@
 		stop-color: var(--accent-secondary);
 	}
 
-	max-width: var(--meetings-max-width);
 	display: grid;
 	grid-template-columns: repeat(2, 1fr);
 	gap: 10px;
@@ -315,6 +316,9 @@
 			background: var(--wp-components-color-accent, #cc1818);
 			border: none;
 			color: var(--wp-components-color-accent-inverted, #fff);
+			&:hover {
+				background-color: var(--wp-components-color-accent-darker-10, #9e1313);
+			}
 		}
 	}
 
@@ -580,6 +584,7 @@
 
 		.meeting-description-container {
 			display: none;
+			cursor: default; 
 			justify-content: center;
 			justify-items: center;
 			position: fixed;
