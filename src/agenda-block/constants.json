@@ -1,0 +1,81 @@
+{
+  "duotonePalette": [
+    {
+      "colors": ["#0000FF", "#FFA500"],
+      "name": "Default",
+      "slug": "default-theme-colors"
+    },
+    {
+      "colors": ["#1a56d6", "#e07b20"],
+      "name": "Blue and orange",
+      "slug": "blue-orange"
+    },
+    {
+      "colors": ["#1a6b3c", "#c4962a"],
+      "name": "Forest and gold",
+      "slug": "forest-gold"
+    },
+    {
+      "colors": ["#5b2d8e", "#c0392b"],
+      "name": "Plum and red",
+      "slug": "plum-red"
+    },
+    {
+      "colors": ["#2c4a6e", "#e05c3a"],
+      "name": "Slate and salmon",
+      "slug": "slate-salmon"
+    },
+    {
+      "colors": ["#8c00b7", "#fcff41"],
+      "name": "Purple and yellow",
+      "slug": "purple-yellow"
+    },
+    {
+      "colors": ["#6e0edc", "#b7b7b7"],
+      "name": "Purple and grey",
+      "slug": "purple-grey"
+    },
+    {
+      "colors": ["#000097", "#ff4747"],
+      "name": "Blue and red",
+      "slug": "blue-red"
+    },
+    {
+      "colors": ["#000097", "#82c1f2"],
+      "name": "Blue and light blue",
+      "slug": "blue-light-blue"
+    }
+  ],
+  "themePresets": {
+    "default": {
+      "cardBgColor": "#e3e3e3",
+      "cardFontColor": "#0d3ca1",
+      "gradientColorLeft": "#0000FF",
+      "gradientColorRight": "#FFA500"
+    },
+    "blue": {
+      "gradientColorLeft": "#1a56d6",
+      "gradientColorRight": "#e07b20",
+      "cardFontColor": "#1a56d6",
+      "cardBgColor": "#c2ddf7"
+    },
+    "forest": {
+      "gradientColorLeft": "#1a6b3c",
+      "gradientColorRight": "#c4962a",
+      "cardFontColor": "#1a6b3c",
+      "cardBgColor": "#b8dfc8"
+    },
+    "plum": {
+      "gradientColorLeft": "#5b2d8e",
+      "gradientColorRight": "#c0392b",
+      "cardFontColor": "#5b2d8e",
+      "cardBgColor": "#d4bfee"
+    },
+    "slate": {
+      "gradientColorLeft": "#2c4a6e",
+      "gradientColorRight": "#e05c3a",
+      "cardFontColor": "#2c4a6e",
+      "cardBgColor": "#b8cfe0"
+    }
+  }
+}
