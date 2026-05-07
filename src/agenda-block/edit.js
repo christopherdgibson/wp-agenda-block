@@ -88,146 +88,6 @@ export default function Edit({ attributes, setAttributes }) {
 		updateField(index, "subMeetings", subMeetingsNew);
 	};
 
-	let addMeeting = () => {
-		updateMeetings([
-			...meetings,
-			{
-				supHeader: "",
-				subMeetings: [{ header: "", title: "", description: "" }],
-			},
-		]);
-	};
-
-	let insertMeeting = (i) => {
-		const newMeetings = [
-			...meetings.slice(0, i),
-			{
-				supHeader: "",
-				subMeetings: [{ header: "", title: "", description: "" }],
-			},
-			...meetings.slice(i)
-		];
-		updateMeetings(newMeetings);
-	};
-
-	let addSubMeeting = (meeting, i) => {
-		const newSubMeetings = [
-			...meeting.subMeetings,
-			{ header: "", title: "", description: "" },
-		];
-		updateField(i, "subMeetings", newSubMeetings);
-	};
-
-	let insertSubMeeting = (meeting, i, j) => {
-		const newSubMeetings = [
-			...meeting.subMeetings.slice(0, j),
-			{ header: "", title: "", description: "" },
-			...meeting.subMeetings.slice(j),
-		];
-		updateField(i, "subMeetings", newSubMeetings);
-	};
-
-	let splitExistingMeeting = (meeting, i) => {
-		const newMeeting = { 
-			...meeting, 
-			supHeader: meeting.subMeetings[0].header, 
-			subMeetings: [...meeting.subMeetings] 
-		};
-		const newMeetings = meetings.map((m, idx) =>
-			idx === i ? { ...newMeeting, subMeetings: [...newMeeting.subMeetings, { header: "", title: "", description: "" }] } : m
-		);
-		updateMeetings(newMeetings);
-	};
-
-	let collapseExistingMeeting = (meeting, i) => {
-		const remainingSubMeeting = meeting.subMeetings.find((_, j) => j !== selectedMeeting.subIndex);
-		const newMeeting = { 
-			...meeting, 
-			supHeader: "", 
-			subMeetings: [remainingSubMeeting] 
-		};
-		const newMeetings = meetings.map((m, idx) =>
-			idx === i ? { ...newMeeting } : m
-		);
-		updateMeetings(newMeetings);
-	};
-
-	function handleDeleteClick(index, subIndex) {
-		setSelectedMeeting( {index: index, subIndex: subIndex} );
-		setIsModalOpenDelete(true);
-	}
-
-	function confirmDelete() {
-		if (selectedMeeting.subIndex === null) {
-			const newMeetings = meetings.filter((_, i) => i !== selectedMeeting.index);
-			updateMeetings(newMeetings);
-		} else {
-			const meeting = meetings[selectedMeeting.index];
-
-			if (meeting.subMeetings.length === 2) {
-				collapseExistingMeeting(meeting, selectedMeeting.index);
-			} else {
-				const newSubMeetings = meeting.subMeetings.filter((_, j) => j !== selectedMeeting.subIndex);
-				updateField(selectedMeeting.index, "subMeetings", newSubMeetings);
-			}
-		}
-		setIsModalOpenDelete(false);
-		setSelectedMeeting({ index: null, subIndex: null });
-	}
-
-	// Card modification buttons
-
-	function insertMeetingBefore(i) {
-		return(
-			<div class="add-button-container">
-				<div class="btn-ui add-button-right">
-					<span className="tool-tip">Insert meeting before</span>
-					<button
-						onClick={(e) => {
-							insertMeeting(i);
-							e.stopPropagation();
-						}}
-					>
-						&#9626;
-					</button>
-				</div>
-			</div>
-		);
-	}
-
-	function addDeleteMeetingButton(i, j) {
-		const toolTip = j === null ? "Delete meeting" : "Delete sub-meeting";
-		return (
-			<div class="btn-ui delete-button">
-				<span className="tool-tip">{toolTip}</span>
-				<button
-					onClick={(e) => {
-						handleDeleteClick(i, j);
-						e.stopPropagation();
-					}}
-				>
-					&#x2716;
-				</button>
-			</div>
-		);
-	}
-
-	function addSplitExistingMeetingButton(meeting, i) {
-		return (
-			<div class="btn-ui split-button">
-				<span className="tool-tip">Split into sub-meetings</span>
-				<button
-					onClick={(e) => {
-						splitExistingMeeting(meeting, i);
-						e.stopPropagation();
-					}}
-				>
-					&#9870;
-				</button>
-			</div>
-		);
-	}
-
 	// Add cards for display
 
 	function addMeetingCard(meeting, i) {
@@ -446,6 +306,147 @@ export default function Edit({ attributes, setAttributes }) {
 				</div>
 			</div>
 		));
+	}
+
+	
+	// Card modification buttons
+
+	function insertMeetingBefore(i) {
+		return(
+			<div class="add-button-container">
+				<div class="btn-ui add-button-right">
+					<span className="tool-tip">Insert meeting before</span>
+					<button
+						onClick={(e) => {
+							insertMeeting(i);
+							e.stopPropagation();
+						}}
+					>
+						&#9626;
+					</button>
+				</div>
+			</div>
+		);
+	}
+
+	function addDeleteMeetingButton(i, j) {
+		const toolTip = j === null ? "Delete meeting" : "Delete sub-meeting";
+		return (
+			<div class="btn-ui delete-button">
+				<span className="tool-tip">{toolTip}</span>
+				<button
+					onClick={(e) => {
+						handleDeleteClick(i, j);
+						e.stopPropagation();
+					}}
+				>
+					&#x2716;
+				</button>
+			</div>
+		);
+	}
+
+	function addSplitExistingMeetingButton(meeting, i) {
+		return (
+			<div class="btn-ui split-button">
+				<span className="tool-tip">Split into sub-meetings</span>
+				<button
+					onClick={(e) => {
+						splitExistingMeeting(meeting, i);
+						e.stopPropagation();
+					}}
+				>
+					&#9870;
+				</button>
+			</div>
+		);
+	}
+	
+	let addMeeting = () => {
+		updateMeetings([
+			...meetings,
+			{
+				supHeader: "",
+				subMeetings: [{ header: "", title: "", description: "" }],
+			},
+		]);
+	};
+
+	let insertMeeting = (i) => {
+		const newMeetings = [
+			...meetings.slice(0, i),
+			{
+				supHeader: "",
+				subMeetings: [{ header: "", title: "", description: "" }],
+			},
+			...meetings.slice(i)
+		];
+		updateMeetings(newMeetings);
+	};
+
+	let addSubMeeting = (meeting, i) => {
+		const newSubMeetings = [
+			...meeting.subMeetings,
+			{ header: "", title: "", description: "" },
+		];
+		updateField(i, "subMeetings", newSubMeetings);
+	};
+
+	let insertSubMeeting = (meeting, i, j) => {
+		const newSubMeetings = [
+			...meeting.subMeetings.slice(0, j),
+			{ header: "", title: "", description: "" },
+			...meeting.subMeetings.slice(j),
+		];
+		updateField(i, "subMeetings", newSubMeetings);
+	};
+
+	let splitExistingMeeting = (meeting, i) => {
+		const newMeeting = { 
+			...meeting, 
+			supHeader: meeting.subMeetings[0].header, 
+			subMeetings: [...meeting.subMeetings] 
+		};
+		const newMeetings = meetings.map((m, idx) =>
+			idx === i ? { ...newMeeting, subMeetings: [...newMeeting.subMeetings, { header: "", title: "", description: "" }] } : m
+		);
+		updateMeetings(newMeetings);
+	};
+
+	let collapseExistingMeeting = (meeting, i) => {
+		const remainingSubMeeting = meeting.subMeetings.find((_, j) => j !== selectedMeeting.subIndex);
+		const newMeeting = { 
+			...meeting, 
+			supHeader: "", 
+			subMeetings: [remainingSubMeeting] 
+		};
+		const newMeetings = meetings.map((m, idx) =>
+			idx === i ? { ...newMeeting } : m
+		);
+		updateMeetings(newMeetings);
+	};
+
+	function handleDeleteClick(index, subIndex) {
+		setSelectedMeeting( {index: index, subIndex: subIndex} );
+		setIsModalOpenDelete(true);
+	}
+
+	function confirmDelete() {
+		if (selectedMeeting.subIndex === null) {
+			const newMeetings = meetings.filter((_, i) => i !== selectedMeeting.index);
+			updateMeetings(newMeetings);
+		} else {
+			const meeting = meetings[selectedMeeting.index];
+
+			if (meeting.subMeetings.length === 2) {
+				collapseExistingMeeting(meeting, selectedMeeting.index);
+			} else {
+				const newSubMeetings = meeting.subMeetings.filter((_, j) => j !== selectedMeeting.subIndex);
+				updateField(selectedMeeting.index, "subMeetings", newSubMeetings);
+			}
+		}
+		setIsModalOpenDelete(false);
+		setSelectedMeeting({ index: null, subIndex: null });
 	}
 
 	function showDeleteMeetingModal() {
