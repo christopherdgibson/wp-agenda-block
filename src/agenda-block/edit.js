@@ -23,7 +23,7 @@ import {
 } from "@wordpress/block-editor";
 import { useEffect, useRef, useState } from "@wordpress/element";
 
-import CardColorsPanel from "./components/CardColorsPanel";
+import CardColorsPanel from "./components/color-panels/CardColorsPanel";
 
 /**
  * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
@@ -96,19 +96,20 @@ export default function Edit({ attributes, setAttributes }) {
 				<button
 					key={i}
 					className={`card card-small${
-					selectedCard.index === i && selectedCard.subIndex === null
+					selectedCard.index === i && selectedCard.subIndex === 0
 						? ' meeting-select'
 						: ''
 				}`}
 					data-index={i}
 					onClick={(e) => {
 						if (e.target === e.currentTarget || window.innerWidth > 768) {
-								setSelectedCard({ index: i, subIndex: null });
+								setSelectedCard({ index: i, subIndex: 0 });
 						}
 					}}
 				>
 					{insertMeetingBeforeButton(i)}
 					<div class="edit-button-container">
+						{/* Delete entire meeting card when subMeeting null */}
 						{deleteMeetingButton(i, null)}
 						{splitExistingMeetingButton(meeting, i)}
 					</div>
@@ -117,7 +118,7 @@ export default function Edit({ attributes, setAttributes }) {
 							value={meeting.subMeetings[0].header}
 							placeholder="Day"
 							onChange={(val) =>
-								updateSubField(meeting, i, null, "header", val)
+								updateSubField(meeting, i, 0, "header", val)
 							}
 						/>
 					</div>
@@ -125,7 +126,7 @@ export default function Edit({ attributes, setAttributes }) {
 						<PlainText
 							value={meeting.subMeetings[0].title}
 							placeholder="Title"
-							onChange={(val) => updateSubField(meeting, i, null, "title", val)}
+							onChange={(val) => updateSubField(meeting, i, 0, "title", val)}
 						/>
 					</div>
 				</button>
@@ -147,6 +148,7 @@ export default function Edit({ attributes, setAttributes }) {
 			>
 				{insertMeetingBeforeButton(i)}
 				<div class="edit-button-container">
+					{/* Delete entire meeting card when subMeeting null */}
 					{deleteMeetingButton(i, null)}
 				</div>
 				<div class="meeting-header">
@@ -227,45 +229,7 @@ export default function Edit({ attributes, setAttributes }) {
 		);
 	}
 
-	function descriptionCard(meeting, i) {
-		return (
-			<div className={`card card-large card-description${
-					selectedCard.index === i && selectedCard.subIndex === null
-						? ' card-description-select'
-						: ''
-				}`}
-				data-index={i}>
-				<button class="close-popup" onClick={() => setSelectedCard({ index: null, subIndex: null })}>
-					X
-				</button>
-				<div class="meeting-header">{meeting.subMeetings[0].header}</div>
-				<div class="meeting-icon">
-					<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
-						<g fill="url(#iconGrad)">
-							<path d="M24,29H8a5,5,0,0,1-5-5V10A5,5,0,0,1,8,5H24a5,5,0,0,1,5,5V24A5,5,0,0,1,24,29ZM8,7a3,3,0,0,0-3,3V24a3,3,0,0,0,3,3H24a3,3,0,0,0,3-3V10a3,3,0,0,0-3-3Z" />
-							<path d="M24,25H20a1,1,0,0,1-1-1V20a1,1,0,0,1,1-1h4a1,1,0,0,1,1,1v4A1,1,0,0,1,24,25Zm-3-2h2V21H21Z" />
-							<path d="M28,13H4a1,1,0,0,1,0-2H28a1,1,0,0,1,0,2Z" />
-							<path d="M11,9a1,1,0,0,1-1-1V4a1,1,0,0,1,2,0V8A1,1,0,0,1,11,9Z" />
-							<path d="M21,9a1,1,0,0,1-1-1V4a1,1,0,0,1,2,0V8A1,1,0,0,1,21,9Z" />
-						</g>
-					</svg>
-				</div>
-				<div class="meeting-description">
-					<p>
-						<PlainText
-							value={meeting.subMeetings[0].description}
-							placeholder="Description"
-							onChange={(val) =>
-								updateSubField(meeting, i, null, "description", val)
-							}
-						/>
-					</p>
-				</div>
-			</div>
-		);
-	}
-
-	function subDescriptionCards(meeting, i) {
+	function DescriptionCards(meeting, i) {
 		return meeting.subMeetings.map((subMeeting, j) => (
 			<div
 				className={`card card-large card-description${
@@ -280,7 +244,7 @@ export default function Edit({ attributes, setAttributes }) {
 					X
 				</button>
 				<div class="meeting-header">
-					{meeting.supHeader} - {subMeeting.header}
+					{meeting.supHeader.length != 0 ? <>{meeting.supHeader} - </> : <></>}{subMeeting.header}
 				</div>
 				<div class="meeting-icon">
 					<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
@@ -325,23 +289,6 @@ export default function Edit({ attributes, setAttributes }) {
 						&#9626;
 					</button>
 				</div>
-			</div>
-		);
-	}
-
-	function deleteMeetingButton(i, j) {
-		const toolTip = j === null ? "Delete meeting" : "Delete sub-meeting";
-		return (
-			<div class="btn-ui delete-button">
-				<span className="tool-tip">{toolTip}</span>
-				<button
-					onClick={(e) => {
-						handleDeleteClick(i, j);
-						e.stopPropagation();
-					}}
-				>
-					&#x2716;
-				</button>
 			</div>
 		);
 	}
@@ -413,49 +360,32 @@ export default function Edit({ attributes, setAttributes }) {
 		updateMeetings(newMeetings);
 	};
 
-	let collapseExistingMeeting = (meeting, i) => {
-		const remainingSubMeeting = meeting.subMeetings.find((_, j) => j !== selectedMeeting.subIndex);
-		const newMeeting = { 
-			...meeting, 
-			supHeader: "", 
-			subMeetings: [remainingSubMeeting] 
-		};
-		const newMeetings = meetings.map((m, idx) =>
-			idx === i ? { ...newMeeting } : m
+	
+	function deleteMeetingButton(i, j) {
+		const toolTip = j === null ? "Delete meeting" : "Delete sub-meeting";
+		return (
+			<div class="btn-ui delete-button">
+				<span className="tool-tip">{toolTip}</span>
+				<button
+					onClick={(e) => {
+						handleDeleteClick(i, j);
+						e.stopPropagation();
+					}}
+				>
+					&#x2716;
+				</button>
+			</div>
 		);
-		updateMeetings(newMeetings);
-	};
-
-	function handleDeleteClick(index, subIndex) {
-		setSelectedMeeting( {index: index, subIndex: subIndex} );
-		setIsModalOpenDelete(true);
-	}
-
-	function confirmDelete() {
-		if (selectedMeeting.subIndex === null) {
-			const newMeetings = meetings.filter((_, i) => i !== selectedMeeting.index);
-			updateMeetings(newMeetings);
-		} else {
-			const meeting = meetings[selectedMeeting.index];
-
-			if (meeting.subMeetings.length === 2) {
-				collapseExistingMeeting(meeting, selectedMeeting.index);
-			} else {
-				const newSubMeetings = meeting.subMeetings.filter((_, j) => j !== selectedMeeting.subIndex);
-				updateField(selectedMeeting.index, "subMeetings", newSubMeetings);
-			}
-		}
-		setIsModalOpenDelete(false);
-		setSelectedMeeting({ index: null, subIndex: null });
 	}
 
 	function showDeleteMeetingModal() {
+		const meetingType = selectedMeeting.subIndex ? "sub-meeting" : "meeting";
 		return (
 			<Modal
 				title="Delete Meeting"
 				onRequestClose={() => setIsModalOpenDelete(false)}
 			>
-				<p>Are you sure you want to delete this meeting?</p>
+				<p>Are you sure you want to delete this {meetingType}?</p>
 				<Button
 					variant="primary"
 					onClick={() => {
@@ -474,6 +404,45 @@ export default function Edit({ attributes, setAttributes }) {
 			</Modal>
 		);
 	}
+
+	function handleDeleteClick(index, subIndex) {
+		setSelectedMeeting( {index: index, subIndex: subIndex} );
+		setIsModalOpenDelete(true);
+	}
+
+	function confirmDelete() {
+		{/* Delete entire meeting card when subMeeting null */}
+		if (selectedMeeting.subIndex === null) {
+			const newMeetings = meetings.filter((_, i) => i !== selectedMeeting.index);
+			updateMeetings(newMeetings);
+		} else {
+			const meeting = meetings[selectedMeeting.index];
+			if (meeting.subMeetings.length === 2) {
+				collapseExistingMeeting(meeting, selectedMeeting.index);
+			} else {
+				const newSubMeetings = meeting.subMeetings.filter((_, j) => j !== selectedMeeting.subIndex);
+				updateField(selectedMeeting.index, "subMeetings", newSubMeetings);
+			}
+		}
+		setIsModalOpenDelete(false);
+		setSelectedMeeting({ index: null, subIndex: null });
+	}
+
+	let collapseExistingMeeting = (meeting, i) => {
+		const remainingSubMeeting = meeting.subMeetings.find((_, j) => j !== selectedMeeting.subIndex);
+		const newMeeting = {
+			...meeting,
+			supHeader: "",
+			subMeetings: [{
+				...remainingSubMeeting,
+				header: remainingSubMeeting.header || meeting.supHeader
+			}]
+		};
+		const newMeetings = meetings.map((m, idx) =>
+			idx === i ? { ...newMeeting } : m
+		);
+		updateMeetings(newMeetings);
+	};
 
 	return (
 		<>
@@ -528,8 +497,8 @@ export default function Edit({ attributes, setAttributes }) {
 					>
 						{meetings.map((meeting, i) =>
 							meeting?.subMeetings?.length > 1
-								? subDescriptionCards(meeting, i)
-								: descriptionCard(meeting, i),
+								? DescriptionCards(meeting, i)
+								: DescriptionCards(meeting, i),
 						)}
 					</div>
 				</div>

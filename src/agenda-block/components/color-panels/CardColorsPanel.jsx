@@ -1,7 +1,7 @@
 import { Button, ButtonGroup, PanelBody } from "@wordpress/components";
 import { useState } from "@wordpress/element";
 
-import TabButton from "./TabButton";
+import TabButton from "../TabButton";
 import PresetColorsPanel from "./PresetColorsPanel";
 import CustomColorsPanel from "./CustomColorsPanel";
 import RestoreToDefaults from "./RestoreToDefaults";

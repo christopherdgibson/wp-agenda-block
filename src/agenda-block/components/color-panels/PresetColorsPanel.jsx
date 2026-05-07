@@ -1,4 +1,4 @@
-import constants from "../constants.json";
+import constants from "../../constants.json";
 import { useState } from "@wordpress/element";
 import { ButtonGroup } from "@wordpress/components";
 

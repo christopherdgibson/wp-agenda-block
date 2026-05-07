@@ -1,5 +1,5 @@
 import { Button, Modal } from "@wordpress/components";
-import constants from "../constants.json";
+import constants from "../../constants.json";
 import { useRef, useEffect, useState } from "@wordpress/element";
 
 const DEFAULT_GRADIENT_LEFT = constants.themePresets.default.gradientColorLeft;
