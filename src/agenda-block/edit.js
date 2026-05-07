@@ -90,7 +90,7 @@ export default function Edit({ attributes, setAttributes }) {
 
 	// Add cards for display
 
-	function addMeetingCard(meeting, i) {
+	function meetingCard(meeting, i) {
 		return (
 			<>
 				<button
@@ -107,10 +107,10 @@ export default function Edit({ attributes, setAttributes }) {
 						}
 					}}
 				>
-					{insertMeetingBefore(i)}
+					{insertMeetingBeforeButton(i)}
 					<div class="edit-button-container">
-						{addDeleteMeetingButton(i, null)}
-						{addSplitExistingMeetingButton(meeting, i)}
+						{deleteMeetingButton(i, null)}
+						{splitExistingMeetingButton(meeting, i)}
 					</div>
 					<div class="meeting-header">
 						<PlainText
@@ -133,7 +133,7 @@ export default function Edit({ attributes, setAttributes }) {
 		);
 	}
 
-	function addSplitMeetingCard(meeting, i) {
+	function splitMeetingCard(meeting, i) {
 		return (
 			<button
 				key={i}
@@ -145,9 +145,9 @@ export default function Edit({ attributes, setAttributes }) {
 						}
 					}}
 			>
-				{insertMeetingBefore(i)}
+				{insertMeetingBeforeButton(i)}
 				<div class="edit-button-container">
-					{addDeleteMeetingButton(i, null)}
+					{deleteMeetingButton(i, null)}
 				</div>
 				<div class="meeting-header">
 					<PlainText
@@ -199,7 +199,7 @@ export default function Edit({ attributes, setAttributes }) {
 								}
 								</div>
 								<div className="edit-sub-button-container">
-									{addDeleteMeetingButton(i, j)}
+									{deleteMeetingButton(i, j)}
 								</div>
 								<div class="meeting-header">
 									<PlainText
@@ -227,7 +227,7 @@ export default function Edit({ attributes, setAttributes }) {
 		);
 	}
 
-	function addDescriptionCard(meeting, i) {
+	function descriptionCard(meeting, i) {
 		return (
 			<div className={`card card-large card-description${
 					selectedCard.index === i && selectedCard.subIndex === null
@@ -265,7 +265,7 @@ export default function Edit({ attributes, setAttributes }) {
 		);
 	}
 
-	function addSubDescriptionCards(meeting, i) {
+	function subDescriptionCards(meeting, i) {
 		return meeting.subMeetings.map((subMeeting, j) => (
 			<div
 				className={`card card-large card-description${
@@ -311,7 +311,7 @@ export default function Edit({ attributes, setAttributes }) {
 	
 	// Card modification buttons
 
-	function insertMeetingBefore(i) {
+	function insertMeetingBeforeButton(i) {
 		return(
 			<div class="add-button-container">
 				<div class="btn-ui add-button-right">
@@ -329,7 +329,7 @@ export default function Edit({ attributes, setAttributes }) {
 		);
 	}
 
-	function addDeleteMeetingButton(i, j) {
+	function deleteMeetingButton(i, j) {
 		const toolTip = j === null ? "Delete meeting" : "Delete sub-meeting";
 		return (
 			<div class="btn-ui delete-button">
@@ -346,7 +346,7 @@ export default function Edit({ attributes, setAttributes }) {
 		);
 	}
 
-	function addSplitExistingMeetingButton(meeting, i) {
+	function splitExistingMeetingButton(meeting, i) {
 		return (
 			<div class="btn-ui split-button">
 				<span className="tool-tip">Split into sub-meetings</span>
@@ -506,8 +506,8 @@ export default function Edit({ attributes, setAttributes }) {
 					<div class="meeting-button-column" ref={meetingsRef}>
 						{meetings.map((meeting, i) =>
 							meeting?.subMeetings?.length > 1
-								? addSplitMeetingCard(meeting, i)
-								: addMeetingCard(meeting, i),
+								? splitMeetingCard(meeting, i)
+								: meetingCard(meeting, i),
 						)}
 						{isModalOpenDelete && showDeleteMeetingModal()}
 						<div class="card-button">
@@ -528,8 +528,8 @@ export default function Edit({ attributes, setAttributes }) {
 					>
 						{meetings.map((meeting, i) =>
 							meeting?.subMeetings?.length > 1
-								? addSubDescriptionCards(meeting, i)
-								: addDescriptionCard(meeting, i),
+								? subDescriptionCards(meeting, i)
+								: descriptionCard(meeting, i),
 						)}
 					</div>
 				</div>
