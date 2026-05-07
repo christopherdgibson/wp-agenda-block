@@ -25,7 +25,8 @@ import { useEffect, useRef, useState } from "@wordpress/element";
 
 import CardColorsPanel from "./components/ui-panels/CardColorsPanel";
 import {DeleteMeetingButton, ShowDeleteMeetingModal} from "./components/buttons/DeleteMeetingButton";
-DeleteMeetingButton
+import SplitMeetingButton from "./components/buttons/SplitMeetingButton";
+import {InsertMeetingButton, InsertSubMeetingButton} from "./components/buttons/InsertMeetingButton";
 
 /**
  * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
@@ -87,6 +88,16 @@ export default function Edit({ attributes, setAttributes }) {
 		updateField(index, "subMeetings", subMeetingsNew);
 	};
 
+	let addMeeting = () => {
+		updateMeetings([
+			...meetings,
+			{
+				supHeader: "",
+				subMeetings: [{ header: "", title: "", description: "" }],
+			},
+		]);
+	};
+
 	// Add cards for display
 
 	function meetingCard(meeting, i) {
@@ -106,7 +117,11 @@ export default function Edit({ attributes, setAttributes }) {
 						}
 					}}
 				>
-					{insertMeetingBeforeButton(i)}
+					{<InsertMeetingButton
+						meetings={meetings}
+						i={i}
+						updateMeetings={updateMeetings}
+					/>}
 					<div class="edit-button-container">
 						{/* Delete entire meeting card when subMeeting null */}
 						{<DeleteMeetingButton
@@ -114,7 +129,11 @@ export default function Edit({ attributes, setAttributes }) {
 							setIsModalOpenDelete={setIsModalOpenDelete}
 							setSelectedMeeting={setSelectedMeeting}
 						/>}
-						{splitExistingMeetingButton(meeting, i)}
+						{<SplitMeetingButton
+							meetings={meetings}
+							i={i}
+							updateMeetings={updateMeetings}
+						/>}
 					</div>
 					<div class="meeting-header">
 						<PlainText
@@ -149,7 +168,11 @@ export default function Edit({ attributes, setAttributes }) {
 						}
 					}}
 			>
-				{insertMeetingBeforeButton(i)}
+				{<InsertMeetingButton
+					meetings={meetings}
+					i={i}
+					updateMeetings={updateMeetings}
+				/>}
 				<div class="edit-button-container">
 					{/* Delete entire meeting card when subMeeting null */}
 					{<DeleteMeetingButton
@@ -182,30 +205,20 @@ export default function Edit({ attributes, setAttributes }) {
 								}}
 							>
 								<div class="add-sub-button-container">
-									<div class="btn-ui add-button-left">
-										<span className="tool-tip">Insert sub-meeting before</span>
-										<button
-											onClick={(e) => {
-												insertSubMeeting(meeting, i, j);
-												e.stopPropagation();
-											}}
-										>
-											&#9630;
-										</button>
-									</div>
-									{j===meeting.subMeetings.length - 1 &&
-									<div class="btn-ui add-button-right">
-										<span className="tool-tip">Insert sub-meeting after</span>
-										<button
-											onClick={(e) => {
-												insertSubMeeting(meeting, i, j + 1);
-												e.stopPropagation();
-											}}
-										>
-											&#9626;
-										</button>
-									</div>
-								}
+									{<InsertSubMeetingButton
+										meetings={meetings}
+										i={i} j={j}
+										updateField={updateField}
+										position="before"
+									/>}
+									{j===meeting.subMeetings.length - 1 && (
+									<InsertSubMeetingButton
+										meetings={meetings}
+										i={i} j={j+1}
+										updateField={updateField}
+										position="after"
+									/>
+								)}
 								</div>
 								<div className="edit-sub-button-container">
 									{<DeleteMeetingButton
@@ -283,93 +296,6 @@ export default function Edit({ attributes, setAttributes }) {
 		));
 	}
 
-	// Card modification buttons
-
-	function insertMeetingBeforeButton(i) {
-		return(
-			<div class="add-button-container">
-				<div class="btn-ui add-button-right">
-					<span className="tool-tip">Insert meeting before</span>
-					<button
-						onClick={(e) => {
-							insertMeeting(i);
-							e.stopPropagation();
-						}}
-					>
-						&#9626;
-					</button>
-				</div>
-			</div>
-		);
-	}
-
-	function splitExistingMeetingButton(meeting, i) {
-		return (
-			<div class="btn-ui split-button">
-				<span className="tool-tip">Split into sub-meetings</span>
-				<button
-					onClick={(e) => {
-						splitExistingMeeting(meeting, i);
-						e.stopPropagation();
-					}}
-				>
-					&#9870;
-				</button>
-			</div>
-		);
-	}
-	
-	let addMeeting = () => {
-		updateMeetings([
-			...meetings,
-			{
-				supHeader: "",
-				subMeetings: [{ header: "", title: "", description: "" }],
-			},
-		]);
-	};
-
-	let insertMeeting = (i) => {
-		const newMeetings = [
-			...meetings.slice(0, i),
-			{
-				supHeader: "",
-				subMeetings: [{ header: "", title: "", description: "" }],
-			},
-			...meetings.slice(i)
-		];
-		updateMeetings(newMeetings);
-	};
-
-	let addSubMeeting = (meeting, i) => {
-		const newSubMeetings = [
-			...meeting.subMeetings,
-			{ header: "", title: "", description: "" },
-		];
-		updateField(i, "subMeetings", newSubMeetings);
-	};
-
-	let insertSubMeeting = (meeting, i, j) => {
-		const newSubMeetings = [
-			...meeting.subMeetings.slice(0, j),
-			{ header: "", title: "", description: "" },
-			...meeting.subMeetings.slice(j),
-		];
-		updateField(i, "subMeetings", newSubMeetings);
-	};
-
-	let splitExistingMeeting = (meeting, i) => {
-		const newMeeting = { 
-			...meeting, 
-			supHeader: meeting.subMeetings[0].header, 
-			subMeetings: [...meeting.subMeetings] 
-		};
-		const newMeetings = meetings.map((m, idx) =>
-			idx === i ? { ...newMeeting, subMeetings: [...newMeeting.subMeetings, { header: "", title: "", description: "" }] } : m
-		);
-		updateMeetings(newMeetings);
-	};
-
 	return (
 		<>
 			<InspectorControls>
@@ -405,14 +331,15 @@ export default function Edit({ attributes, setAttributes }) {
 								: meetingCard(meeting, i),
 						)}
 						{isModalOpenDelete && (
-						<ShowDeleteMeetingModal
-							meetings={meetings}
-							selectedMeeting={selectedMeeting}
-							setSelectedMeeting={setSelectedMeeting}
-							setIsModalOpenDelete={setIsModalOpenDelete}
-							updateMeetings={updateMeetings}
-							updateField={updateField}
-						/>)}
+							<ShowDeleteMeetingModal
+								meetings={meetings}
+								selectedMeeting={selectedMeeting}
+								setSelectedMeeting={setSelectedMeeting}
+								setIsModalOpenDelete={setIsModalOpenDelete}
+								updateMeetings={updateMeetings}
+								updateField={updateField}
+							/>
+						)}
 						<div class="card-button">
 							<Button variant="primary" onClick={addMeeting}>
 								Add Meeting

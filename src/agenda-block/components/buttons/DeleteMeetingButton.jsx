@@ -20,30 +20,6 @@ export function DeleteMeetingButton({i, j, setIsModalOpenDelete, setSelectedMeet
 
 export function ShowDeleteMeetingModal({meetings, selectedMeeting, setSelectedMeeting, setIsModalOpenDelete, updateMeetings, updateField}) {
     const meetingType = selectedMeeting.subIndex ? "sub-meeting" : "meeting";
-    return (
-        <Modal
-            title="Delete Meeting"
-            onRequestClose={() => setIsModalOpenDelete(false)}
-        >
-            <p>Are you sure you want to delete this {meetingType}?</p>
-            <Button
-                variant="primary"
-                onClick={() => {
-                    confirmDelete();
-                }}
-            >
-                Yes, delete.
-            </Button>
-            <Button
-                variant="secondary"
-                onClick={() => setIsModalOpenDelete(false)}
-                style={{ marginLeft: "1em" }}
-            >
-                Cancel
-            </Button>
-        </Modal>
-    );
-
     function confirmDelete() {
         {/* Delete entire meeting card when subMeeting null */}
         if (selectedMeeting.subIndex === null) {
@@ -77,4 +53,28 @@ export function ShowDeleteMeetingModal({meetings, selectedMeeting, setSelectedMe
         );
         updateMeetings(newMeetings);
     };
+
+    return (
+        <Modal
+            title="Delete Meeting"
+            onRequestClose={() => setIsModalOpenDelete(false)}
+        >
+            <p>Are you sure you want to delete this {meetingType}?</p>
+            <Button
+                variant="primary"
+                onClick={() => {
+                    confirmDelete();
+                }}
+            >
+                Yes, delete.
+            </Button>
+            <Button
+                variant="secondary"
+                onClick={() => setIsModalOpenDelete(false)}
+                style={{ marginLeft: "1em" }}
+            >
+                Cancel
+            </Button>
+        </Modal>
+    );
 }
