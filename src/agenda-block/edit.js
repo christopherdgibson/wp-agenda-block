@@ -23,7 +23,9 @@ import {
 } from "@wordpress/block-editor";
 import { useEffect, useRef, useState } from "@wordpress/element";
 
-import CardColorsPanel from "./components/color-panels/CardColorsPanel";
+import CardColorsPanel from "./components/ui-panels/CardColorsPanel";
+import {DeleteMeetingButton, ShowDeleteMeetingModal} from "./components/buttons/DeleteMeetingButton";
+DeleteMeetingButton
 
 /**
  * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
@@ -53,7 +55,6 @@ export default function Edit({ attributes, setAttributes }) {
 	// Initialize state from attributes or as an empty array
 	let [meetings, setMeetings] = useState(attributes.meetings || []);
 	const [isModalOpenDelete, setIsModalOpenDelete] = useState(false);
-	const [isModalOpenDefault, setIsModalOpenDefault] = useState(false);
 	const [selectedMeeting, setSelectedMeeting] = useState({ index: null, subIndex: null });
 	const [selectedCard, setSelectedCard] = useState({ index: null, subIndex: null });
 
@@ -74,7 +75,6 @@ export default function Edit({ attributes, setAttributes }) {
 	};
 
 	let updateSubField = (meeting, index, subIndex, field, value) => {
-		console.log("meeting:", meeting);
 		let subMeetingsNew;
 		if (subIndex === null) {
 			const subMeeting = meeting.subMeetings[0];
@@ -84,7 +84,6 @@ export default function Edit({ attributes, setAttributes }) {
 				j === subIndex ? { ...subMeeting, [field]: value } : subMeeting,
 			);
 		}
-		console.log("submeetings map update meetings;", meetings);
 		updateField(index, "subMeetings", subMeetingsNew);
 	};
 
@@ -110,7 +109,11 @@ export default function Edit({ attributes, setAttributes }) {
 					{insertMeetingBeforeButton(i)}
 					<div class="edit-button-container">
 						{/* Delete entire meeting card when subMeeting null */}
-						{deleteMeetingButton(i, null)}
+						{<DeleteMeetingButton
+							i={i} j={null}
+							setIsModalOpenDelete={setIsModalOpenDelete}
+							setSelectedMeeting={setSelectedMeeting}
+						/>}
 						{splitExistingMeetingButton(meeting, i)}
 					</div>
 					<div class="meeting-header">
@@ -149,7 +152,11 @@ export default function Edit({ attributes, setAttributes }) {
 				{insertMeetingBeforeButton(i)}
 				<div class="edit-button-container">
 					{/* Delete entire meeting card when subMeeting null */}
-					{deleteMeetingButton(i, null)}
+					{<DeleteMeetingButton
+						i={i} j={null}
+						setIsModalOpenDelete={setIsModalOpenDelete}
+						setSelectedMeeting={setSelectedMeeting}
+					/>}
 				</div>
 				<div class="meeting-header">
 					<PlainText
@@ -201,7 +208,11 @@ export default function Edit({ attributes, setAttributes }) {
 								}
 								</div>
 								<div className="edit-sub-button-container">
-									{deleteMeetingButton(i, j)}
+									{<DeleteMeetingButton
+										i={i} j={j}
+										setIsModalOpenDelete={setIsModalOpenDelete}
+										setSelectedMeeting={setSelectedMeeting}
+									/>}
 								</div>
 								<div class="meeting-header">
 									<PlainText
@@ -272,7 +283,6 @@ export default function Edit({ attributes, setAttributes }) {
 		));
 	}
 
-	
 	// Card modification buttons
 
 	function insertMeetingBeforeButton(i) {
@@ -360,90 +370,6 @@ export default function Edit({ attributes, setAttributes }) {
 		updateMeetings(newMeetings);
 	};
 
-	
-	function deleteMeetingButton(i, j) {
-		const toolTip = j === null ? "Delete meeting" : "Delete sub-meeting";
-		return (
-			<div class="btn-ui delete-button">
-				<span className="tool-tip">{toolTip}</span>
-				<button
-					onClick={(e) => {
-						handleDeleteClick(i, j);
-						e.stopPropagation();
-					}}
-				>
-					&#x2716;
-				</button>
-			</div>
-		);
-	}
-
-	function showDeleteMeetingModal() {
-		const meetingType = selectedMeeting.subIndex ? "sub-meeting" : "meeting";
-		return (
-			<Modal
-				title="Delete Meeting"
-				onRequestClose={() => setIsModalOpenDelete(false)}
-			>
-				<p>Are you sure you want to delete this {meetingType}?</p>
-				<Button
-					variant="primary"
-					onClick={() => {
-						confirmDelete();
-					}}
-				>
-					Yes, delete.
-				</Button>
-				<Button
-					variant="secondary"
-					onClick={() => setIsModalOpenDelete(false)}
-					style={{ marginLeft: "1em" }}
-				>
-					Cancel
-				</Button>
-			</Modal>
-		);
-	}
-
-	function handleDeleteClick(index, subIndex) {
-		setSelectedMeeting( {index: index, subIndex: subIndex} );
-		setIsModalOpenDelete(true);
-	}
-
-	function confirmDelete() {
-		{/* Delete entire meeting card when subMeeting null */}
-		if (selectedMeeting.subIndex === null) {
-			const newMeetings = meetings.filter((_, i) => i !== selectedMeeting.index);
-			updateMeetings(newMeetings);
-		} else {
-			const meeting = meetings[selectedMeeting.index];
-			if (meeting.subMeetings.length === 2) {
-				collapseExistingMeeting(meeting, selectedMeeting.index);
-			} else {
-				const newSubMeetings = meeting.subMeetings.filter((_, j) => j !== selectedMeeting.subIndex);
-				updateField(selectedMeeting.index, "subMeetings", newSubMeetings);
-			}
-		}
-		setIsModalOpenDelete(false);
-		setSelectedMeeting({ index: null, subIndex: null });
-	}
-
-	let collapseExistingMeeting = (meeting, i) => {
-		const remainingSubMeeting = meeting.subMeetings.find((_, j) => j !== selectedMeeting.subIndex);
-		const newMeeting = {
-			...meeting,
-			supHeader: "",
-			subMeetings: [{
-				...remainingSubMeeting,
-				header: remainingSubMeeting.header || meeting.supHeader
-			}]
-		};
-		const newMeetings = meetings.map((m, idx) =>
-			idx === i ? { ...newMeeting } : m
-		);
-		updateMeetings(newMeetings);
-	};
-
 	return (
 		<>
 			<InspectorControls>
@@ -478,7 +404,15 @@ export default function Edit({ attributes, setAttributes }) {
 								? splitMeetingCard(meeting, i)
 								: meetingCard(meeting, i),
 						)}
-						{isModalOpenDelete && showDeleteMeetingModal()}
+						{isModalOpenDelete && (
+						<ShowDeleteMeetingModal
+							meetings={meetings}
+							selectedMeeting={selectedMeeting}
+							setSelectedMeeting={setSelectedMeeting}
+							setIsModalOpenDelete={setIsModalOpenDelete}
+							updateMeetings={updateMeetings}
+							updateField={updateField}
+						/>)}
 						<div class="card-button">
 							<Button variant="primary" onClick={addMeeting}>
 								Add Meeting

@@ -2,7 +2,7 @@ import { useState } from "@wordpress/element";
 
 import { ButtonGroup, ColorPicker } from "@wordpress/components";
 
-import TabButton from "../TabButton";
+import TabButton from "./TabButton";
 import GradientColorsPanel from "./GradientColorsPanel";
 
 export default function CustomColorsPanel({ attributes, setAttributes }) {
