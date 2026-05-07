@@ -139,6 +139,19 @@ export default function Edit({ attributes, setAttributes }) {
 		updateMeetings(newMeetings);
 	};
 
+	let collapseExistingMeeting = (meeting, i) => {
+		const remainingSubMeeting = meeting.subMeetings.find((_, j) => j !== selectedMeeting.subIndex);
+		const newMeeting = { 
+			...meeting, 
+			supHeader: "", 
+			subMeetings: [remainingSubMeeting] 
+		};
+		const newMeetings = meetings.map((m, idx) =>
+			idx === i ? { ...newMeeting } : m
+		);
+		updateMeetings(newMeetings);
+	};
+
 	function handleDeleteClick(index, subIndex) {
 		setSelectedMeeting( {index: index, subIndex: subIndex} );
 		setIsModalOpenDelete(true);
@@ -150,8 +163,13 @@ export default function Edit({ attributes, setAttributes }) {
 			updateMeetings(newMeetings);
 		} else {
 			const meeting = meetings[selectedMeeting.index];
-			const newSubMeetings = meeting.subMeetings.filter((_, j) => j !== selectedMeeting.subIndex);
-			updateField(selectedMeeting.index, "subMeetings", newSubMeetings);
+
+			if (meeting.subMeetings.length === 2) {
+				collapseExistingMeeting(meeting, selectedMeeting.index);
+			} else {
+				const newSubMeetings = meeting.subMeetings.filter((_, j) => j !== selectedMeeting.subIndex);
+				updateField(selectedMeeting.index, "subMeetings", newSubMeetings);
+			}
 		}
 		setIsModalOpenDelete(false);
 		setSelectedMeeting({ index: null, subIndex: null });
