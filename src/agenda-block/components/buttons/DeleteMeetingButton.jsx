@@ -1,15 +1,13 @@
 import { Button, Modal } from "@wordpress/components";
-import { deleteMeeting } from "../../assets/js/meetingUtils.js";
 
-export function DeleteMeetingButton({i, j, setIsModalOpenDelete, setSelectedMeeting}) {
-    const toolTip = j === null ? "Delete meeting" : "Delete sub-meeting";
+export function DeleteMeetingButton({onClick, isSubMeeting}) {
+    const toolTip = isSubMeeting ? "Delete sub-meeting" : "Delete meeting";
     return (
         <div class="btn-ui delete-button">
             <span className="tool-tip">{toolTip}</span>
             <button
                 onClick={(e) => {
-                    setSelectedMeeting( {index: i, subIndex: j} );
-                    setIsModalOpenDelete(true);
+                    onClick();
                     e.stopPropagation();
                 }}
             >
@@ -19,31 +17,25 @@ export function DeleteMeetingButton({i, j, setIsModalOpenDelete, setSelectedMeet
     );
 }
 
-export function ShowDeleteMeetingModal({meetings, selectedMeeting, setSelectedMeeting, setIsModalOpenDelete, updateMeetings}) {
+export function ShowDeleteMeetingModal({meetings, selectedMeeting, onConfirm, onCancel}) {
     const meetingType = selectedMeeting.subIndex ? "sub-meeting" : "meeting";
-    function confirmDelete() {
-        updateMeetings(deleteMeeting(meetings, selectedMeeting));
-        setIsModalOpenDelete(false);
-        setSelectedMeeting({ index: null, subIndex: null });
-    }
-
     return (
         <Modal
             title="Delete Meeting"
-            onRequestClose={() => setIsModalOpenDelete(false)}
+            onRequestClose={onCancel}
         >
             <p>Are you sure you want to delete this {meetingType}?</p>
             <Button
                 variant="primary"
                 onClick={() => {
-                    confirmDelete();
+                    onConfirm();
                 }}
             >
                 Yes, delete.
             </Button>
             <Button
                 variant="secondary"
-                onClick={() => setIsModalOpenDelete(false)}
+                onClick={onCancel}
                 style={{ marginLeft: "1em" }}
             >
                 Cancel

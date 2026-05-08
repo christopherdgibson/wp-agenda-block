@@ -24,9 +24,10 @@ import {
 import { useEffect, useRef, useState } from "@wordpress/element";
 
 import CardColorsPanel from "./components/ui-panels/CardColorsPanel";
-import {DeleteMeetingButton, ShowDeleteMeetingModal} from "./components/buttons/DeleteMeetingButton";
+import { DeleteMeetingButton, ShowDeleteMeetingModal } from "./components/buttons/DeleteMeetingButton";
 import SplitMeetingButton from "./components/buttons/SplitMeetingButton";
-import {InsertMeetingButton, InsertSubMeetingButton} from "./components/buttons/InsertMeetingButton";
+import { InsertMeetingButton, InsertSubMeetingButton } from "./components/buttons/InsertMeetingButton";
+import { addMeeting, deleteMeeting, updateField } from "./assets/js/meetingUtils.js";
 
 /**
  * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
@@ -68,34 +69,13 @@ export default function Edit({ attributes, setAttributes }) {
 		}
 	};
 
-	let updateField = (index, field, value) => {
-		const newMeetings = meetings.map((meeting, i) =>
-			i === index ? { ...meeting, [field]: value } : meeting,
-		);
-		updateMeetings(newMeetings);
+	let updateSupField = (field, value, index) => {
+		const meeting = meetings[index];
+		updateMeetings(updateField(meetings, meeting, field, value, index));
 	};
 
-	let updateSubField = (meeting, index, subIndex, field, value) => {
-		let subMeetingsNew;
-		if (subIndex === null) {
-			const subMeeting = meeting.subMeetings[0];
-			subMeetingsNew = [{ ...subMeeting, [field]: value }];
-		} else {
-			subMeetingsNew = meeting.subMeetings.map((subMeeting, j) =>
-				j === subIndex ? { ...subMeeting, [field]: value } : subMeeting,
-			);
-		}
-		updateField(index, "subMeetings", subMeetingsNew);
-	};
-
-	let addMeeting = () => {
-		updateMeetings([
-			...meetings,
-			{
-				supHeader: "",
-				subMeetings: [{ header: "", title: "", description: "" }],
-			},
-		]);
+	let updateSubField = (meeting, field, value, index, subIndex) => {
+		updateMeetings(updateField(meetings, meeting, field, value, index, subIndex));
 	};
 
 	// Add cards for display
@@ -119,19 +99,21 @@ export default function Edit({ attributes, setAttributes }) {
 				>
 					{<InsertMeetingButton
 						meetings={meetings}
-						i={i}
+						index={i}
 						updateMeetings={updateMeetings}
 					/>}
 					<div class="edit-button-container">
 						{/* Delete entire meeting card when subMeeting null */}
 						{<DeleteMeetingButton
-							i={i} j={null}
-							setIsModalOpenDelete={setIsModalOpenDelete}
-							setSelectedMeeting={setSelectedMeeting}
+							onClick={() => {
+								setSelectedMeeting( {index: i, subIndex: null} );
+								setIsModalOpenDelete(true);
+							}}
+							isSubMeeting={false}
 						/>}
 						{<SplitMeetingButton
 							meetings={meetings}
-							i={i}
+							index={i}
 							updateMeetings={updateMeetings}
 						/>}
 					</div>
@@ -140,7 +122,7 @@ export default function Edit({ attributes, setAttributes }) {
 							value={meeting.subMeetings[0].header}
 							placeholder="Day"
 							onChange={(val) =>
-								updateSubField(meeting, i, 0, "header", val)
+								updateSubField(meeting, "header", val, i, 0)
 							}
 						/>
 					</div>
@@ -148,7 +130,7 @@ export default function Edit({ attributes, setAttributes }) {
 						<PlainText
 							value={meeting.subMeetings[0].title}
 							placeholder="Title"
-							onChange={(val) => updateSubField(meeting, i, 0, "title", val)}
+							onChange={(val) => updateSubField(meeting, "title", val, i, 0)}
 						/>
 					</div>
 				</button>
@@ -170,22 +152,24 @@ export default function Edit({ attributes, setAttributes }) {
 			>
 				{<InsertMeetingButton
 					meetings={meetings}
-					i={i}
+					index={i}
 					updateMeetings={updateMeetings}
 				/>}
 				<div class="edit-button-container">
 					{/* Delete entire meeting card when subMeeting null */}
 					{<DeleteMeetingButton
-						i={i} j={null}
-						setIsModalOpenDelete={setIsModalOpenDelete}
-						setSelectedMeeting={setSelectedMeeting}
+						onClick={() => {
+							setSelectedMeeting( {index: i, subIndex: null} );
+							setIsModalOpenDelete(true);
+						}}
+						isSubMeeting={false}
 					/>}
 				</div>
 				<div class="meeting-header">
 					<PlainText
 						value={meeting.supHeader}
 						placeholder="Day"
-						onChange={(val) => updateField(i, "supHeader", val)}
+						onChange={(val) => updateSupField("supHeader", val, i)}
 					/>
 				</div>
 				<div class="meeting-title container-two">
@@ -207,32 +191,34 @@ export default function Edit({ attributes, setAttributes }) {
 								<div class="add-sub-button-container">
 									{<InsertSubMeetingButton
 										meetings={meetings}
-										i={i} j={j}
+										index={i} subIndex={j}
 										updateMeetings={updateMeetings}
 										position="before"
 									/>}
 									{j===meeting.subMeetings.length - 1 && (
 									<InsertSubMeetingButton
 										meetings={meetings}
-										i={i} j={j+1}
+										index={i} subIndex={j+1}
 										updateMeetings={updateMeetings}
 										position="after"
 									/>
 								)}
 								</div>
 								<div className="edit-sub-button-container">
-									{<DeleteMeetingButton
-										i={i} j={j}
-										setIsModalOpenDelete={setIsModalOpenDelete}
-										setSelectedMeeting={setSelectedMeeting}
-									/>}
+								{<DeleteMeetingButton
+									onClick={() => {
+										setSelectedMeeting( {index: i, subIndex: j} );
+										setIsModalOpenDelete(true);
+									}}
+									isSubMeeting={true}
+								/>}
 								</div>
 								<div class="meeting-header">
 									<PlainText
 										value={subMeeting.header}
 										placeholder={`Subheader ${j+1}`}
 										onChange={(val) =>
-											updateSubField(meeting, i, j, "header", val)
+											updateSubField(meeting, "header", val, i, j)
 										}
 									/>
 								</div>
@@ -241,7 +227,7 @@ export default function Edit({ attributes, setAttributes }) {
 										value={subMeeting.title}
 										placeholder={`Subtitle ${j+1}`}
 										onChange={(val) =>
-											updateSubField(meeting, i, j, "title", val)
+											updateSubField(meeting, "title", val, i, j)
 										}
 									/>
 								</div>
@@ -287,7 +273,7 @@ export default function Edit({ attributes, setAttributes }) {
 							value={subMeeting.description}
 							placeholder="Description"
 							onChange={(val) =>
-								updateSubField(meeting, i, j, "description", val)
+								updateSubField(meeting, "description", val, i, j)
 							}
 						/>
 					</p>
@@ -334,10 +320,15 @@ export default function Edit({ attributes, setAttributes }) {
 							<ShowDeleteMeetingModal
 								meetings={meetings}
 								selectedMeeting={selectedMeeting}
-								setSelectedMeeting={setSelectedMeeting}
-								setIsModalOpenDelete={setIsModalOpenDelete}
-								updateMeetings={updateMeetings}
-								updateField={updateField}
+								onConfirm={(index, subIndex) => {
+									updateMeetings(deleteMeeting(meetings, selectedMeeting));
+									setIsModalOpenDelete(false);
+									setSelectedMeeting({ index: null, subIndex: null });
+								}}
+								onCancel={() => {
+									setIsModalOpenDelete(false);
+									setSelectedMeeting({ index: null, subIndex: null });
+								}}
 							/>
 						)}
 						<div class="card-button">

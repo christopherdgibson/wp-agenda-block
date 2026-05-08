@@ -1,12 +1,12 @@
-import {splitExistingMeeting} from "../../assets/js/meetingUtils.js";
+import {splitMeeting} from "../../assets/js/meetingUtils.js";
 
-export default function SplitMeetingButton({meetings, i, updateMeetings}) {
+export default function SplitMeetingButton({meetings, index, updateMeetings}) {
     return (
         <div class="btn-ui split-button">
             <span className="tool-tip">Split into sub-meetings</span>
             <button
                 onClick={(e) => {
-                    updateMeetings(splitExistingMeeting(meetings, i))
+                    updateMeetings(splitMeeting(meetings, index))
                     e.stopPropagation();
                 }}
             >

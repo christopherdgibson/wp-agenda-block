@@ -1,3 +1,13 @@
+export function addMeeting (meetings) {
+    return meetings, [
+        ...meetings,
+        {
+            supHeader: "",
+            subMeetings: [{ header: "", title: "", description: "" }],
+        },
+    ];
+};
+
 export function insertMeeting(meetings, i) {
     return [
         ...meetings.slice(0, i),
@@ -21,7 +31,7 @@ export function insertSubMeeting(meetings, i, j) {
     return toMeetingsArray(meetings, meetingNew, i);
 };
 
-export function splitExistingMeeting(meetings, i) {
+export function splitMeeting(meetings, i) {
     const meeting = meetings[i];
     const meetingNew = {
             ...meeting, 
@@ -63,7 +73,7 @@ function collapseMeeting(meeting, subIndex) {
 export function updateField(meetings, meeting, field, value, index, subIndex) {
     let subMeetingsNew;
     let meetingNew;
-    if (subIndex === null) {
+    if (subIndex == null) {
         meetingNew = updateMeeting(meeting, field, value);
     } else {
         subMeetingsNew = meeting.subMeetings.map((subMeeting, j) =>
@@ -84,13 +94,3 @@ function toMeetingsArray(meetings, meeting, index) {
         i === index ? meeting : m
     );
 }
-
-function addMeeting (meetings) {
-    return meetings, [
-        ...meetings,
-        {
-            supHeader: "",
-            subMeetings: [{ header: "", title: "", description: "" }],
-        },
-    ];
-};
