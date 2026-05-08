@@ -208,14 +208,14 @@ export default function Edit({ attributes, setAttributes }) {
 									{<InsertSubMeetingButton
 										meetings={meetings}
 										i={i} j={j}
-										updateField={updateField}
+										updateMeetings={updateMeetings}
 										position="before"
 									/>}
 									{j===meeting.subMeetings.length - 1 && (
 									<InsertSubMeetingButton
 										meetings={meetings}
 										i={i} j={j+1}
-										updateField={updateField}
+										updateMeetings={updateMeetings}
 										position="after"
 									/>
 								)}

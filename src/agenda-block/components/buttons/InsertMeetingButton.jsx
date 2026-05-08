@@ -1,23 +1,13 @@
-export function InsertMeetingButton({meetings, i, updateMeetings}) {
-	let insertMeeting = (i) => {
-		const newMeetings = [
-			...meetings.slice(0, i),
-			{
-				supHeader: "",
-				subMeetings: [{ header: "", title: "", description: "" }],
-			},
-			...meetings.slice(i),
-		];
-		updateMeetings(newMeetings);
-	};
+import {insertMeeting, insertSubMeeting, updateField} from "../../assets/js/meetingUtils.js";
 
+export function InsertMeetingButton({meetings, i, updateMeetings}) {
 	return (
 		<div class="add-button-container">
 			<div class="btn-ui add-button-right">
 				<span className="tool-tip">Insert meeting before</span>
 				<button
 					onClick={(e) => {
-						insertMeeting(i);
+						updateMeetings(insertMeeting(meetings, i));
 						e.stopPropagation();
 					}}
 				>
@@ -28,17 +18,7 @@ export function InsertMeetingButton({meetings, i, updateMeetings}) {
 	);
 }
 
-export function InsertSubMeetingButton({meetings, i, j, updateField, position}) {
-
-	let insertSubMeeting = (meetings, i, j) => {
-        const meeting = meetings[i];
-		const newSubMeetings = [
-			...meeting.subMeetings.slice(0, j),
-			{ header: "", title: "", description: "" },
-			...meeting.subMeetings.slice(j),
-		];
-		updateField(i, "subMeetings", newSubMeetings);
-	};
+export function InsertSubMeetingButton({meetings, i, j, updateMeetings, position}) {
 
 	const btnClass = ["btn-ui", position === "after" ? "add-button-right" : "add-button-left"].join(" ");
 	return (
@@ -46,7 +26,7 @@ export function InsertSubMeetingButton({meetings, i, j, updateField, position}) 
 			<span className="tool-tip">Insert sub-meeting {position === "after" ? "after" : "before"}</span>
 			<button
 				onClick={(e) => {
-					insertSubMeeting(meetings, i, j);
+					updateMeetings(insertSubMeeting(meetings, i, j));
 					e.stopPropagation();
 				}}
 			>
