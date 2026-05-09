@@ -68,7 +68,13 @@ $divider_right = $attributes['meetingsDividerColorRight'] ?? '#FFA500';
                             <button class="close-popup">
                                 X
                             </button>
-                            <div class="meeting-header"> <?php echo esc_html($sub['header'] ?? ''); ?></div>
+                            <?php $cardHeader = esc_html($meeting['supHeader'] ?? ''); ?>
+                            <?php if ($cardHeader === "") : ?>
+                                <?php $cardHeader = esc_html($sub['header'] ?? ''); ?>
+                            <?php elseif ($sub['header'] !== "") : ?>
+                                <?php $cardHeader = $cardHeader . ' - ' . esc_html($sub['header']); ?>
+                            <?php endif; ?>
+                            <div class="meeting-header"><?php echo $cardHeader; ?></div>
                             <div class="meeting-icon">
                                 <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
                                     <g fill="url(#iconGrad)">
