@@ -1,10 +1,12 @@
 import { Button, ButtonGroup, PanelBody } from "@wordpress/components";
 import { useState } from "@wordpress/element";
 
-import TabButton from "./TabButton";
-import PresetColorsPanel from "./PresetColorsPanel";
-import CustomColorsPanel from "./CustomColorsPanel";
-import RestoreToDefaults from "./RestoreToDefaults";
+import "./styles.css";
+
+import TabButton from "@components/ui-panels/TabButton";
+import PresetColorsPanel from "@components/ui-panels/PresetColorsPanel";
+import CustomColorsPanel from "@components/ui-panels/CustomColorsPanel";
+import RestoreToDefaults from "@components/ui-panels/RestoreToDefaults";
 
 export default function CardColorsPanel({attributes, setAttributes}) {
     

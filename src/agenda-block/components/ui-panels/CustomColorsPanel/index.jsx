@@ -2,8 +2,10 @@ import { useState } from "@wordpress/element";
 
 import { ButtonGroup, ColorPicker } from "@wordpress/components";
 
-import TabButton from "./TabButton";
-import GradientColorsPanel from "./GradientColorsPanel";
+import TabButton from "@components/ui-panels/TabButton";
+import GradientColorsPanel from "@components/ui-panels/GradientColorsPanel";
+
+import "./styles.css";
 
 export default function CustomColorsPanel({ attributes, setAttributes }) {
   const { cardBgColor, cardFontColor } =

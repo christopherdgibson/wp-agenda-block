@@ -1,4 +1,4 @@
-import {insertMeeting, insertSubMeeting, updateField} from "../../assets/js/meetingUtils.js";
+import {insertMeeting, insertSubMeeting, updateField} from "../../../assets/js/meetingUtils.js";
 
 export function InsertMeetingButton({meetings, index, updateMeetings}) {
 	return (

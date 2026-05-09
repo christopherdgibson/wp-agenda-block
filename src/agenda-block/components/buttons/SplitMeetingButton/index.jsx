@@ -1,4 +1,4 @@
-import {splitMeeting} from "../../assets/js/meetingUtils.js";
+import {splitMeeting} from "../../../assets/js/meetingUtils.js";
 
 export default function SplitMeetingButton({meetings, index, updateMeetings}) {
     return (

@@ -1,0 +1,70 @@
+.btn-ui {
+    button {
+        display: grid;
+        height: 35px;
+        width: 35px;
+        justify-content: center;
+
+        font-size: 24px;
+        background: var(--wp-admin-theme-color, #007cba);
+        color: var(--wp-components-color-accent-inverted, #fff);
+        border: none;
+
+        &:hover {
+            background-color: var(--wp-admin-theme-color-darker-10, #006ba1);
+        }
+    }
+}
+
+.tool-tip {
+    display: grid;
+    opacity: 0;
+    visibility: hidden;
+    width: max-content;
+    position: absolute;
+    padding: 5px;
+    background-color: white;
+    outline: solid 1px currentColor;
+    border-radius: 6px;
+    justify-items: left;
+    gap: 10px;
+    bottom: calc(100% + 6px);
+    font-size: 16px;
+    z-index: 1;
+    transition: var(--transition-btn-ui);
+}
+
+.delete-button {
+    display: grid;
+    width: max-content;
+    justify-items: left;
+    align-items: center;
+    gap: 10px;
+    top: 0;
+    z-index: 1;
+    transform: translateY(0);
+    transition: var(--transition-btn-ui);
+
+    button {
+        font-size: 20px;
+        align-content: center;
+        background: var(--wp-components-color-accent, #cc1818);
+        border: none;
+        color: var(--wp-components-color-accent-inverted, #fff);
+
+        &:hover {
+            background-color: var(--wp-components-color-accent-darker-10, #9e1313);
+        }
+    }
+    
+    .tool-tip {
+        bottom: unset;
+        transform: translateX(calc(-100% - 6px))
+    }
+    
+    &:hover .tool-tip {
+        opacity: 1;
+        visibility: visible;
+        transition: var(--transition-out-btn-ui);
+    }
+}

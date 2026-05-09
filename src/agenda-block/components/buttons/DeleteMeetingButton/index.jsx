@@ -1,19 +1,24 @@
 import { Button, Modal } from "@wordpress/components";
 
+// import "./styles.css";
+
 export function DeleteMeetingButton({onClick, isSubMeeting}) {
     const toolTip = isSubMeeting ? "Delete sub-meeting" : "Delete meeting";
+    const containerClass = isSubMeeting ? "edit-sub-button-container" : "edit-button-container";
     return (
-        <div class="btn-ui delete-button">
-            <span className="tool-tip">{toolTip}</span>
-            <button
-                onClick={(e) => {
-                    onClick();
-                    e.stopPropagation();
-                }}
-            >
-                &#x2716;
-            </button>
-        </div>
+        // <div className={containerClass}>
+            <div class="btn-ui delete-button">
+                <span className="tool-tip">{toolTip}</span>
+                <button
+                    onClick={(e) => {
+                        onClick();
+                        e.stopPropagation();
+                    }}
+                >
+                    &#x2716;
+                </button>
+            </div>
+        // </div>
     );
 }
 

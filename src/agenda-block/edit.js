@@ -23,10 +23,10 @@ import {
 } from "@wordpress/block-editor";
 import { useEffect, useRef, useState } from "@wordpress/element";
 
-import CardColorsPanel from "./components/ui-panels/CardColorsPanel";
-import { DeleteMeetingButton, ShowDeleteMeetingModal } from "./components/buttons/DeleteMeetingButton";
-import SplitMeetingButton from "./components/buttons/SplitMeetingButton";
-import { InsertMeetingButton, InsertSubMeetingButton } from "./components/buttons/InsertMeetingButton";
+import CardColorsPanel from "@components/ui-panels/CardColorsPanel";
+import { DeleteMeetingButton, ShowDeleteMeetingModal } from "@components/buttons/DeleteMeetingButton";
+import SplitMeetingButton from "@components/buttons/SplitMeetingButton/index.jsx";
+import { InsertMeetingButton, InsertSubMeetingButton } from "@components/buttons/InsertMeetingButton";
 import { addMeeting, deleteMeeting, updateField } from "./assets/js/meetingUtils.js";
 
 /**
