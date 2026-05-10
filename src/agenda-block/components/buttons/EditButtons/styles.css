@@ -1,0 +1,56 @@
+:root {
+	--transition-btn-ui-time: 0.2s;
+	--transition-btn-ui: opacity var(--transition-btn-ui-time) ease,
+		transform var(--transition-btn-ui-time) ease, visibility var(--transition-btn-ui-time);
+	--transition-out-btn-ui: opacity var(--transition-btn-ui-time) ease,
+		transform var(--transition-btn-ui-time) ease, visibility 0s linear 0s;
+}
+
+.card-small {
+    .meeting-title {
+
+        .card-part {
+            &:hover {
+
+                .edit-sub-button-container,
+                .add-sub-button-container {
+                    opacity: 1;
+                    visibility: visible;
+                    transition: var(--transition-out-btn-ui)
+                }
+            }
+        }
+    }
+
+    .edit-button-container,
+    .edit-sub-button-container {
+        display: grid;
+        opacity: 0;
+        visibility: hidden;
+        width: max-content;
+        position: absolute;
+        padding-left: 10px;
+        justify-items: left;
+        gap: 10px;
+        top: 0;
+        font-size: 10px;
+        z-index: 999;
+        left: 100%;
+        transform: translateY(0);
+        transition: var(--transition-btn-ui);
+    }
+
+    &:hover .edit-button-container,
+    &:hover .add-button-container{
+        opacity: 1;
+        visibility: visible;
+        transition: var(--transition-out-btn-ui);
+    }
+
+    &:has(.card-part:hover) .edit-button-container,
+    &:has(.card-part:hover) .add-button-container {
+        opacity: 0;
+        visibility: hidden;
+        transition: var(--transition-out-btn-ui);
+    }
+}

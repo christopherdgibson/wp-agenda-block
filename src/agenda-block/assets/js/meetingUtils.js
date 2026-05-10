@@ -8,18 +8,10 @@ export function addMeeting (meetings) {
     ];
 };
 
-export function insertMeeting(meetings, i) {
-    return [
-        ...meetings.slice(0, i),
-        {
-            supHeader: "",
-            subMeetings: [{ header: "", title: "", description: "" }],
-        },
-        ...meetings.slice(i),
-    ];
-};
-
 export function insertSubMeeting(meetings, i, j) {
+    if (j == null) {
+        return insertMeeting(meetings, i);
+    }
     const meeting = meetings[i];
     const subMeetingsNew = [
         ...meeting.subMeetings.slice(0, j),
@@ -30,6 +22,18 @@ export function insertSubMeeting(meetings, i, j) {
 
     return toMeetingsArray(meetings, meetingNew, i);
 };
+
+function insertMeeting(meetings, i) {
+    return [
+        ...meetings.slice(0, i),
+        {
+            supHeader: "",
+            subMeetings: [{ header: "", title: "", description: "" }],
+        },
+        ...meetings.slice(i),
+    ];
+};
+
 
 export function splitMeeting(meetings, i) {
     const meeting = meetings[i];

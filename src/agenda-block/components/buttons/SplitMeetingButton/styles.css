@@ -1,0 +1,23 @@
+:root {
+	--transition-btn-ui-time: 0.2s;
+	--transition-out-btn-ui: opacity var(--transition-btn-ui-time) ease,
+		transform var(--transition-btn-ui-time) ease, visibility 0s linear 0s;
+}
+
+.split-button {
+	display: grid;
+	height: max-content;
+	width: max-content;
+	align-items: center;
+
+	.tool-tip {
+		bottom: unset;
+		transform: translateX(calc(-100% - 6px))
+	}
+
+	&:hover .tool-tip {
+		opacity: 1;
+		visibility: visible;
+		transition: var(--transition-out-btn-ui);
+	}
+}

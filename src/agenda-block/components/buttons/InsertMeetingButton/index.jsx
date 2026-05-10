@@ -1,36 +1,45 @@
-import {insertMeeting, insertSubMeeting, updateField} from "../../../assets/js/meetingUtils.js";
+import {insertSubMeeting, updateField} from "@agenda-block/assets/js/meetingUtils.js";
 
-export function InsertMeetingButton({meetings, index, updateMeetings}) {
+import "./styles.css";
+
+export default function InsertMeetingButtons({meetings, updateMeetings, index, subIndex, after}) {
+	const containerClass = subIndex == null ? "add-button-container" : "add-sub-button-container";
 	return (
-		<div class="add-button-container">
-			<div class="btn-ui add-button-right">
-				<span className="tool-tip">Insert meeting before</span>
-				<button
-					onClick={(e) => {
-						updateMeetings(insertMeeting(meetings, index));
-						e.stopPropagation();
-					}}
-				>
-					&#9626;
-				</button>
-			</div>
+		<div class={containerClass}>
+			<InsertMeetingButton 
+				meetings={meetings}
+				updateMeetings={updateMeetings}
+				index={index}
+				subIndex={subIndex}
+				after={after ?? false}
+			/>
+			{subIndex != null && subIndex === meetings[index]?.subMeetings.length - 1 && (
+				<InsertMeetingButton 
+					meetings={meetings}
+					updateMeetings={updateMeetings}
+					index={index}
+					subIndex={subIndex + 1}
+					after={true}
+				/>)
+			}
 		</div>
 	);
 }
 
-export function InsertSubMeetingButton({meetings, index, subIndex, updateMeetings, position}) {
-
-	const btnClass = ["btn-ui", position === "after" ? "add-button-right" : "add-button-left"].join(" ");
+function InsertMeetingButton({meetings, updateMeetings, index, subIndex, after}) {
+	
+	// Align right for last sub-meeting or for sup-meeting card
+	const btnClass = ["btn-ui", after || subIndex == null ? "add-button-right" : "add-button-left"].join(" ");
 	return (
 		<div className={btnClass}>
-			<span className="tool-tip">Insert sub-meeting {position === "after" ? "after" : "before"}</span>
+			<span className="tool-tip">Insert {subIndex == null ? "meeting" : "sub-meeting"} {after ? "after" : "before"}</span>
 			<button
 				onClick={(e) => {
 					updateMeetings(insertSubMeeting(meetings, index, subIndex));
 					e.stopPropagation();
 				}}
 			>
-				{position === "after" ? <>&#9626;</> : <>&#9630;</>}
+				{after ? <>&#9626;</> : <>&#9630;</>}
 			</button>
 		</div>
 	);

@@ -34,12 +34,9 @@
 	--card-max-width: 600px;
 	--card-min-width: 255px;
 
-	--radius-btn-ui: 4px;
-	--transition-btn-ui-time: 0.2s;
-	--transition-btn-ui: opacity var(--transition-btn-ui-time) ease,
-		transform var(--transition-btn-ui-time) ease, visibility var(--transition-btn-ui-time);
-	--transition-out-btn-ui: opacity var(--transition-btn-ui-time) ease,
-		transform var(--transition-btn-ui-time) ease, visibility 0s linear 0s;
+	--transition-btn-time: 0.2s;
+	--transition-btn: opacity var(--transition-btn-time) ease,
+		transform var(--transition-btn-time) ease, visibility var(--transition-btn-time);
 
 	#iconGrad stop:first-child {
 		stop-color: var(--accent-primary);
@@ -90,30 +87,12 @@
 		border-width: 0;
 		border-radius: 10px;
 		color: var(--font-color);
-		transition: var(--transition-btn-ui);
+		transition: var(--transition-btn);
 		&:hover {
 			background-image: var(--bg-btn-hover-grad);
 			cursor: pointer;
 			transform: translateY(-2px);
 			box-shadow: inset -2px 2px 0 rgba(255,255,255,0.7), 0 8px 20px color-mix(in srgb, var(--accent-primary) 25%, transparent);
-		}
-	}
-
-	.btn-ui {
-		button {
-			display: grid;
-			height: 35px;
-			width: 35px;
-			justify-content: center;
-			// align-content: center;
-			font-size: 24px;
-			background: var(--wp-admin-theme-color, #007cba);
-			color: var(--wp-components-color-accent-inverted, #fff);
-			border: none;
-
-			&:hover {
-				background-color: var(--wp-admin-theme-color-darker-10, #006ba1);
-			}
 		}
 	}
 
@@ -127,23 +106,18 @@
 		color: var(--font-color);
 	}
 
-	.container-two {
+	.subcard-container {
 		display: grid;
 		grid-template-columns: 1fr 1fr;
 		grid-template-rows: auto auto auto; /* title / bar / content */
 		align-items: stretch;
 		gap: 8px;
 	}
-	.container-two a {
+	.subcard-container a {
 		text-align: center;
 		display: inline;
 		padding-left: 5px;
 		padding-right: 5px;
-	}
-	.container-two div {
-		text-align: center;
-		padding-left: 0px;
-		padding-right: 0px;
 	}
 
 	.card {
@@ -299,13 +273,6 @@
 
 				&:hover {
 					background-image: var(--bg-part-hover-grad);
-
-					.edit-sub-button-container,
-					.add-sub-button-container {
-						opacity: 1;
-						visibility: visible;
-						transition: var(--transition-out-btn-ui)
-					}
 				}
 
 				.meeting-header-small {
@@ -325,170 +292,6 @@
 				}
 			}
 		}
-
-		.add-button-left, .add-button-right {
-			display: flex;
-			flex-direction: column;
-			flex: 0 1 auto;
-			position: relative;
-
-			&.btn-ui button {
-				font-size: 20px;
-			}
-
-			&:hover .tool-tip {
-				opacity: 1;
-				visibility: visible;
-				transition: var(--transition-out-btn-ui);
-			}
-		}
-
-		.add-button-left {
-			right: 0;
-		}
-
-		.add-button-right .tool-tip {
-			left: auto;
-			right: 0;
-		}
-
-		.card-part {
-			.add-sub-button-container {
-				display: flex;
-				opacity: 0;
-				visibility: hidden;
-				position: absolute;
-				top: 0;
-				padding-left: 0;
-				padding-bottom: 5px;
-				gap: 10px;
-				transform: translate(-5%, -100%);
-				width: 110%;
-				justify-content: space-between;
-				flex-wrap: wrap-reverse;
-				transition: var(--transition-btn-ui);
-			}
-		}
-
-		.add-button-container {
-			display: flex;
-			opacity: 0;
-			visibility: hidden;
-			position: absolute;
-			top: 0;
-			padding-left: 0;
-			padding-bottom: 5px;
-			gap: 10px;
-			transform: translate(-5%, -100%);
-			width: 110%;
-			justify-content: right;
-			flex-wrap: wrap-reverse;
-			transition: var(--transition-btn-ui);
-		}
-
-		.delete-button {
-			display: grid;
-			width: max-content;
-			justify-items: left;
-			align-items: center;
-			gap: 10px;
-			top: 0;
-			z-index: 1;
-			transform: translateY(0);
-			transition: var(--transition-btn-ui);
-
-			button {
-				font-size: 20px;
-				align-content: center;
-				background: var(--wp-components-color-accent, #cc1818);
-				border: none;
-				color: var(--wp-components-color-accent-inverted, #fff);
-
-				&:hover {
-					background-color: var(--wp-components-color-accent-darker-10, #9e1313);
-				}
-			}
-			
-			.tool-tip {
-				bottom: unset;
-				transform: translateX(calc(-100% - 6px))
-			}
-			
-			&:hover .tool-tip {
-				opacity: 1;
-				visibility: visible;
-				transition: var(--transition-out-btn-ui);
-			}
-		 }
-
-		.edit-button-container,
-		.edit-sub-button-container {
-			display: grid;
-			opacity: 0;
-			visibility: hidden;
-			width: max-content;
-			position: absolute;
-			padding-left: 10px;
-			justify-items: left;
-			gap: 10px;
-			top: 0;
-			font-size: 10px;
-			z-index: 999;
-			left: 100%;
-			transform: translateY(0);
-			transition: var(--transition-btn-ui);
-
-			.split-button {
-				display: grid;
-				height: max-content;
-				width: max-content;
-				align-items: center;
-
-				.tool-tip {
-					bottom: unset;
-					transform: translateX(calc(-100% - 6px))
-				}
-
-				&:hover .tool-tip {
-					opacity: 1;
-					visibility: visible;
-					transition: var(--transition-out-btn-ui);
-				}
-			}
-		}
-
-		&:hover .edit-button-container,
-		&:hover .add-button-container{
-			opacity: 1;
-			visibility: visible;
-			transition: var(--transition-out-btn-ui);
-		}
-
-		&:has(.card-part:hover) .edit-button-container,
-		&:has(.card-part:hover) .add-button-container {
-			opacity: 0;
-			visibility: hidden;
-			transition: var(--transition-out-btn-ui);
-		}
-
-		.tool-tip
-		 {
-			display: grid;
-			opacity: 0;
-			visibility: hidden;
-			width: max-content;
-			position: absolute;
-			padding: 5px;
-			background-color: white;
-			outline: solid 1px currentColor;
-			border-radius: 6px;
-			justify-items: left;
-			gap: 10px;
-			bottom: calc(100% + 6px);
-			font-size: 16px;
-			z-index: 1;
-			transition: var(--transition-btn-ui);
-		 }
 	}
 
 	.meeting-select {

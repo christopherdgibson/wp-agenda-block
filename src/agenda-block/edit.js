@@ -25,9 +25,10 @@ import { useEffect, useRef, useState } from "@wordpress/element";
 
 import CardColorsPanel from "@components/ui-panels/CardColorsPanel";
 import { DeleteMeetingButton, ShowDeleteMeetingModal } from "@components/buttons/DeleteMeetingButton";
-import SplitMeetingButton from "@components/buttons/SplitMeetingButton/index.jsx";
-import { InsertMeetingButton, InsertSubMeetingButton } from "@components/buttons/InsertMeetingButton";
-import { addMeeting, deleteMeeting, updateField } from "./assets/js/meetingUtils.js";
+import EditButtons from "@components/buttons/EditButtons";
+import SplitMeetingButton from "@components/buttons/SplitMeetingButton";
+import InsertMeetingButtons from "@components/buttons/InsertMeetingButton";
+import { addMeeting, deleteMeeting, splitMeeting, updateField } from "./assets/js/meetingUtils.js";
 
 /**
  * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
@@ -97,26 +98,23 @@ export default function Edit({ attributes, setAttributes }) {
 						}
 					}}
 				>
-					{<InsertMeetingButton
+					{<InsertMeetingButtons
 						meetings={meetings}
-						index={i}
 						updateMeetings={updateMeetings}
+						index={i}
 					/>}
-					<div class="edit-button-container">
-						{/* Delete entire meeting card when subMeeting null */}
-						{<DeleteMeetingButton
-							onClick={() => {
-								setSelectedMeeting( {index: i, subIndex: null} );
-								setIsModalOpenDelete(true);
-							}}
-							isSubMeeting={false}
-						/>}
-						{<SplitMeetingButton
-							meetings={meetings}
-							index={i}
-							updateMeetings={updateMeetings}
-						/>}
-					</div>
+					
+					{<EditButtons
+						/* Delete entire meeting card when subMeeting null */
+						onClickDelete={() => {
+							setSelectedMeeting( {index: i, subIndex: null} );
+							setIsModalOpenDelete(true);
+						}}
+						onClickSplit ={() => {
+								updateMeetings(splitMeeting(meetings, i));
+						}}
+						isSubMeeting={false}
+					/>}
 					<div class="meeting-header">
 						<PlainText
 							value={meeting.subMeetings[0].header}
@@ -150,21 +148,19 @@ export default function Edit({ attributes, setAttributes }) {
 						}
 					}}
 			>
-				{<InsertMeetingButton
+				{<InsertMeetingButtons
 					meetings={meetings}
-					index={i}
 					updateMeetings={updateMeetings}
+					index={i}
 				/>}
-				<div class="edit-button-container">
-					{/* Delete entire meeting card when subMeeting null */}
-					{<DeleteMeetingButton
-						onClick={() => {
-							setSelectedMeeting( {index: i, subIndex: null} );
-							setIsModalOpenDelete(true);
-						}}
-						isSubMeeting={false}
-					/>}
-				</div>
+				{/* Delete entire meeting card when subMeeting null */}
+				{<EditButtons
+					onClickDelete={() => {
+						setSelectedMeeting( {index: i, subIndex: null} );
+						setIsModalOpenDelete(true);
+					}}
+					isSubMeeting={false}
+				/>}
 				<div class="meeting-header">
 					<PlainText
 						value={meeting.supHeader}
@@ -172,7 +168,7 @@ export default function Edit({ attributes, setAttributes }) {
 						onChange={(val) => updateSupField("supHeader", val, i)}
 					/>
 				</div>
-				<div class="meeting-title container-two">
+				<div class="meeting-title subcard-container">
 					{meeting.subMeetings.map((subMeeting, j) => (
 						<>
 							<a
@@ -188,31 +184,18 @@ export default function Edit({ attributes, setAttributes }) {
 									}
 								}}
 							>
-								<div class="add-sub-button-container">
-									{<InsertSubMeetingButton
-										meetings={meetings}
-										index={i} subIndex={j}
-										updateMeetings={updateMeetings}
-										position="before"
-									/>}
-									{j===meeting.subMeetings.length - 1 && (
-									<InsertSubMeetingButton
-										meetings={meetings}
-										index={i} subIndex={j+1}
-										updateMeetings={updateMeetings}
-										position="after"
-									/>
-								)}
-								</div>
-								<div className="edit-sub-button-container">
-								{<DeleteMeetingButton
-									onClick={() => {
+								{<InsertMeetingButtons
+									meetings={meetings}
+									updateMeetings={updateMeetings}
+									index={i} subIndex={j}
+								/>}
+								{<EditButtons
+									onClickDelete={() => {
 										setSelectedMeeting( {index: i, subIndex: j} );
 										setIsModalOpenDelete(true);
 									}}
 									isSubMeeting={true}
 								/>}
-								</div>
 								<div class="meeting-header">
 									<PlainText
 										value={subMeeting.header}

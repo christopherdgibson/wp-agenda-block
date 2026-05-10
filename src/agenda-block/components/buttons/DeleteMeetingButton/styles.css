@@ -1,9 +1,41 @@
+:root {
+    --radius-btn-ui: 10px;
+	--transition-btn-ui-time: 0.2s;
+	--transition-btn-ui: opacity var(--transition-btn-ui-time) ease,
+		transform var(--transition-btn-ui-time) ease, visibility var(--transition-btn-ui-time);
+	--transition-out-btn-ui: opacity var(--transition-btn-ui-time) ease,
+		transform var(--transition-btn-ui-time) ease, visibility 0s linear 0s;
+}
+
+.components-button.has-icon {
+    flex: 0 1 min-content;
+}
+
+.delete-confirm-buttons {
+    display: flex;
+    gap: 6px;
+    justify-content: right;
+    margin: 30px 10px 0;
+    button {
+        flex: 0 1 min-content;
+    }
+}
+
 .btn-ui {
     button {
         display: grid;
         height: 35px;
         width: 35px;
         justify-content: center;
+        border-width: 0;
+		border-radius: var(--radius-btn-ui);
+		transition: var(--transition-btn-ui);
+        
+		&:hover {
+			cursor: pointer;
+			transform: translateY(-1px);
+			box-shadow: inset -1px 1px 0 rgba(255,255,255,0.7), 0 8px 20px color-mix(in srgb, white 25%, transparent);
+		}
 
         font-size: 24px;
         background: var(--wp-admin-theme-color, #007cba);

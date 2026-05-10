@@ -29,7 +29,7 @@ $divider_right = $attributes['meetingsDividerColorRight'] ?? '#FFA500';
                         <div class="meeting-header">
                             <?php echo esc_html($meeting['supHeader'] ?? ''); ?>
                         </div>
-                        <div class="meeting-title container-two">
+                        <div class="meeting-title subcard-container">
                             <?php foreach ($meeting['subMeetings'] as $j => $sub) : ?>
                                 <?php if (isset($sub['title'])) : ?>
                                     <a class="card card-part" href="#" data-index="<?php echo $i; ?>" data-sub-index="<?php echo $j; ?>">
