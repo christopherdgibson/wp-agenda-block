@@ -1,9 +1,9 @@
 <?php
 $meetings = $attributes['meetings'] ?? [];
-$bg_color = $attributes['meetingsBgColor'] ?? '#e3e3e3';
-$font_color = $attributes['meetingsFontColor'] ?? '#0d3ca1';
-$divider_left = $attributes['meetingsDividerColorLeft'] ?? '#0000FF';
-$divider_right = $attributes['meetingsDividerColorRight'] ?? '#FFA500';
+$bg_color = $attributes['cardBgColor'] ?? '#e3e3e3';
+$font_color = $attributes['cardFontColor'] ?? '#0d3ca1';
+$gradient_left = $attributes['gradientColorLeft'] ?? '#0000FF';
+$gradient_right = $attributes['gradientColorRight'] ?? '#FFA500';
 ?>
 
 <div <?php echo get_block_wrapper_attributes(); ?>>
@@ -11,14 +11,14 @@ $divider_right = $attributes['meetingsDividerColorRight'] ?? '#FFA500';
     <div class="meetings" style="
         --base-bg: <?php echo esc_attr($bg_color); ?>;
         --font-selected: <?php echo esc_attr($font_color); ?>;
-        --accent-primary: <?php echo esc_attr($divider_left); ?>;
-        --accent-secondary: <?php echo esc_attr($divider_right); ?>;
+        --accent-primary: <?php echo esc_attr($gradient_left); ?>;
+        --accent-secondary: <?php echo esc_attr($gradient_right); ?>;
     ">
     <svg width="0" height="0" style="position: absolute">
         <defs>
             <linearGradient id="iconGrad" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0%" stop-color="<?php echo esc_attr($divider_left); ?>" />
-                <stop offset="100%" stop-color="<?php echo esc_attr($divider_right); ?>" />
+                <stop offset="0%" stop-color="<?php echo esc_attr($gradient_left); ?>" />
+                <stop offset="100%" stop-color="<?php echo esc_attr($gradient_right); ?>" />
             </linearGradient>
         </defs>
     </svg>

@@ -1,5 +1,5 @@
 import { Button, Modal } from "@wordpress/components";
-import { useRef, useEffect, useState } from "@wordpress/element";
+import { useState } from "@wordpress/element";
 
 import constants from "@agenda-block/constants.json";
 

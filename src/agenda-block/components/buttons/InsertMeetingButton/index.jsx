@@ -1,4 +1,4 @@
-import {insertSubMeeting, updateField} from "@agenda-block/assets/js/meetingUtils.js";
+import { insertSubMeeting } from "@agenda-block/assets/js/meetingUtils.js";
 
 import "./styles.css";
 
