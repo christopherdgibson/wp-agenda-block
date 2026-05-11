@@ -26,20 +26,27 @@
 // );
 /* eslint-enable no-console */
 
+// import './style.scss';
+// import '@components/cards/ContentCard/styles.css';
+// import '@components/cards/MeetingCard/styles.css';
+
 document.addEventListener("DOMContentLoaded", () => {
 	const meetingButtons = document.querySelectorAll(".card.card-small");
 	const meetingATags = document.querySelectorAll(".card.card-part")
 	const meetingDescriptionsContainer = document.querySelector(".meeting-description-container");
 	const meetingDescriptions = document.querySelectorAll(".card-description");
 	if (meetingButtons && meetingDescriptions) {
+		meetingDescriptions.forEach((desc) => {
+			desc.querySelector(".close-popup").addEventListener("click", () => {
+				meetingDescriptionsContainer.style.display = "none";
+			});
+		});
 		meetingButtons.forEach((button) => {
-			button.addEventListener("click", function () {
-				meetingDescriptions.forEach((desc) => {
-					meetingDescriptionsContainer.style.display = "grid";
-					desc.querySelector(".close-popup").addEventListener("click", function () {
-						meetingDescriptionsContainer.style.display = "none";
-					})
-				});
+			button.addEventListener("click", function (event) {
+				event.preventDefault();
+				event.stopPropagation();
+				meetingDescriptionsContainer.style.display = "grid";
+			
 				// Clear all select classes
 				document.querySelectorAll('.meeting-select, .card-description-select').forEach(card => {
 					card.classList.remove('meeting-select');
@@ -57,7 +64,7 @@ document.addEventListener("DOMContentLoaded", () => {
 					'.card-description[data-index="' + this.dataset.index + '"]',
 				).classList.add("card-description-select");
 			});
-			window.addEventListener("click", (event) => {
+			meetingDescriptionsContainer.addEventListener("click", (event) => {
 				if (event.target === meetingDescriptionsContainer) {
 				meetingDescriptionsContainer.style.display = "none";
 				}
@@ -65,6 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		});
 		meetingATags.forEach((aTag) => {
 			aTag.addEventListener("click", function (e) {
+				e.preventDefault(); // prevent scrolling to top
 				e.stopPropagation(); // prevent the parent button click from firing too
 				meetingDescriptions.forEach((desc) => {
 					meetingDescriptionsContainer.style.display = "grid";

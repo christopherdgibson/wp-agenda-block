@@ -1,5 +1,3 @@
-/* Meetings */
-
 .meetings {
 	--bg-container:    color-mix(in srgb, var(--base-bg) 80%, white);
 	--bg-card:         color-mix(in srgb, var(--base-bg) 100%, white);
@@ -38,76 +36,50 @@
 	--transition-btn: opacity var(--transition-btn-time) ease,
 		transform var(--transition-btn-time) ease, visibility var(--transition-btn-time);
 
-	display: grid;
-	grid-template-columns: repeat(2, 1fr);
-	gap: 10px;
-	flex-direction: row;
-	align-items: start;
-	justify-content: space-evenly;
-	margin: auto;
-
-	background: var(--bg-meetings-radial);
-	border-radius: 18px;
-	padding: 1.5rem;
-
-	//   float: none;
-	//   border: none !important;
-
-	.block-editor-plain-text {
-		min-height: 25px;
-	}
-
-	div {
-		color: var(--font-color);
-	}
-
-	p {
-		padding: 0;
-	}
-
-	.meeting-button-column {
-		display: grid;
-		left: 0px;
-		top: 0px;
-		gap: 20px;
-		width: 100%;
-		padding: 0px;
-	}
-
-	button {
-		width: 100%;
+	.card-description {
+		font-size: 16px;
+		/* width: 100%; */
+		padding-right: 15px;
+		padding-left: 15px;
 		border-width: 0;
 		border-radius: 10px;
 		color: var(--font-color);
-		transition: var(--transition-btn);
-		&:hover {
-			background-image: var(--bg-btn-hover-grad);
-			cursor: pointer;
-			transform: translateY(-2px);
-			box-shadow: inset -2px 2px 0 rgba(255,255,255,0.7), 0 8px 20px color-mix(in srgb, var(--accent-primary) 25%, transparent);
+
+		#iconGrad stop:first-child {
+			stop-color: var(--accent-primary);
+		}
+
+		#iconGrad stop:last-child {
+			stop-color: var(--accent-secondary);
 		}
 	}
 
 	.card {
-		padding: 20px;
-		margin-top: 0;
-		background-image: var(--bg-card-grad);
-		box-shadow: inset -2px 2px 0 rgba(255,255,255,0.6), 0 4px 12px color-mix(in srgb, var(--accent-primary) 20%, transparent);
-		min-width: var(--card-min-width);
-		max-width: var(--card-max-width);
-		min-height: 0;
-		border-radius: 10px;
-		// display: none;
-		font-family: system-ui, sans-serif;
-		color: var(--font-color);
-		position: unset;
+		.meeting-header {
+			grid-area: title;
+			align-self: end;
+			text-transform: uppercase;
+			font-weight: 600;
+			letter-spacing: 0.06em;
+			word-break: break-word;
+			color: var(--font-color);
+		}
 
-		&::after {
-			content: "";
-			grid-area: bar;
-			height: 2px;
-			background-image: var(--divider-bar-grad);
-			border-radius: 1px;
+		.meeting-icon {
+			grid-area: icon;
+			width: 48px;
+			height: 48px;
+		}
+
+		.meeting-title {
+			grid-area: content;
+			color: var(--font-subtle);
+			& > *:first-child {
+				margin-top: 0rem;
+			}
+			& > *:last-child {
+				margin-bottom: 0rem;
+			}
 		}
 
 		&:hover {
@@ -115,42 +87,72 @@
 		}
 	}
 
-	.card-button {
-		min-width: var(--card-min-width);
-		max-width: var(--card-max-width);
-		grid-template: 1fr auto;
-		width: 100%;
+	.card-large {
+		gap: 1.5rem;
+		grid-template: "title icon" "content content" "bar bar" / 1fr auto;
+		background-image: var(--bg-card-grad);
+		box-shadow: inset -2px 2px 0 rgba(255,255,255,0.6), 0 6px 20px color-mix(in srgb, var(--accent-primary) 18%, transparent);
+
+		.meeting-header {
+			font-size: 2rem;
+			grid-area: title;
+		}
+		
+		.meeting-title {
+			font-size: 1.5rem;
+			padding-bottom: 10px;
+			grid-area: content;
+		}
+
+		.meeting-description {
+			grid-area: content;
+			width: 100%;
+			min-width: 0;
+		}
+
+		.close-popup {
+			display: none;
+			height: 50px;
+			width: 50px;
+			justify-self: right;
+			position: absolute;
+			top: -75px;
+			font-size: 24px;
+			background: var(--wp-components-color-accent, #cc1818);
+			border: none;
+			color: var(--wp-components-color-accent-inverted, #fff);
+			&:hover {
+				background-color: var(--wp-components-color-accent-darker-10, #9e1313);
+			}
+		}
+	}
+
+	.card-description-select {
+		display: grid;
 	}
 }
 
 @media (max-width: 768px) {
 	.meetings {
-		display: grid;
-		justify-self: center;
-		justify-content: center;
-		grid-template-columns: 1fr;
-		flex-direction: column;
-		padding-right: 3rem;
-
-		.meeting-button-column {
-			justify-content: center;
-			justify-self: center;
-			justify-items: center;
-			grid-template-columns: 1fr;
-			margin: auto;
-		}
-
 		.meeting-description-container {
-			display: none;
-			cursor: default; 
-			justify-content: center;
-			justify-items: center;
-			position: fixed;
-			top: 0;
-			left: 0;
-			width: 100%;
-			height: 100%;
-			background: rgba(0, 0, 0, 0.5);
+			.card-description {
+				position: fixed;
+				justify-self: center;
+				width: 75%;
+				top: 200px;
+				margin: auto;
+			}
+
+			.card-description-select {
+				display: grid;
+				position: fixed;
+				z-index: 10;
+			}
+
+			.close-popup {
+				display: block;
+				cursor: pointer;
+			}
 		}
 	}
 }

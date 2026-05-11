@@ -1,5 +1,7 @@
 import { PlainText } from "@wordpress/block-editor";
 
+import "./styles.css";
+
 import EditButtons from "@components/buttons/EditButtons";
 import SplitMeetingButton from "@components/buttons/SplitMeetingButton";
 import InsertMeetingButtons from "@components/buttons/InsertMeetingButton";
@@ -20,7 +22,6 @@ export default function MeetingCard({
 		return (
 			<>
 				<button
-					key={i}
 					className={`card card-small${
 						selectedCard.index === i && selectedCard.subIndex === 0
 							? " meeting-select"
@@ -82,7 +83,6 @@ export default function MeetingCard({
 	function splitMeetingCard(meeting, i) {
 		return (
 			<button
-				key={i}
 				className={"card card-small"}
 				data-index={i}
 				onClick={(e) => {
@@ -120,7 +120,7 @@ export default function MeetingCard({
 				</div>
 				<div className="meeting-title subcard-container">
 					{meeting.subMeetings.map((subMeeting, j) => (
-						<>
+						<React.Fragment key={`${i}-${j}`}>
 							<a
 								className={`card card-part${
 									selectedCard.index === i && selectedCard.subIndex === j
@@ -171,7 +171,7 @@ export default function MeetingCard({
 									/>
 								</div>
 							</a>
-						</>
+						</React.Fragment>
 					))}
 				</div>
 			</button>

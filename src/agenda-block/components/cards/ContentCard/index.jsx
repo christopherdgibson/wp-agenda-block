@@ -1,5 +1,7 @@
 import { PlainText } from "@wordpress/block-editor";
 
+import "./styles.css";
+
 export default function ContentCard({ cardHeader, selectedCard, setSelectedCard, updateDescription, i, j, subMeeting }) {
     return (
         <>

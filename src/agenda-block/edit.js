@@ -18,10 +18,9 @@ import {
 } from "@wordpress/components";
 import {
 	InspectorControls,
-	PlainText,
 	useBlockProps,
 } from "@wordpress/block-editor";
-import { useEffect, useRef, useState } from "@wordpress/element";
+import { useRef, useState } from "@wordpress/element";
 
 import CardColorsPanel from "@components/ui-panels/CardColorsPanel";
 import ContentCard from "@components/cards/ContentCard";
@@ -30,7 +29,7 @@ import { DeleteMeetingButton, ShowDeleteMeetingModal } from "@components/buttons
 import EditButtons from "@components/buttons/EditButtons";
 import SplitMeetingButton from "@components/buttons/SplitMeetingButton";
 import InsertMeetingButtons from "@components/buttons/InsertMeetingButton";
-import { addMeeting, deleteMeeting, splitMeeting, updateField } from "@agenda-block/assets/js/meetingUtils.js";
+import { addMeeting, deleteMeeting, updateField } from "@agenda-block/assets/js/meetingUtils.js";
 
 /**
  * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
@@ -39,6 +38,8 @@ import { addMeeting, deleteMeeting, splitMeeting, updateField } from "@agenda-bl
  * @see https://www.npmjs.com/package/@wordpress/scripts#using-css
  */
 // import "./editor.scss";
+// import '@components/cards/ContentCard/styles.css';
+// import '@components/cards/MeetingCard/styles.css';
 
 /**
  * The edit function describes the structure of your block in the context of the
@@ -84,7 +85,7 @@ export default function Edit({ attributes, setAttributes }) {
 			</InspectorControls>
 			<div {...blockProps}>
 				<div
-					class="meetings"
+					className="meetings"
 					style={{
 						"--base-bg": cardBgColor,
 						"--font-selected": cardFontColor,
@@ -92,9 +93,10 @@ export default function Edit({ attributes, setAttributes }) {
 						"--accent-secondary": gradientColorRight,
 					}}
 				>
-					<div class="meeting-button-column" ref={meetingsRef}>
+					<div className="meeting-button-column" ref={meetingsRef}>
 						{meetings.map((meeting, i) =>
 						<MeetingCard
+							key={i}
 							meetings={meetings}
 							meeting={meeting}
 							i={i}
@@ -120,7 +122,7 @@ export default function Edit({ attributes, setAttributes }) {
 								}}
 							/>
 						)}
-						<div class="card-button">
+						<div className="card-button">
 							<Button variant="primary" onClick={() => {
 								updateMeetings(addMeeting(meetings));
 							}}>
@@ -130,7 +132,7 @@ export default function Edit({ attributes, setAttributes }) {
 					</div>
 					<div
 						id="meeting-description-container"
-						class="meeting-description-container"
+						className="meeting-description-container"
 						ref={descriptionsRef}
 						style={{ display: selectedCard.index !== null ? 'grid' : 'none' }}
 						onClick={(e) => {
