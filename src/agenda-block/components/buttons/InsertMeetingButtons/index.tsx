@@ -1,11 +1,19 @@
+import type { WithMeetings } from "@agenda-block/types";
 import { insertSubMeeting } from "@agenda-block/assets/js/meetingUtils.js";
 
 import "./styles.css";
 
-export default function InsertMeetingButtons({meetings, updateMeetings, index, subIndex, after}) {
+
+interface InsertMeetingButtonProps extends WithMeetings {
+	index: number;
+	subIndex?: number | null;
+	after?: boolean;
+}
+
+export default function InsertMeetingButtons({meetings, updateMeetings, index, subIndex = null, after = false}: InsertMeetingButtonProps) {
 	const containerClass = subIndex == null ? "add-button-container" : "add-sub-button-container";
 	return (
-		<div class={containerClass}>
+		<div className={containerClass}>
 			<InsertMeetingButton 
 				meetings={meetings}
 				updateMeetings={updateMeetings}
@@ -26,7 +34,7 @@ export default function InsertMeetingButtons({meetings, updateMeetings, index, s
 	);
 }
 
-function InsertMeetingButton({meetings, updateMeetings, index, subIndex, after}) {
+function InsertMeetingButton({meetings, updateMeetings, index, subIndex, after}: InsertMeetingButtonProps) {
 	
 	// Align right for last sub-meeting or for sup-meeting card
 	const btnClass = ["btn-ui", after || subIndex == null ? "add-button-right" : "add-button-left"].join(" ");

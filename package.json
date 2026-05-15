@@ -17,11 +17,14 @@
 		"start": "wp-scripts start --blocks-manifest"
 	},
 	"dependencies": {
-		"@wordpress/block-editor": "latest",
-		"@wordpress/blocks": "latest",
 		"@wordpress/i18n": "latest"
 	},
 	"devDependencies": {
+		"@types/wordpress__block-editor": "^15.0.6",
+		"@wordpress/block-editor": "^15.19.0",
+		"@wordpress/blocks": "^15.19.0",
+		"@wordpress/components": "^33.1.0",
+		"@wordpress/element": "^6.46.0",
 		"@wordpress/scripts": "^31.2.0"
 	}
 }

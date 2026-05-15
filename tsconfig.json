@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "jsx": "react-jsx",
+    "strict": true,
+    "allowJs": true,
+    "noEmit": true,
+    "paths": {
+      "@components/*": ["./src/agenda-block/components/*"],
+      "@agenda-block/*": ["./src/agenda-block*"],
+      "@agenda-block/types": ["./src/agenda-block/types.ts"]
+    }
+  },
+    "include": [
+    "./src/agenda-block/**/*.ts",
+    "./src/agenda-block/**/*.tsx", "src/agenda-block/components/ui-panels/CustomColorsPanel/index.jsx", "src/agenda-block/components/ui-panels/CardColorsPanel/index.jsx",
+  ],
+    "exclude": [
+    "./src/agenda-block/assets/js**"
+  ]
+}

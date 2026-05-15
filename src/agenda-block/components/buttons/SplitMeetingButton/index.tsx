@@ -1,8 +1,15 @@
+import type { OnClick } from "@agenda-block/types";
+
 import "./styles.css";
 
-export default function SplitMeetingButton({onClick}) {
+
+interface SplitMeetingButtonProps {
+    onClick: OnClick;
+}
+
+export default function SplitMeetingButton({onClick}: SplitMeetingButtonProps) {
     return (
-        <div class="btn-ui split-button">
+        <div className="btn-ui split-button">
             <span className="tool-tip">Split into sub-meetings</span>
             <button
                 onClick={(e) => {

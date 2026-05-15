@@ -1,10 +1,23 @@
 import { PlainText } from "@wordpress/block-editor";
+import { Fragment } from "react";
+
+import type { Dispatch, SetStateAction } from "react";
+import type { Meeting, SelectedCard, WithMeetings } from "@agenda-block/types";
+
+interface MeetingCardProps extends WithMeetings {
+    meeting: Meeting;
+    i: number;
+    selectedCard: SelectedCard;
+    setSelectedCard: Dispatch<SetStateAction<SelectedCard>>;
+    setSelectedMeeting: Dispatch<SetStateAction<SelectedCard>>;
+    setIsModalOpenDelete: Dispatch<SetStateAction<boolean>>;
+}
+
 
 import "./styles.css";
 
 import EditButtons from "@components/buttons/EditButtons";
-import SplitMeetingButton from "@components/buttons/SplitMeetingButton";
-import InsertMeetingButtons from "@components/buttons/InsertMeetingButton";
+import InsertMeetingButtons from "@components/buttons/InsertMeetingButtons";
 
 import { splitMeeting, updateField } from "@agenda-block/assets/js/meetingUtils.js";
 
@@ -16,9 +29,9 @@ export default function MeetingCard({
 	selectedCard,
 	setSelectedCard,
 	setSelectedMeeting,
-	setIsModalOpenDelete}) {
+	setIsModalOpenDelete}: MeetingCardProps) {
 
-	function singleMeetingCard(meeting, i) {
+	function singleMeetingCard(meeting : Meeting, i : number) {
 		return (
 			<>
 				<button
@@ -80,7 +93,7 @@ export default function MeetingCard({
 		);
 	}
 
-	function splitMeetingCard(meeting, i) {
+	function splitMeetingCard(meeting: Meeting, i: number) {
 		return (
 			<button
 				className={"card card-small"}
@@ -120,7 +133,7 @@ export default function MeetingCard({
 				</div>
 				<div className="meeting-title subcard-container">
 					{meeting.subMeetings.map((subMeeting, j) => (
-						<React.Fragment key={`${i}-${j}`}>
+						<Fragment key={`${i}-${j}`}>
 							<a
 								className={`card card-part${
 									selectedCard.index === i && selectedCard.subIndex === j
@@ -171,7 +184,7 @@ export default function MeetingCard({
 									/>
 								</div>
 							</a>
-						</React.Fragment>
+						</Fragment>
 					))}
 				</div>
 			</button>

@@ -8,19 +8,19 @@ export function addMeeting (meetings) {
     ];
 };
 
-export function insertSubMeeting(meetings, i, j) {
-    if (j == null) {
-        return insertMeeting(meetings, i);
+export function insertSubMeeting(meetings, index, subIndex) {
+    if (subIndex == null) {
+        return insertMeeting(meetings, index);
     }
-    const meeting = meetings[i];
+    const meeting = meetings[index];
     const subMeetingsNew = [
-        ...meeting.subMeetings.slice(0, j),
+        ...meeting.subMeetings.slice(0, subIndex),
         { header: "", title: "", description: "" },
-        ...meeting.subMeetings.slice(j),
+        ...meeting.subMeetings.slice(subIndex),
     ];
     const meetingNew = updateMeeting(meeting, "subMeetings", subMeetingsNew)
 
-    return toMeetingsArray(meetings, meetingNew, i);
+    return toMeetingsArray(meetings, meetingNew, index);
 };
 
 function insertMeeting(meetings, i) {
