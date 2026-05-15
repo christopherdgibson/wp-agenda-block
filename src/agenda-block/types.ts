@@ -1,5 +1,3 @@
-// src/types.ts
-
 export interface SubMeeting {
     header: string;
     title: string;
@@ -11,24 +9,7 @@ export interface Meeting {
     subMeetings: SubMeeting[];
 }
 
-
-export interface ColorValue {
-    hex: string;
-    rgb: { r: number; g: number; b: number; a: number };
-    hsl: { h: number; s: number; l: number; a: number };
-}
-
-export interface PanelAttributes {
-    [key: string]: unknown;
-    cardBgColor: string;
-    cardFontColor: string;
-    gradientColorLeft: string;
-    gradientColorRight: string;
-
-}
-
 export interface BlockAttributes {
-    [key: string]: unknown;
     align: string;
     meetings: Meeting[];
     cardBgColor: string;
@@ -37,9 +18,12 @@ export interface BlockAttributes {
     gradientColorRight: string;
 }
 
-export interface EditProps {
-    attributes: BlockAttributes;
+export interface SetAttributesProps {
     setAttributes: (attrs: Partial<BlockAttributes>) => void;
+}
+
+export interface EditProps extends SetAttributesProps {
+    attributes: BlockAttributes;
 }
 
 export interface SelectedCard {
@@ -51,9 +35,9 @@ export type OnClick = () => void;
 
 export type OnChange = (value: string) => void;
 
-
 // Reusable prop shape for anything that needs to update meetings
-export interface WithMeetings {
+export interface UpdateMeetingsProps {
     meetings: Meeting[];
+    index: number;
     updateMeetings: (meetings: Meeting[], callback?: () => void) => void;
 }

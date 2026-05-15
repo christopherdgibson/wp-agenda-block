@@ -1,3 +1,4 @@
+import type { EditProps } from "@agenda-block/types";
 import { useState } from "@wordpress/element";
 
 import { ButtonGroup, ColorPicker } from "@wordpress/components";
@@ -7,10 +8,10 @@ import GradientColorsPanel from "@components/ui-panels/GradientColorsPanel";
 
 import "./styles.css";
 
-export default function CustomColorsPanel({ attributes, setAttributes }) {
+export default function CustomColorsPanel({ attributes, setAttributes }: EditProps) {
   const { cardBgColor, cardFontColor } =
     attributes;
-  const [activeSubTab, setActiveSubTab] = useState("background");
+  const [activeSubTab, setActiveSubTab] = useState<string>("background");
   return (
     <>
       <ButtonGroup>
@@ -35,20 +36,20 @@ export default function CustomColorsPanel({ attributes, setAttributes }) {
       </ButtonGroup>
       {activeSubTab === "background" && (
         <ColorPicker
-          color={cardBgColor}
-          onChangeComplete={(value) =>
-            setAttributes({ cardBgColor: value.hex })
-          }
-          disableAlpha
+            color={cardBgColor}
+            onChange={(hex: string) =>
+                setAttributes({ cardBgColor: hex })
+            }
+            enableAlpha={false}
         />
       )}
       {activeSubTab === "text" && (
         <ColorPicker
           color={cardFontColor}
-          onChangeComplete={(value) =>
-            setAttributes({ cardFontColor: value.hex })
+          onChange={(hex: string) =>
+            setAttributes({ cardFontColor: hex })
           }
-          disableAlpha
+          enableAlpha={false}
         />
       )}
       {activeSubTab === "gradient" && (

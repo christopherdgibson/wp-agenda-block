@@ -1,4 +1,6 @@
-import { Button, ButtonGroup, PanelBody } from "@wordpress/components";
+import type { EditProps } from "@agenda-block/types";
+
+import { ButtonGroup, PanelBody } from "@wordpress/components";
 import { useState } from "@wordpress/element";
 
 import "./styles.css";
@@ -8,7 +10,7 @@ import PresetColorsPanel from "@components/ui-panels/PresetColorsPanel";
 import CustomColorsPanel from "@components/ui-panels/CustomColorsPanel";
 import RestoreToDefaults from "@components/ui-panels/RestoreToDefaults";
 
-export default function CardColorsPanel({attributes, setAttributes}) {
+export default function CardColorsPanel({attributes, setAttributes}: EditProps) {
     
 const [activeTab, setActiveTab] = useState("presets");
   return (

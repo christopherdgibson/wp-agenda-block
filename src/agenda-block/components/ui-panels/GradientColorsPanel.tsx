@@ -1,15 +1,17 @@
 import { PanelBody, DuotonePicker } from "@wordpress/components";
 import { useEffect, useRef } from "@wordpress/element";
 
-import constants from "@agenda-block/constants.json";
+import type { EditProps } from "@agenda-block/types";
+
+import constants from "@agenda-block/constants";
 
 const DEFAULT_GRADIENT_LEFT = constants.themePresets.default.gradientColorLeft;
 const DEFAULT_GRADIENT_RIGHT =
   constants.themePresets.default.gradientColorRight;
 const DUOTONE_PALETTE = constants.duotonePalette;
 
-export default function GradientColorsPanel({ attributes, setAttributes }) {
-  const duotoneRef = useRef(null);
+export default function GradientColorsPanel({ attributes, setAttributes }: EditProps) {
+  const duotoneRef = useRef<HTMLDivElement>(null);
 
   // Remove unused Duotone elements
   useEffect(() => {
@@ -23,11 +25,13 @@ export default function GradientColorsPanel({ attributes, setAttributes }) {
   }, []);
 
   const { gradientColorLeft, gradientColorRight } = attributes;
+  const emptyColorArray = [] as { color: string; name: string; slug: string }[];
   return (
     <PanelBody title="Gradient Colors">
       <div ref={duotoneRef}>
         <DuotonePicker
           duotonePalette={DUOTONE_PALETTE}
+          colorPalette={emptyColorArray}
           value={
             gradientColorLeft && gradientColorRight
               ? [gradientColorLeft, gradientColorRight]

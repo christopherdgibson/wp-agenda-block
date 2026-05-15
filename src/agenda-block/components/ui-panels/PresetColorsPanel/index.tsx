@@ -1,13 +1,26 @@
 import { useState } from "@wordpress/element";
 import { ButtonGroup } from "@wordpress/components";
+import type { Dispatch, SetStateAction } from "react";
 
-import constants from "@agenda-block/constants.json";
+import type { SetAttributesProps } from "@agenda-block/types";
+import constants from "@agenda-block/constants";
+
 import "./styles.css";
 
 const THEME_PRESETS = constants.themePresets;
 
-export default function PresetColorsPanel({setAttributes}) {
-    const [activeTheme, setActiveTheme] = useState("default-colors");
+type ThemeKey = keyof typeof THEME_PRESETS;
+
+interface ThemeButtonProps extends SetAttributesProps {
+    themeName: ThemeKey;
+    themeText: string;
+    activeTheme: string;
+    setActiveTheme: Dispatch<SetStateAction<ThemeKey>>;
+}
+
+export default function PresetColorsPanel({setAttributes} : SetAttributesProps) {
+    // const [activeTheme, setActiveTheme] = useState<string>("default-colors");
+    const [activeTheme, setActiveTheme] = useState<keyof typeof THEME_PRESETS>("default");
 
     return (
         <ButtonGroup className="btn-grid">
@@ -19,7 +32,7 @@ export default function PresetColorsPanel({setAttributes}) {
     );
 }
 
-function ThemeButton({ themeName, themeText, activeTheme, setActiveTheme, setAttributes }) {
+function ThemeButton({ themeName, themeText, activeTheme, setActiveTheme, setAttributes }: ThemeButtonProps) {
     return (
         <button
             className={`btn-theme-color btn-${themeName}${activeTheme === themeName ? " selected" : ""}`}

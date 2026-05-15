@@ -2,11 +2,10 @@ import { PlainText } from "@wordpress/block-editor";
 import { Fragment } from "react";
 
 import type { Dispatch, SetStateAction } from "react";
-import type { Meeting, SelectedCard, WithMeetings } from "@agenda-block/types";
+import type { Meeting, SelectedCard, UpdateMeetingsProps } from "@agenda-block/types";
 
-interface MeetingCardProps extends WithMeetings {
+interface MeetingCardProps extends UpdateMeetingsProps {
     meeting: Meeting;
-    i: number;
     selectedCard: SelectedCard;
     setSelectedCard: Dispatch<SetStateAction<SelectedCard>>;
     setSelectedMeeting: Dispatch<SetStateAction<SelectedCard>>;
@@ -24,7 +23,7 @@ import { splitMeeting, updateField } from "@agenda-block/assets/js/meetingUtils.
 export default function MeetingCard({
 	meetings,
 	meeting,
-	i,
+	index,
 	updateMeetings,
 	selectedCard,
 	setSelectedCard,
@@ -191,6 +190,6 @@ export default function MeetingCard({
 		);
 	}
 	return meeting?.subMeetings?.length > 1
-		? splitMeetingCard(meeting, i)
-		: singleMeetingCard(meeting, i);
+		? splitMeetingCard(meeting, index)
+		: singleMeetingCard(meeting, index);
 }

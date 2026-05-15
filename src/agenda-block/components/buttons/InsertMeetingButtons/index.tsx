@@ -1,11 +1,10 @@
-import type { WithMeetings } from "@agenda-block/types";
+import type { UpdateMeetingsProps } from "@agenda-block/types";
 import { insertSubMeeting } from "@agenda-block/assets/js/meetingUtils.js";
 
 import "./styles.css";
 
 
-interface InsertMeetingButtonProps extends WithMeetings {
-	index: number;
+interface InsertMeetingButtonProps extends UpdateMeetingsProps {
 	subIndex?: number | null;
 	after?: boolean;
 }

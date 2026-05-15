@@ -16,9 +16,8 @@ import { __ } from "@wordpress/i18n";
 import { Button } from "@wordpress/components";
 import { InspectorControls, useBlockProps } from "@wordpress/block-editor";
 import { useRef, useState } from "@wordpress/element";
-import type { BlockEditProps } from "@wordpress/blocks";
 
-import type { BlockAttributes, EditProps, Meeting, SelectedCard } from "@agenda-block/types";
+import type { EditProps, Meeting, SelectedCard } from "@agenda-block/types";
 import CardColorsPanel from "@components/ui-panels/CardColorsPanel";
 import MeetingCard from "@components/cards/MeetingCard";
 import ContentCard from "@components/cards/ContentCard";
@@ -44,7 +43,7 @@ import { addMeeting, deleteMeeting, updateField } from "@agenda-block/assets/js/
  * @return {Element} Element to render.
  */
 
-export default function Edit({ attributes, setAttributes }: BlockEditProps<BlockAttributes>) {
+export default function Edit({ attributes, setAttributes }: EditProps) : JSX.Element {
     const { gradientColorLeft, gradientColorRight, cardBgColor, cardFontColor } = attributes;
 
     const descriptionsRef = useRef<HTMLDivElement>(null);
@@ -52,7 +51,7 @@ export default function Edit({ attributes, setAttributes }: BlockEditProps<Block
     const blockProps = useBlockProps({ className: "meetings-container" });
 
     const [meetings, setMeetings] = useState<Meeting[]>(attributes.meetings ?? []);
-    const [isModalOpenDelete, setIsModalOpenDelete] = useState(false);
+    const [isModalOpenDelete, setIsModalOpenDelete] = useState<boolean>(false);
     const [selectedMeeting, setSelectedMeeting] = useState<SelectedCard>({ index: null, subIndex: null });
     const [selectedCard, setSelectedCard] = useState<SelectedCard>({ index: null, subIndex: null });
 
@@ -83,7 +82,7 @@ export default function Edit({ attributes, setAttributes }: BlockEditProps<Block
                                 key={i}
                                 meetings={meetings}
                                 meeting={meeting}
-                                i={i}
+                                index={i}
                                 updateMeetings={updateMeetings}
                                 selectedCard={selectedCard}
                                 setSelectedCard={setSelectedCard}
