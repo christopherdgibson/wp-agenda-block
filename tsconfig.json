@@ -1,21 +1,22 @@
 {
-  "compilerOptions": {
-    "target": "esnext",
-    "module": "esnext",
-    "moduleResolution": "bundler",
-    "jsx": "react-jsx",
-    "strict": true,
-    "allowJs": true,
-    "noEmit": true,
-    "resolveJsonModule": true,
-    "noUnusedLocals": true,
-    "paths": {
-      "@components/*": ["./src/agenda-block/components/*"],
-      "@agenda-block/*": ["./src/agenda-block*"],
-      "@agenda-block/types": ["./src/agenda-block/types.ts"],
-      "@agenda-block/constants": ["./src/agenda-block/constants.json"]
-    }
-  },
+    "$schema": "https://json.schemastore.org/tsconfig",
+    "compilerOptions": {
+        "target": "esnext",
+        "module": "esnext",
+        "moduleResolution": "bundler",
+        "jsx": "react-jsx",
+        "strict": true,
+        "allowJs": true,
+        "noEmit": true,
+        "resolveJsonModule": true,
+        "noUnusedLocals": true,
+        "paths": {
+        "@components/*": ["./src/agenda-block/components/*"],
+        "@agenda-block/*": ["./src/agenda-block/*"],
+        "@agenda-block/types": ["./src/agenda-block/types.ts"],
+        "@agenda-block/constants": ["./src/agenda-block/constants.json"]
+        }
+    },
     "include": [
     "./src/agenda-block/**/*.ts",
     "./src/agenda-block/**/*.tsx", "src/agenda-block/components/ui-panels/CustomColorsPanel/index.tsx", "src/agenda-block/components/ui-panels/CardColorsPanel/index.tsx",

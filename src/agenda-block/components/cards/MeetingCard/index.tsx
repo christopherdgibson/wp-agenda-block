@@ -18,7 +18,7 @@ import "./styles.css";
 import EditButtons from "@components/buttons/EditButtons";
 import InsertMeetingButtons from "@components/buttons/InsertMeetingButtons";
 
-import { splitMeeting, updateField } from "@agenda-block/assets/js/meetingUtils.js";
+import { splitMeeting, updateField } from "@agenda-block/utils/meetingUtils";
 
 export default function MeetingCard({
 	meetings,

@@ -18,11 +18,12 @@ import { InspectorControls, useBlockProps } from "@wordpress/block-editor";
 import { useRef, useState } from "@wordpress/element";
 
 import type { EditProps, Meeting, SelectedCard } from "@agenda-block/types";
+
 import CardColorsPanel from "@components/ui-panels/CardColorsPanel";
 import MeetingCard from "@components/cards/MeetingCard";
 import ContentCard from "@components/cards/ContentCard";
 import { ShowDeleteMeetingModal } from "@components/buttons/DeleteMeetingButton";
-import { addMeeting, deleteMeeting, updateField } from "@agenda-block/assets/js/meetingUtils.js";
+import { addMeeting, deleteMeeting, updateField } from "@agenda-block/utils/meetingUtils";
 
 /**
  * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
@@ -31,8 +32,6 @@ import { addMeeting, deleteMeeting, updateField } from "@agenda-block/assets/js/
  * @see https://www.npmjs.com/package/@wordpress/scripts#using-css
  */
 // import "./editor.scss";
-// import '@components/cards/ContentCard/styles.css';
-// import '@components/cards/MeetingCard/styles.css';
 
 /**
  * The edit function describes the structure of your block in the context of the

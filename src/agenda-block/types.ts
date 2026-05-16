@@ -35,7 +35,6 @@ export type OnClick = () => void;
 
 export type OnChange = (value: string) => void;
 
-// Reusable prop shape for anything that needs to update meetings
 export interface UpdateMeetingsProps {
     meetings: Meeting[];
     index: number;

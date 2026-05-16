@@ -1,5 +1,5 @@
 import type { UpdateMeetingsProps } from "@agenda-block/types";
-import { insertSubMeeting } from "@agenda-block/assets/js/meetingUtils.js";
+import { insertSubMeeting } from "@agenda-block/utils/meetingUtils";
 
 import "./styles.css";
 
