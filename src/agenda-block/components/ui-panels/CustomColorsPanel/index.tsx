@@ -1,4 +1,4 @@
-import type { EditProps } from "@agenda-block/types";
+import type { EditProps } from "@block-root/types";
 import { useState } from "@wordpress/element";
 
 import { ButtonGroup, ColorPicker } from "@wordpress/components";

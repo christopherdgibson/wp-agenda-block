@@ -12,12 +12,11 @@ import { __ } from "@wordpress/i18n";
  * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
  */
 
-
 import { Button } from "@wordpress/components";
 import { InspectorControls, useBlockProps } from "@wordpress/block-editor";
 import { useRef, useState } from "@wordpress/element";
 
-import type { EditProps, Meeting, SelectedCard } from "@agenda-block/types";
+import type { EditProps, Meeting, SelectedCard, ThemeStyles } from "@block-root/types";
 
 import CardColorsPanel from "@components/ui-panels/CardColorsPanel";
 import MeetingCard from "@components/cards/MeetingCard";
@@ -73,7 +72,7 @@ export default function Edit({ attributes, setAttributes }: EditProps) : JSX.Ele
                         "--font-selected": cardFontColor,
                         "--accent-primary": gradientColorLeft,
                         "--accent-secondary": gradientColorRight,
-                    } as React.CSSProperties}
+                    } as ThemeStyles}
                 >
                     <div className="meeting-button-column" ref={meetingsRef}>
                         {meetings.map((meeting, i) => (

@@ -8,7 +8,8 @@ module.exports = {
         alias: {
             ...defaultConfig.resolve.alias,
             '@components': path.resolve(__dirname, 'src/agenda-block/components'),
-            '@agenda-block': path.resolve(__dirname, 'src/agenda-block')
+            '@agenda-block': path.resolve(__dirname, 'src/agenda-block'),
+            '@block-root': path.resolve(__dirname, 'src/agenda-block'),
         },
     },
 };

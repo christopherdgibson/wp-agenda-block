@@ -1,8 +1,8 @@
 import { Button, Modal } from "@wordpress/components";
 import { useState } from "@wordpress/element";
 
-import type { SetAttributesProps } from "@agenda-block/types";
-import constants from "@agenda-block/constants";
+import type { SetAttributesProps } from "@block-root/types";
+import constants from "@block-root/constants";
 
 const DEFAULT_GRADIENT_LEFT = constants.themePresets.default.gradientColorLeft;
 const DEFAULT_GRADIENT_RIGHT = constants.themePresets.default.gradientColorRight;

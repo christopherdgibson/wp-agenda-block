@@ -26,6 +26,12 @@ export interface EditProps extends SetAttributesProps {
     attributes: BlockAttributes;
 }
 
+// interface EditButtonsProps<T = void> {
+//     onClickDelete: (arg?: T) => void;
+//     onClickSplit: () => void;
+//     isSubMeeting: boolean;
+// }
+
 export interface SelectedCard {
     index: number | null;
     subIndex: number | null;
@@ -39,4 +45,11 @@ export interface UpdateMeetingsProps {
     meetings: Meeting[];
     index: number;
     updateMeetings: (meetings: Meeting[], callback?: () => void) => void;
+}
+
+export interface ThemeStyles extends React.CSSProperties {
+    "--base-bg"?: string;
+    "--font-selected"?: string;
+    "--accent-primary"?: string;
+    "--accent-secondary"?: string;
 }

@@ -1,4 +1,4 @@
-import type { OnClick } from "@agenda-block/types";
+import type { OnClick } from "@block-root/types";
 
 import "./styles.css";
 

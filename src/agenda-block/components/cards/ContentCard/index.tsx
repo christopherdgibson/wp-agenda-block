@@ -1,8 +1,21 @@
 import { PlainText } from "@wordpress/block-editor";
 
+import type { Dispatch, SetStateAction } from "react";
+import type { OnChange, SelectedCard, SubMeeting } from "@block-root/types";
+
 import "./styles.css";
 
-export default function ContentCard({ cardHeader, selectedCard, setSelectedCard, updateDescription, i, j, subMeeting }) {
+interface ContentCardProps {
+    cardHeader: string;
+    selectedCard: SelectedCard;
+    setSelectedCard: Dispatch<SetStateAction<SelectedCard>>;
+    updateDescription: OnChange;
+    i: number;
+    j: number;
+    subMeeting: SubMeeting;
+}
+
+export default function ContentCard({ cardHeader, selectedCard, setSelectedCard, updateDescription, i, j, subMeeting }: ContentCardProps) {
     return (
         <>
         <svg width="0" height="0" style={{ position: "absolute" }}>
@@ -22,13 +35,13 @@ export default function ContentCard({ cardHeader, selectedCard, setSelectedCard,
             data-index={i}
             data-subindex={j}
         >
-            <button class="close-popup" onClick={() => setSelectedCard({ index: null, subIndex: null })}>
+            <button className="close-popup" onClick={() => setSelectedCard({ index: null, subIndex: null })}>
                 X
             </button>
-            <div class="meeting-header">
+            <div className="meeting-header">
                 {cardHeader}
             </div>
-            <div class="meeting-icon">
+            <div className="meeting-icon">
                 <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
                     <g fill="url(#iconGrad)">
                         <path d="M24,29H8a5,5,0,0,1-5-5V10A5,5,0,0,1,8,5H24a5,5,0,0,1,5,5V24A5,5,0,0,1,24,29ZM8,7a3,3,0,0,0-3,3V24a3,3,0,0,0,3,3H24a3,3,0,0,0,3-3V10a3,3,0,0,0-3-3Z" />
@@ -39,7 +52,7 @@ export default function ContentCard({ cardHeader, selectedCard, setSelectedCard,
                     </g>
                 </svg>
             </div>
-            <div class="meeting-description">
+            <div className="meeting-description">
                 <p>
                     <PlainText
                         value={subMeeting.description}

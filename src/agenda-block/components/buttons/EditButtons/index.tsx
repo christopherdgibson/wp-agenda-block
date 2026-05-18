@@ -1,4 +1,4 @@
-import type { OnClick } from "@agenda-block/types";
+import type { OnClick } from "@block-root/types";
 interface EditButtonsProps {
     onClickDelete: OnClick;
     onClickSplit?: OnClick;

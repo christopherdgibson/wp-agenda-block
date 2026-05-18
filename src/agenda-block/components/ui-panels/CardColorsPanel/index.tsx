@@ -1,4 +1,4 @@
-import type { EditProps } from "@agenda-block/types";
+import type { EditProps } from "@block-root/types";
 
 import { ButtonGroup, PanelBody } from "@wordpress/components";
 import { useState } from "@wordpress/element";

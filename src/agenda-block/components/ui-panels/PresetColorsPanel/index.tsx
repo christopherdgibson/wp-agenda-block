@@ -2,8 +2,8 @@ import { useState } from "@wordpress/element";
 import { ButtonGroup } from "@wordpress/components";
 import type { Dispatch, SetStateAction } from "react";
 
-import type { SetAttributesProps } from "@agenda-block/types";
-import constants from "@agenda-block/constants";
+import type { SetAttributesProps } from "@block-root/types";
+import constants from "@block-root/constants";
 
 import "./styles.css";
 

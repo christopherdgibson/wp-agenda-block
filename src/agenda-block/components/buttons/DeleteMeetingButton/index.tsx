@@ -1,6 +1,6 @@
 import { Button, Modal } from "@wordpress/components";
 
-import type { OnClick, SelectedCard } from "@agenda-block/types";
+import type { OnClick, SelectedCard } from "@block-root/types";
 
 import "./styles.css";
 

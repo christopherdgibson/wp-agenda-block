@@ -2,7 +2,7 @@ import { PlainText } from "@wordpress/block-editor";
 import { Fragment } from "react";
 
 import type { Dispatch, SetStateAction } from "react";
-import type { Meeting, SelectedCard, UpdateMeetingsProps } from "@agenda-block/types";
+import type { Meeting, SelectedCard, UpdateMeetingsProps } from "@block-root/types";
 
 interface MeetingCardProps extends UpdateMeetingsProps {
     meeting: Meeting;

@@ -1,9 +1,9 @@
 import { PanelBody, DuotonePicker } from "@wordpress/components";
 import { useEffect, useRef } from "@wordpress/element";
 
-import type { EditProps } from "@agenda-block/types";
+import type { EditProps } from "@block-root/types";
 
-import constants from "@agenda-block/constants";
+import constants from "@block-root/constants";
 
 const DEFAULT_GRADIENT_LEFT = constants.themePresets.default.gradientColorLeft;
 const DEFAULT_GRADIENT_RIGHT =
